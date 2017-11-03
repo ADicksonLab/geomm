@@ -1,0 +1,13 @@
+A simple no-nonsense library for computing common geometry on
+macromolecular systems.
+
+This library aims to work completely on numpy arrays and knows nothing
+about molecule or system topologies, atom types, or other "real world"
+properties.
+
+You only need to provide atom coordinates, atom indices (for molecule,
+group, molecule selections etc.), and other parameters for functions.
+
+Thus it aims to be more like numpy or scipy itself than a typical
+macromolecular software library, except that the particular routines
+and functions are usually found in that context.
