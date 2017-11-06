@@ -4,3 +4,9 @@ __pycache__
 */__pycache__/
 .DS_Store
 *__pycache__*
+*.egg_info*
+/geomm.egg-info/PKG-INFO
+/geomm.egg-info/SOURCES.txt
+/geomm.egg-info/dependency_links.txt
+/geomm.egg-info/requires.txt
+/geomm.egg-info/top_level.txt

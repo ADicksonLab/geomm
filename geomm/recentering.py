@@ -41,7 +41,7 @@ def recenter_receptor_ligand(positions, unitcell_side_lengths, ligand_idxs=None,
     for frame_idx, dim_idx in enumerate(pos_idxs):
         # change the ligand coordinates to recenter them by adding the
         # cube side length in that direction
-        lig_coords[frame_idx, :, dim_idx] = lig_coords[frame_idx, :, dim_idx]] + \
+        lig_coords[frame_idx, :, dim_idx] = lig_coords[frame_idx, :, dim_idx] + \
                                                 unitcell_side_lengths[frame_idx, dim_idx]
 
     # the negative direction is the same as the positive direction
