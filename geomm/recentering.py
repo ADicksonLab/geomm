@@ -38,7 +38,7 @@ def recenter_receptor_ligand(positions, unitcell_side_lengths, ligand_idxs=None,
     # we simply pair elements from each of those arrays (pairwise) to
     # iterate over them. Essentially reshaping the two arrays
     pos_idxs = list(zip(pos_idxs[0], pos_idxs[1]))
-    for frame_idx, dim_idx in enumerate(pos_idxs):
+    for frame_idx, dim_idx in pos_idxs:
         # change the ligand coordinates to recenter them by adding the
         # cube side length in that direction
         lig_coords[frame_idx, :, dim_idx] = lig_coords[frame_idx, :, dim_idx] + \
