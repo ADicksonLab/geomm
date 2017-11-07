@@ -32,5 +32,22 @@ for i in range(n_frame-1):
 
 end = time.time()
 
-np.savetxt("dmat.dat",d)
+tgt0 = np.loadtxt('rmsd_gst0.dat')
+tgt4 = np.loadtxt('rmsd_gst4.dat')
+
+tol = 0.01
+err = False
+for i in range(len(tgt0)):
+    if tgt0[i][1]/10 - d[0][i] > tol:
+        err = True
+        print("Violation found:",i,tgt0[i][1]/10,d[0][i])
+    if tgt4[i][1]/10 - d[4][i] > tol:
+        err = True
+        print("Violation found:",i,tgt4[i][1]/10,d[4][i])
+    
+if not err:
+    print("All tests PASSED")
+else:
+    print("Test FAILED")
+    
 print("Time of calculation:",end-start)
