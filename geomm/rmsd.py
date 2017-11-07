@@ -2,7 +2,7 @@ import numpy as np
 
 def rmsd_one_frame(traj, ref, idx=[]):
     # calculates rmsd between frames of two trajectories: traj and ref
-    if idx == []:
+    if len(idx) == 0:
         idx = range(len(traj))
     # check if traj and ref have the same number of atoms
     if len(traj[idx]) != len(ref[idx]):
