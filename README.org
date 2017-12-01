@@ -1,3 +1,5 @@
+* GEOMM
+
 A simple no-nonsense library for computing common geometry on
 macromolecular systems.
 
@@ -11,3 +13,9 @@ group, molecule selections etc.), and other parameters for functions.
 Thus it aims to be more like numpy or scipy itself than a typical
 macromolecular software library, except that the particular routines
 and functions are usually found in that context.
+
+** Community
+
+Discussion takes place on riot.im (#geomm:matrix.org) which is a slack-like app that works
+on the Matrix protocol:
+[[https://riot.im/app/#/room/#geomm:matrix.org]]
