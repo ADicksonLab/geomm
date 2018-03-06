@@ -38,6 +38,7 @@ frag_b = np.array([
 ])
 
 
+N = frag_a.shape[0]
 # Calculate center of geometry
 comA = np.sum(frag_a, axis=0)/N
 comB = np.sum(frag_b, axis=0)/N
@@ -51,6 +52,6 @@ rmsd, rot_mat = theobald_qcp(frag_a, frag_b)
 print("theobald RMSD: {}".format(rmsd))
 
 # apply the rotation matrix and calculate the rmsd to check
-frag_b_rot = frag_b * np.matrix(rot_mat)
+frag_b_rot = np.dot(frag_b, rot_mat)
 rot_rmsd = calc_rmsd(frag_b_rot, frag_a)
 print("Rotation RMSD: {}".format(rot_rmsd))

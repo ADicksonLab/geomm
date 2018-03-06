@@ -2,26 +2,27 @@ import numpy as np
 
 from geomm.pyqcprot import CalcRMSDRotationalMatrix
 
-def calc_rmsd(coords_A, coords_B, idxs=None):
+def calc_rmsd(ref_coords, coords, idxs=None):
 
     # make sure the coords are the same size
-    assert coords_A.shape[0] == coords_B.shape[0], \
+    assert len(ref_coords.shape) == len(coords.shape), "rank of coords are not the same"
+    assert ref_coords.shape[0] == coords.shape[0], \
         "Number of coordinates are not the same"
 
     # make sure the number of dimensions is 3
-    assert (coords_A.shape[1] == 3) and (coords_B.shape[1] == 3), \
+    assert (ref_coords.shape[1] == 3) and (coords.shape[1] == 3), \
         "Number of dimensions are not the same"
 
     if idxs is None:
-        idxs = np.arange(coords_A.shape[0])
+        idxs = np.arange(ref_coords.shape[0])
 
 
-    rmsd = np.sqrt(np.sum(np.square(coords_B[idxs, :] - coords_A[idxs, :]),
+    rmsd = np.sqrt(np.sum(np.square(coords[idxs, :] - ref_coords[idxs, :]),
                           axis=(0,1))/idxs.shape[0])
 
-    return rmsd[0,0]
+    return rmsd
 
-def theobald_qcp(coords_A, coords_B, rot_mat=True, weights=None):
+def theobald_qcp(ref_coords, coords, rot_mat=True, weights=None):
     """Wrapper around the pyqcprot implementation of the Theobald-QCP
     method for the calculation of RMSD and the RMSD minimizing rotation
     matrix. This function just gives a more pythonic API to the
@@ -29,9 +30,9 @@ def theobald_qcp(coords_A, coords_B, rot_mat=True, weights=None):
 
     Arguments:
 
-    coords_A :: the refence coordinates that will be aligned to
+    ref_coords :: the refence coordinates that will be aligned to
 
-    coords_B :: the coordinates that will be rotated to match coords_A
+    coords :: the coordinates that will be rotated to match ref_coords
 
     rot_mat :: if True will return both the rmsd and the rotation matrix
 
@@ -50,15 +51,15 @@ def theobald_qcp(coords_A, coords_B, rot_mat=True, weights=None):
     """
 
     # make sure the coords are the same size
-    assert coords_A.shape[0] == coords_B.shape[0], \
+    assert ref_coords.shape[0] == coords.shape[0], \
         "Number of coordinates are not the same"
 
     # make sure the number of dimensions is 3
-    assert (coords_A.shape[1] == 3) and (coords_B.shape[1] == 3), \
+    assert (ref_coords.shape[1] == 3) and (coords.shape[1] == 3), \
         "Number of dimensions are not the same"
 
     # the number of coordinates (atoms)
-    n_coords = coords_A.shape[0]
+    n_coords = ref_coords.shape[0]
 
     # make sure the weights if given are the right size
     if weights is not None:
@@ -71,10 +72,10 @@ def theobald_qcp(coords_A, coords_B, rot_mat=True, weights=None):
 
     # reshape the coordinates because this implementation requires 3xN
     # arrays and not Nx3 arrays
-    coords_A.reshape( (3, n_coords))
+    ref_coords.reshape( (3, n_coords))
 
     # calculate the rmsd, and the rotation matrix which is modified in-place
-    rmsd = CalcRMSDRotationalMatrix(coords_A, coords_B,
+    rmsd = CalcRMSDRotationalMatrix(ref_coords, coords,
                                     n_coords, rotation_matrix, weights)
 
     # if the rotation matrix was asked for return it, otherwise don't
