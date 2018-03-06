@@ -1,4 +1,5 @@
 from setuptools import setup, find_packages
+from Cython.Build import cythonize
 
 setup(
     name='geomm',
@@ -9,4 +10,5 @@ setup(
     install_requires=[
         'numpy',
     ],
+    ext_modules = cythonize("geomm/pyqcprot.pyx")
 )
