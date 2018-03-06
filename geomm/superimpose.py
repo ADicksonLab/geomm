@@ -2,10 +2,12 @@ import numpy as np
 
 from geomm.rmsd import theobald_qcp
 
-def superimpose(ref_coords, coords, rot_mat=False, rmsd=False, weights=None):
+def superimpose(ref_coords, coords, idxs=None, rot_mat=False, rmsd=False, weights=None):
 
     # first perform the theobald_qcp method to get the rotation matrix
-    qcp_rmsd, rotation_matrix = theobald_qcp(ref_coords, coords, rot_mat=True, weights=weights)
+    qcp_rmsd, rotation_matrix = theobald_qcp(ref_coords, coords,
+                                             idxs=idxs,
+                                             rot_mat=True, weights=weights)
 
     # rotate coords according to the rotation matrix
     rot_coords = np.dot(coords, rotation_matrix)
