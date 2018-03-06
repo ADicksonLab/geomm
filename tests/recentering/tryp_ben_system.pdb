@@ -1,5 +1,6 @@
 REMARK  TITLE
 REMARK   DATE:     1/ 2/16     17:21:28      CREATED BY USER: alexrd
+CRYST1   74.303   74.303   74.303  90.00  90.00  90.00 P 1           1
 ATOM      1  N1  BEN     1      71.999   6.716  60.882  1.00  0.00      SML
 ATOM      2  C1  BEN     1      72.306   5.993  61.927  1.00  0.00      SML
 ATOM      3  N2  BEN     1      72.217   4.670  61.807  1.00  0.00      SML
