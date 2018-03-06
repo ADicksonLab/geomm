@@ -4,6 +4,8 @@ def recenter_receptor_ligand(positions, unitcell_side_lengths, ligand_idxs=None,
     """Sam's implementation of the recentering for a protein-ligand
     complex with cubic periodic boundaries."""
 
+
+
     unitcell_half_lengths = unitcell_side_lengths * 0.5
 
     # get the coordinates for the ligand and receptor separately
@@ -59,3 +61,63 @@ def recenter_receptor_ligand(positions, unitcell_side_lengths, ligand_idxs=None,
     new_coords[:, ligand_idxs, :] = lig_coords
 
     return new_coords
+
+def apply_pbc(positions, unitcell_side_lengths):
+    """This method applies periodic boundary conditions to the given
+    coordinates"""
+
+    #Claulate half box sizes
+    unitcell_half_lengths = unitcell_side_lengths * 0.5
+
+    #Find where positions are greater than the  half box sizes
+    pos_idxs = np.where(positions > unitcell_half_lengths)
+    #Groups the fram_idx, atom_idx and dim_idx where they are greater
+    #than half box sizes
+    pos_idxs = list(zip(pos_idxs[0], pos_idxs[1], pos_idxs[2]))
+    #Restric particle coordinates to the simulation box
+    for frame_idx, atom_idx, dim_idx in pos_idxs:
+        positions[frame_idx, atom_idx, dim_idx] = positions[frame_idx, atom_idx, dim_idx] - \
+                                                unitcell_side_lengths[frame_idx, dim_idx]
+
+    #Find where positions are less than  the negative half box sizes
+    neg_idxs = np.where(positions < -unitcell_half_lengths)
+    #Groups the fram_idx, atom_idx and dim_idx where they are greater                                                                                         #than half box sizes
+    neg_idxs = list(zip(neg_idxs[0], neg_idxs[1], neg_idxs[2]))
+    #Restric particle coordinates to the simulation box
+    for frame_idx, atom_idx, dim_idx in neg_idxs:
+        positions[frame_idx, atom_idx, dim_idx] = positions[frame_idx, atom_idx, dim_idx] + \
+                                                unitcell_side_lengths[frame_idx, dim_idx]
+    return positions
+
+def move_to_center(positions, unitcell_side_lengths, ligand_idxs=None, receptor_idxs=None,
+                   new_box_center=np.array([0.0, 0.0, 0.0])):
+    """
+    This method moves group of ligand and receptor to the given new
+    center. The geometric mean is used to find the center point of
+    ligand and receptor group.
+
+    """
+    #Groups ligand and receptor together
+    new_positions = recenter_receptor_ligand(positions,
+                                               unitcell_side_lengths,
+                                               ligand_idxs=ligand_idxs,
+                                               receptor_idxs=receptor_idxs)
+
+    # Combines the indicies of ligand and receptor
+    lig_receptor_idxs = np.concatenate((ligand_idxs, receptor_idxs))
+    #Find coordinate of ligand_receptor group
+    lig_receptor_coords = new_positions[:, lig_receptor_idxs, :]
+    # calculates the geometric center of ligand_receptor
+    geometric_center = lig_receptor_coords.mean(axis=1)
+
+    #Find the translation vector coordinates
+    position_vectors = new_box_center - geometric_center
+
+    #Translate  system to the new_box_center using position_vectors
+    for fram_idx, x in enumerate(new_positions):
+        x += position_vectors[fram_idx]
+
+    #Apply periodic boundary conditions to tranlated coordinates
+    new_positions = apply_pbc(new_positions, unitcell_side_lengths)
+
+    return new_positions
