@@ -13,13 +13,9 @@ For the example provided below, the minimum least-squares RMSD for the two
 """
 
 import numpy as np
-from geomm.rmsd import theobald_qcp
+from geomm.rmsd import theobald_qcp, calc_rmsd
 
 # Setup coordinates
-
-frag_a = np.zeros((3,7), dtype=np.float64)
-frag_b = np.zeros((3,7), dtype=np.float64)
-N = 7
 
 frag_a = np.array([
     [-2.803, -15.373, 24.556],
@@ -51,3 +47,10 @@ frag_a = frag_a - comA
 frag_b = frag_b - comB
 
 rmsd, rot_mat = theobald_qcp(frag_a, frag_b)
+
+print("theobald RMSD: {}".format(rmsd))
+
+# apply the rotation matrix and calculate the rmsd to check
+frag_b_rot = frag_b * np.matrix(rot_mat)
+rot_rmsd = calc_rmsd(frag_b_rot, frag_a)
+print("Rotation RMSD: {}".format(rot_rmsd))

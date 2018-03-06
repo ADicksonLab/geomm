@@ -2,17 +2,24 @@ import numpy as np
 
 from geomm.pyqcprot import CalcRMSDRotationalMatrix
 
-def rmsd(traj, ref, idx=None):
-    # calculates rmsd between frames of two trajectories: traj and ref
-    if len(idx) == 0:
-        idx = range(len(traj))
-    # check if traj and ref have the same number of atoms
-    if len(traj[idx]) != len(ref[idx]):
-        raise Exception('RMSD calculation must use the same number of atoms in each array')
+def calc_rmsd(coords_A, coords_B, idxs=None):
 
-    return np.sqrt(np.sum(np.square(traj[idx, :] - ref[idx, :]),
-                          axis=(0,1))/idx.shape[0])
+    # make sure the coords are the same size
+    assert coords_A.shape[0] == coords_B.shape[0], \
+        "Number of coordinates are not the same"
 
+    # make sure the number of dimensions is 3
+    assert (coords_A.shape[1] == 3) and (coords_B.shape[1] == 3), \
+        "Number of dimensions are not the same"
+
+    if idxs is None:
+        idxs = np.arange(coords_A.shape[0])
+
+
+    rmsd = np.sqrt(np.sum(np.square(coords_B[idxs, :] - coords_A[idxs, :]),
+                          axis=(0,1))/idxs.shape[0])
+
+    return rmsd[0,0]
 
 def theobald_qcp(coords_A, coords_B, rot_mat=True, weights=None):
     """Wrapper around the pyqcprot implementation of the Theobald-QCP
@@ -43,9 +50,11 @@ def theobald_qcp(coords_A, coords_B, rot_mat=True, weights=None):
     """
 
     # make sure the coords are the same size
-    assert coords_A.shape[0] == coords_B.shape[0], "Number of coordinates are not the same"
+    assert coords_A.shape[0] == coords_B.shape[0], \
+        "Number of coordinates are not the same"
+
     # make sure the number of dimensions is 3
-    assert (coords_A.shape[1] == 3) and (coords_B.shape[1] == 3),\
+    assert (coords_A.shape[1] == 3) and (coords_B.shape[1] == 3), \
         "Number of dimensions are not the same"
 
     # the number of coordinates (atoms)
