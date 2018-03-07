@@ -1,25 +1,5 @@
 import numpy as np
 
-def group_complex(coords, unitcell_side_lengths, complexes_idxs):
-    """Given several groups of atom idxs (say molecules) put them in the
-    image which minimizes the distance between the individual
-    centroids to the collective centroid.
-
-    """
-
-    raise NotImplementedError
-
-    unitcell_half_lengths = unitcell_side_lengths * 0.5
-
-    grouped_coords = np.copy(coords)
-
-    # get the coordinates of each complex
-    complex_coords = []
-    for complex_idxs in complexes_idxs:
-        complex_coords.append(coords[complex_idxs, :])
-
-    return grouped_coords
-
 def group_pair(coords, unitcell_side_lengths, member_a_idxs, member_b_idxs):
     """For a pair of group of coordinates (e.g. atoms) this moves member_b
     coordinates to the image of the periodic unitcell that minimizes
@@ -87,12 +67,16 @@ def group_pair(coords, unitcell_side_lengths, member_a_idxs, member_b_idxs):
 
 
 def apply_rectangular_pbcs(coords, unitcell_side_lengths, center_point=(0., 0., 0.,)):
-    """This method applies periodic boundary conditions to the given
-    coordinates"""
+    """Apply rectangular Periodic Boundary Conditions (PBCs) given the
+    lengths of the unitcell and a center point positions of the box in
+    the coordinate space. The default for the center point is (0,0,0)
+    which is the case for OpenMM MD frames but not other MD systems.
+
+    """
 
     # check to make sure everything looks okay
     assert len(coords.shape) == 2, \
-        "coordinates should be rank 2 array, "
+        "coordinates should be rank 2 array, "\
         "this function operates on individual frames not trajectories."
     assert coords.shape[1] == 3, "coordinates are not of 3 dimensions"
     assert len(center_point) == 3, "center point is not of 3 dimensions"
@@ -108,7 +92,7 @@ def apply_rectangular_pbcs(coords, unitcell_side_lengths, center_point=(0., 0., 
     wrapped_coords = np.copy(coords)
 
     # find coords which are outside the box in the positive direction
-    pos_idxs = np.where(coords > unitcell_half_lengths + center_point)
+    pos_idxs = np.where(coords > center_point + unitcell_half_lengths)
 
     # Groups the frame_idx, atom_idx, and dim_idx
     pos_idxs = list(zip(pos_idxs[0], pos_idxs[1]))
@@ -119,7 +103,7 @@ def apply_rectangular_pbcs(coords, unitcell_side_lengths, center_point=(0., 0., 
                                                  unitcell_side_lengths[dim_idx])
 
     # Find where coords are less than  the negative half box sizes
-    neg_idxs = np.where(coords < -unitcell_half_lengths)
+    neg_idxs = np.where(coords < center_point - unitcell_half_lengths)
 
     # Groups the fram_idx, atom_idx and dim_idx where they are greater
     # than half box sizes
@@ -132,8 +116,7 @@ def apply_rectangular_pbcs(coords, unitcell_side_lengths, center_point=(0., 0., 
 
     return wrapped_coords
 
-def recenter_pair(coords, unitcell_side_lengths, member_a_idxs, member_b_idxs,
-                         new_box_center=np.array([0.0, 0.0, 0.0])):
+def recenter_pair(coords, unitcell_side_lengths, member_a_idxs, member_b_idxs):
     """
     This method moves group of ligand and member_b to the given new
     center. The geometric mean is used to find the center point of
@@ -141,27 +124,58 @@ def recenter_pair(coords, unitcell_side_lengths, member_a_idxs, member_b_idxs,
 
     """
 
-    # Groups ligand and receptor together
+    # group the pair
     grouped_coords = group_pair(coords, unitcell_side_lengths,
                                 member_a_idxs, member_b_idxs)
 
-    # Combines the indices of ligand and receptor
-    lig_receptor_idxs = np.concatenate((ligand_idxs, receptor_idxs))
+    # then recenter them as a complex
+    complex_idxs = (member_a_idxs, member_b_idxs)
+    recentered_coords = recenter_complex(grouped_coords, unitcell_side_lengths, complex_idxs)
 
-    # Find coordinate of ligand_receptor group
-    lig_receptor_coords = new_coords[:, lig_receptor_idxs, :]
+    return recentered_coords
 
-    # calculates the geometric center of ligand_receptor
-    geometric_center = lig_receptor_coords.mean(axis=1)
+def recenter_complex(coords, unitcell_side_lengths, complex_idxs):
+    """Recenter a periodic unitcell around a complex (a list of lists of
+    atoms idxs for each member of the complex), by first computing the
+    centroids of each member then computing the centroid of the
+    centroids, and using that as the new center of the box.
 
-    # Find the translation vector coordinates
-    position_vectors = new_box_center - geometric_center
+    """
 
-    # Translate  system to the new_box_center using position_vectors
-    for fram_idx, x in enumerate(new_coords):
-        x += position_vectors[fram_idx]
+    # compute the centroids of each member in the complex
+    member_centroids = []
+    for member_idxs in complex_idxs:
+        centroid = coords[member_idxs].mean(axis=0)
+        member_centroids.append(centroid)
+    member_centroids = np.array(member_centroids)
 
-    # Apply periodic boundary conditions to tranlated coordinates
-    new_coords = apply_pbc(new_coords, unitcell_side_lengths)
+    # compute the centroid of the centroids
+    complex_centroid = member_centroids.mean(axis=0)
 
-    return new_coords
+    # apply the periodic boundary conditions around the complex
+    # centroid to recenter
+    recentered_coords = apply_rectangular_pbcs(coords, unitcell_side_lengths,
+                                               center_point=complex_centroid)
+
+    return recentered_coords
+
+
+def group_complex(coords, unitcell_side_lengths, complexes_idxs):
+    """Given several groups of atom idxs (say molecules) put them in the
+    image which minimizes the distance between the individual
+    centroids to the collective centroid.
+
+    """
+
+    raise NotImplementedError
+
+    unitcell_half_lengths = unitcell_side_lengths * 0.5
+
+    grouped_coords = np.copy(coords)
+
+    # get the coordinates of each complex
+    complex_coords = []
+    for complex_idxs in complexes_idxs:
+        complex_coords.append(coords[complex_idxs, :])
+
+    return grouped_coords
