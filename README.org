@@ -14,6 +14,18 @@ Thus it aims to be more like numpy or scipy itself than a typical
 macromolecular software library, except that the particular routines
 and functions are usually found in that context.
 
+** Installation
+
+To install geomm clone it:
+
+~git clone https://github.com/ADicksonLab/geomm.git~
+
+Go to the repository:
+~cd geomm~
+
+Install it using this command:
+~python setup.py build_ext --inplace~
+
 ** Community
 
 Discussion takes place on riot.im (#geomm:matrix.org) which is a slack-like app that works
