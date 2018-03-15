@@ -31,3 +31,8 @@ Install it using this command:
 Discussion takes place on riot.im (#geomm:matrix.org) which is a slack-like app that works
 on the Matrix protocol:
 [[https://riot.im/app/#/room/#geomm:matrix.org]]
+
+
+You can also contact me directly:
+
+samuel.lotz@salotz.info
