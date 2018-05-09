@@ -4,7 +4,9 @@ from geomm.theobald_qcp import theobald_qcp
 from geomm.centering import center
 from geomm.centroid import centroid
 
-def superimpose(ref_coords, coords, centered=True, idxs=None, rot_mat=False, rmsd=False, weights=None):
+def superimpose(ref_coords, coords,
+                centered=False, idxs=None, weights=None
+                rot_mat=False, rmsd=False):
     """Superimpose a set of coordinates to reference coordinates using the
     Theobald-QCP method.
 
@@ -16,7 +18,7 @@ def superimpose(ref_coords, coords, centered=True, idxs=None, rot_mat=False, rms
       coordinates and have the rotation matrix applied to them and
       returned.
 
-      centered (optional) :: Default `True`, if False will center
+      centered (optional) :: Default `False`, if False will center
       the coordinates to be superimposed to the origine to apply the
       rotation matrix.
 
