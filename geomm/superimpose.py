@@ -66,10 +66,10 @@ def superimpose(ref_coords, coords,
 
     # return results based on what was asked for
     if rot_mat and rmsd:
-        return rot_coords, rotation_matrix, qcp_rmsd
+        return sup_coords, rotation_matrix, qcp_rmsd
     elif rot_mat:
-        return rot_coords, rotation_matrix
+        return sup_coords, rotation_matrix
     elif rmsd:
-        return rot_coords, qcp_rmsd
+        return sup_coords, qcp_rmsd
     else:
-        return rot_coords
+        return sup_coords
