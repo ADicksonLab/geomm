@@ -5,7 +5,7 @@ from geomm.centering import center
 from geomm.centroid import centroid
 
 def superimpose(ref_coords, coords,
-                centered=False, idxs=None, weights=None
+                centered=False, idxs=None, weights=None,
                 rot_mat=False, rmsd=False):
     """Superimpose a set of coordinates to reference coordinates using the
     Theobald-QCP method.
