@@ -16,10 +16,11 @@ and functions are usually found in that context.
 
 ** Installation
 
-To install geomm:
+To install geomm make sure you have cython installed then:
 #+BEGIN_SRC bash
 git clone https://github.com/ADicksonLab/geomm.git
 cd geomm
+
 # compile the cython modules
 python setup.py build_ext --inplace
 # install it
