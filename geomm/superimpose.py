@@ -4,6 +4,14 @@ from geomm.theobald_qcp import theobald_qcp
 from geomm.centering import center
 from geomm.centroid import centroid
 
+def superimpose_traj(ref_coords, traj,
+                centered=False, idxs=None, weights=None,
+                rot_mat=False, rmsd=False):
+    """Superimpose a whole trajectory onto a set of ref_coords
+    (see superimpose for more info)"""
+    
+    return [superimpose(ref_coords, coords, centered, idxs, weights, rot_mat, rmsd) for coords in traj]
+
 def superimpose(ref_coords, coords,
                 centered=False, idxs=None, weights=None,
                 rot_mat=False, rmsd=False):
@@ -19,7 +27,7 @@ def superimpose(ref_coords, coords,
       returned.
 
       centered (optional) :: Default `False`, if False will center
-      the coordinates to be superimposed to the origine to apply the
+      the coordinates to be superimposed to the origin to apply the
       rotation matrix.
 
       idxs (optional) :: Default `None`. If given will superimpose the

@@ -1,5 +1,10 @@
 import numpy as np
 
+def group_pair_traj(traj, side_length_list, member_a_idxs, member_b_idxs):
+    """Calls group_pair for each frame in traj"""
+    return [group_pair(coords, unitcell_side_lengths, member_a_idxs, member_b_idxs)
+            for coords,unitcell_side_lengths in zip(traj,side_length_list)]
+
 def group_pair(coords, unitcell_side_lengths, member_a_idxs, member_b_idxs):
     """For a pair of group of coordinates (e.g. atoms) this moves member_b
     coordinates to the image of the periodic unitcell that minimizes
@@ -7,7 +12,6 @@ def group_pair(coords, unitcell_side_lengths, member_a_idxs, member_b_idxs):
     members (e.g. a protein and ligand).
 
     """
-
 
     # take the difference between the average coords of each
     # molecule.
