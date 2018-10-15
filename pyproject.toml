@@ -3,7 +3,7 @@ requires = ['setuptools', 'wheel', 'Cython']
 
 [tool.poetry]
 name = "geomm"
-version = "0.1.0"
+version = "0.1.2"
 description = "Simple and stupid library for strictly geometric (geom) operations (zero-knowledge of topology) common to computational biology and chemistry macromolecules (mm)."
 authors = ["Samuel Lotz <samuel.lotz@salotz.info>"]
 license = "MIT"
@@ -15,6 +15,7 @@ include = ["CHANGELOG.org", "build.py", "LICENSE"]
 python = "3.6"
 numpy = "^1.15"
 Cython = "^0.28.5"
+scipy = "^1.1"
 
 [tool.poetry.dev-dependencies]
 ipython = "^7.0"
