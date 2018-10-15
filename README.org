@@ -16,17 +16,28 @@ and functions are usually found in that context.
 
 ** Installation
 
-To install geomm make sure you have cython installed then:
+Get it from PyPI:
+
 #+BEGIN_SRC bash
+  pip install geomm
+#+END_SRC
+
+
+Or you can get the latest:
+
+#+BEGIN_SRC bash
+
 git clone https://github.com/ADicksonLab/geomm.git
 cd geomm
 
-# compile the cython modules
-python setup.py build_ext --inplace
+# you need cython to compile
+pip install cython
+
 # install it
 pip install -e .
 
 #+END_SRC
+
 
 ** Community
 
