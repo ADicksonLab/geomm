@@ -3,6 +3,8 @@ import sys
 
 from Cython.Build import cythonize
 
+import numpy as np
+
 # use cythonize to build the extensions
 modules = ["geomm/pyqcprot.pyx",]
 
