@@ -13,4 +13,5 @@ def build(setup_kwargs):
 
     setup_kwargs.update({
         'ext_modules' : extensions,
+        'include_dirs' : [np.get_include()],
     })
