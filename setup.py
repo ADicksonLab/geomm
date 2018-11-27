@@ -5,12 +5,13 @@ import numpy as np
 
 setup(
     name='geomm',
-    version='0.1.4',
+    version='0.1.5',
     py_modules=['geomm'],
     packages=find_packages(),
     include_package_data=True,
     install_requires=[
         'numpy',
+        'cython'
     ],
     include_dirs=[np.get_include()],
     ext_modules = cythonize("geomm/pyqcprot.pyx")
