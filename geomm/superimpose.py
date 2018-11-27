@@ -9,7 +9,7 @@ def superimpose_traj(ref_coords, traj,
                 rot_mat=False, rmsd=False):
     """Superimpose a whole trajectory onto a set of ref_coords
     (see superimpose for more info)"""
-    
+
     return [superimpose(ref_coords, coords, centered=centered, idxs=idxs, weights=weights, rot_mat=rot_mat, rmsd=rmsd) for coords in traj]
 
 def superimpose(ref_coords, coords,

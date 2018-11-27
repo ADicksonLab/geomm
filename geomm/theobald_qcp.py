@@ -40,8 +40,8 @@ def theobald_qcp(ref_coords, coords, idxs=None, rot_mat=True, weights=None):
 
     # copy the coordinates to make sure we are not modifying them in
     # place
-    ref_coords_copy = ref_coords.copy()
-    coords_copy = coords.copy()
+    ref_coords_copy = np.array(ref_coords.copy(), dtype=np.float64)
+    coords_copy = np.array(coords.copy(), dtype=np.float64)
 
     # if idxs were given we use just those for aligning
     if idxs is not None:

@@ -5,7 +5,7 @@ import numpy as np
 
 setup(
     name='geomm',
-    version='0.1',
+    version='0.1.4',
     py_modules=['geomm'],
     packages=find_packages(),
     include_package_data=True,
