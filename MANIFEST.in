@@ -1,1 +1,2 @@
 include geomm/*.pyx
+include pyproject.toml
