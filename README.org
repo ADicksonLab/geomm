@@ -22,7 +22,6 @@ Get it from PyPI:
   pip install geomm
 #+END_SRC
 
-
 Or you can get the latest:
 
 #+BEGIN_SRC bash
@@ -49,3 +48,38 @@ on the Matrix protocol:
 You can also contact me directly:
 
 samuel.lotz@salotz.info
+
+* Developing
+
+** Building Docs
+
+Install these packages:
+
+#+BEGIN_SRC bash
+pip install sphinx guzzle_sphinx_theme sphinxcontrib-napoleon nbsphinx
+#+END_SRC
+
+Install pandoc for converting org-mode files to rst (optional).
+
+You can follow the instructions on the site or just use anaconda:
+
+#+BEGIN_SRC bash
+conda install pandoc
+#+END_SRC
+
+Then run the build script. This uses the make file and additionally
+runs api-doc, and converts org-mode source files to rst using pandoc.
+
+#+BEGIN_SRC bash
+cd sphinx
+chmod u+x build.sh
+./build.sh
+#+END_SRC
+
+
+To run the current deployments of the docs run the deploy script:
+
+#+BEGIN_SRC bash
+chmod u+x deploy.sh
+./deploy.sh
+#+END_SRC

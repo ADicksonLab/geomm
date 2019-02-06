@@ -11,3 +11,8 @@ __pycache__
 /geomm.egg-info/requires.txt
 /geomm.egg-info/top_level.txt
 *.so
+sphinx/api/
+sphinx/_build/
+/geomm/pyqcprot.c
+dist/
+build/

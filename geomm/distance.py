@@ -1,5 +1,5 @@
 import numpy as np
-import scipy.distance as dist
+import scipy.spatial.distance as dist
 
 def distance():
     return None
