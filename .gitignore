@@ -16,3 +16,4 @@ sphinx/_build/
 /geomm/pyqcprot.c
 dist/
 build/
+pip-wheel-metadata
