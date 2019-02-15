@@ -1,5 +1,7 @@
 import numpy as np
 
+from geomm.centering import center
+
 def group_pair_traj(traj, side_length_list, member_a_idxs, member_b_idxs):
     """Calls group_pair for each frame in traj"""
     return [group_pair(coords, unitcell_side_lengths, member_a_idxs, member_b_idxs)
@@ -70,55 +72,6 @@ def group_pair(coords, unitcell_side_lengths, member_a_idxs, member_b_idxs):
     return grouped_coords
 
 
-def apply_rectangular_pbcs(coords, unitcell_side_lengths, center_point=(0., 0., 0.,)):
-    """Apply rectangular Periodic Boundary Conditions (PBCs) given the
-    lengths of the unitcell and a center point positions of the box in
-    the coordinate space. The default for the center point is (0,0,0)
-    which is the case for OpenMM MD frames but not other MD systems.
-
-    """
-
-    # check to make sure everything looks okay
-    assert len(coords.shape) == 2, \
-        "coordinates should be rank 2 array, "\
-        "this function operates on individual frames not trajectories."
-    assert coords.shape[1] == 3, "coordinates are not of 3 dimensions"
-    assert len(center_point) == 3, "center point is not of 3 dimensions"
-    assert len(unitcell_side_lengths) == 3, "Unitcell side lengths are not of dimension 3"
-
-    # cast the center point to an array
-    center_point = np.array(center_point)
-
-    # Calculate half box sizes
-    unitcell_half_lengths = unitcell_side_lengths * 0.5
-
-    # initialize the coordinates to be wrapped
-    wrapped_coords = np.copy(coords)
-
-    # find coords which are outside the box in the positive direction
-    pos_idxs = np.where(coords > center_point + unitcell_half_lengths)
-
-    # Groups the frame_idx, atom_idx, and dim_idx
-    pos_idxs = list(zip(pos_idxs[0], pos_idxs[1]))
-
-    # Restrict particle coordinates to the simulation box
-    for atom_idx, dim_idx in pos_idxs:
-        wrapped_coords[atom_idx, dim_idx] = (coords[atom_idx, dim_idx] -
-                                                 unitcell_side_lengths[dim_idx])
-
-    # Find where coords are less than  the negative half box sizes
-    neg_idxs = np.where(coords < center_point - unitcell_half_lengths)
-
-    # Groups the fram_idx, atom_idx and dim_idx where they are greater
-    # than half box sizes
-    neg_idxs = list(zip(neg_idxs[0], neg_idxs[1]))
-
-    # Restrict particle coordinates to the simulation box
-    for atom_idx, dim_idx in neg_idxs:
-        wrapped_coords[atom_idx, dim_idx] = (coords[atom_idx, dim_idx] +
-                                                 unitcell_side_lengths[dim_idx])
-
-    return wrapped_coords
 
 def recenter_pair(coords, unitcell_side_lengths, member_a_idxs, member_b_idxs):
     """
@@ -134,11 +87,11 @@ def recenter_pair(coords, unitcell_side_lengths, member_a_idxs, member_b_idxs):
 
     # then recenter them as a complex
     complex_idxs = (member_a_idxs, member_b_idxs)
-    recentered_coords = recenter_complex(grouped_coords, unitcell_side_lengths, complex_idxs)
+    recentered_coords = center_complex(grouped_coords, unitcell_side_lengths, complex_idxs)
 
     return recentered_coords
 
-def recenter_complex(coords, unitcell_side_lengths, complex_idxs):
+def center_complex(coords, unitcell_side_lengths, complex_idxs):
     """Recenter a periodic unitcell around a complex (a list of lists of
     atoms idxs for each member of the complex), by first computing the
     centroids of each member then computing the centroid of the
@@ -156,12 +109,10 @@ def recenter_complex(coords, unitcell_side_lengths, complex_idxs):
     # compute the centroid of the centroids
     complex_centroid = member_centroids.mean(axis=0)
 
-    # apply the periodic boundary conditions around the complex
-    # centroid to recenter
-    recentered_coords = apply_rectangular_pbcs(coords, unitcell_side_lengths,
-                                               center_point=complex_centroid)
+    # center the complex
+    centered_coords = center(coords, complex_centroid)
 
-    return recentered_coords
+    return centered_coords
 
 
 def group_complex(coords, unitcell_side_lengths, complexes_idxs):

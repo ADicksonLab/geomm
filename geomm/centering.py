@@ -2,29 +2,127 @@ import numpy as np
 
 from geomm.centroid import centroid
 
-def center(coords, idxs=None, weights=None):
-    """Center coordinates at the origing based on their center of mass. If
-    idxs are given the center of mass is computed only from those
+def center(coords, center_point):
+    """Center coordinates at the origin based on a center point.
+
+    If idxs are given the center of mass is computed only from those
     coordinates and if weights are given a weighted center of mass is
     computed.
 
-    Inputs:
+    Parameters
+    ----------
 
-        coords :: the coordinates you wish to center
+    coords : arraylike
+       The coordinates you wish to center.
 
-        idxs (optional) :: the idxs of the coordinates to actually
+    center_point : arraylike of float of 1 dimension
+       The point to center all other coordinates around. Should have
+       one element for each dimension of coords
+
+    TODO Deprecate
+    idxs : arraylike of int, optional
+        the idxs of the coordinates to actually
         compute the centroid on, although the translation will act on
         all the coordinates.
 
-        weights (optional) :: give weights to the coordinates for a
-           weighted centroid ('center of mass')
+    weights : arralike of float, optional
+        give weights to the coordinates for a
+        weighted centroid ('center of mass')
 
     """
 
-    if idxs is None:
-        centered_coords = coords - centroid(coords, weights=weights)
-    else:
-        centered_coords = coords - centroid(coords[idxs], weights=weights)
+    assert len(coords.shape) == 2, \
+        "coordinates should be rank 2 array, "\
+        "this function operates on individual frames not trajectories."
+    assert coords.shape[1] == 3, "coordinates are not of 3 dimensions"
+    assert len(center_point) == 3, "center point is not of 3 dimensions"
 
-    return centered_coords
+    # if idxs is None:
+    #     centered_coords = coords - centroid(coords, weights=weights)
+    # else:
+    #     centered_coords = coords - centroid(coords[idxs], weights=weights)
 
+    return coords - center_point
+
+def center_around(coords, idxs, weights=None):
+
+        """Center coordinates at the origin based on a center point.
+
+    If idxs are given the center of mass is computed only from those
+    coordinates and if weights are given a weighted center of mass is
+    computed.
+
+    Parameters
+    ----------
+
+    coords : arraylike
+       The coordinates you wish to center.
+
+    idxs : arraylike of int
+        The idxs of the coordinates to actually compute the centroid
+        on, although the translation will act on all the coordinates.
+
+    weights : arraylike of float, optional
+        Give weights to the coordinates for a weighted centroid
+        ('center of mass').
+
+        """
+
+    assert len(coords.shape) == 2, \
+        "coordinates should be rank 2 array, "\
+        "this function operates on individual frames not trajectories."
+    assert coords.shape[1] == 3, "coordinates are not of 3 dimensions"
+    assert len(center_point) == 3, "center point is not of 3 dimensions"
+
+    return center(coords, centroid(coords[idxs], weights=weights))
+
+
+def apply_rectangular_pbcs(coords, unitcell_side_lengths, center_point=(0., 0., 0.,)):
+    """Apply rectangular Periodic Boundary Conditions (PBCs) given the
+    lengths of the unitcell and a center point positions of the box in
+    the coordinate space. The default for the center point is (0,0,0)
+    which is the case for OpenMM MD frames but not other MD systems.
+
+    """
+
+    # check to make sure everything looks okay
+    assert len(coords.shape) == 2, \
+        "coordinates should be rank 2 array, "\
+        "this function operates on individual frames not trajectories."
+    assert coords.shape[1] == 3, "coordinates are not of 3 dimensions"
+    assert len(center_point) == 3, "center point is not of 3 dimensions"
+    assert len(unitcell_side_lengths) == 3, "Unitcell side lengths are not of dimension 3"
+
+    # cast the center point to an array
+    center_point = np.array(center_point)
+
+    # Calculate half box sizes
+    unitcell_half_lengths = unitcell_side_lengths * 0.5
+
+    # initialize the coordinates to be wrapped
+    wrapped_coords = np.copy(coords)
+
+    # find coords which are outside the box in the positive direction
+    pos_idxs = np.where(coords > center_point + unitcell_half_lengths)
+
+    # Groups the frame_idx, atom_idx, and dim_idx
+    pos_idxs = list(zip(pos_idxs[0], pos_idxs[1]))
+
+    # Restrict particle coordinates to the simulation box
+    for atom_idx, dim_idx in pos_idxs:
+        wrapped_coords[atom_idx, dim_idx] = (coords[atom_idx, dim_idx] -
+                                                 unitcell_side_lengths[dim_idx])
+
+    # Find where coords are less than  the negative half box sizes
+    neg_idxs = np.where(coords < center_point - unitcell_half_lengths)
+
+    # Groups the fram_idx, atom_idx and dim_idx where they are greater
+    # than half box sizes
+    neg_idxs = list(zip(neg_idxs[0], neg_idxs[1]))
+
+    # Restrict particle coordinates to the simulation box
+    for atom_idx, dim_idx in neg_idxs:
+        wrapped_coords[atom_idx, dim_idx] = (coords[atom_idx, dim_idx] +
+                                                 unitcell_side_lengths[dim_idx])
+
+    return wrapped_coords
