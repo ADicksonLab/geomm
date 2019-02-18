@@ -1,3 +1,5 @@
+import warnings
+
 import numpy as np
 
 def box_vectors_to_lengths_angles(box_vectors):
@@ -17,3 +19,88 @@ def box_vectors_to_lengths_angles(box_vectors):
                        for i, j in [(0,1), (1,2), (2,0)]])
 
     return unitcell_lengths, unitcell_angles
+
+
+# License applicable to the function 'lengths_and_angles_to_box_vectors'
+##############################################################################
+# MDTraj: A Python Library for Loading, Saving, and Manipulating
+#         Molecular Dynamics Trajectories.
+# Copyright 2012-2013 Stanford University and the Authors
+#
+# Authors: Robert McGibbon
+# Contributors:
+#
+# MDTraj is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Lesser General Public License as
+# published by the Free Software Foundation, either version 2.1
+# of the License, or (at your option) any later version.
+#
+# This library is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public
+# License along with MDTraj. If not, see <http://www.gnu.org/licenses/>.
+##############################################################################
+
+def lengths_and_angles_to_box_vectors(lengths, angles):
+    """Convert from the lengths/angles of the unit cell to the box
+    vectors (Bravais vectors). The angles should be in degrees.
+
+    Parameters
+    ----------
+    lengths : arraylike of dim 3
+        The lengths of each box vector
+
+    angles : arraylike of dim 3
+        The angles between each box vector, in degrees.
+
+    Returns
+    -------
+    box_vectors : arraylike of shape (3, 3)
+        If the inputs are scalar, the vectors will one dimensional (length 3).
+        If the inputs are one dimension, shape=(n_frames, ), then the output
+        will be (n_frames, 3)
+
+    Examples
+    --------
+
+    >>> import numpy as np
+    >>> result = lengths_and_angles_to_box_vectors(1, 1, 1, 90.0, 90.0, 90.0)
+
+    Notes
+    -----
+    This code is adapted from gyroid, which is licensed under the BSD
+    http://pythonhosted.org/gyroid/_modules/gyroid/unitcell.html
+
+    """
+
+    a_length, b_length, c_length = lengths
+    alpha, beta, gamma = angles
+
+    if np.all(alpha < 2*np.pi) and np.all(beta < 2*np.pi) and np.all(gamma < 2*np.pi):
+        warnings.warn('All your angles were less than 2*pi. Did you accidentally give me radians?')
+
+    alpha = alpha * np.pi / 180
+    beta = beta * np.pi / 180
+    gamma = gamma * np.pi / 180
+
+    a = np.array([a_length, np.zeros_like(a_length), np.zeros_like(a_length)])
+    b = np.array([b_length*np.cos(gamma), b_length*np.sin(gamma), np.zeros_like(b_length)])
+    cx = c_length*np.cos(beta)
+    cy = c_length*(np.cos(alpha) - np.cos(beta)*np.cos(gamma)) / np.sin(gamma)
+    cz = np.sqrt(c_length*c_length - cx*cx - cy*cy)
+    c = np.array([cx,cy,cz])
+
+    if not a.shape == b.shape == c.shape:
+        raise TypeError('Shape is messed up.')
+
+    # Make sure that all vector components that are _almost_ 0 are set exactly
+    # to 0
+    tol = 1e-6
+    a[np.logical_and(a>-tol, a<tol)] = 0.0
+    b[np.logical_and(b>-tol, b<tol)] = 0.0
+    c[np.logical_and(c>-tol, c<tol)] = 0.0
+
+    return a.T, b.T, c.T

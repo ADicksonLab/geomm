@@ -2,16 +2,49 @@ import numpy as np
 
 from geomm.centering import center
 
-def group_pair_traj(traj, side_length_list, member_a_idxs, member_b_idxs):
-    """Calls group_pair for each frame in traj"""
-    return [group_pair(coords, unitcell_side_lengths, member_a_idxs, member_b_idxs)
-            for coords,unitcell_side_lengths in zip(traj,side_length_list)]
+def group_complex(coords, complexes_idxs):
+    """TODO
+    """
+
+    raise NotImplementedError
+
+    grouped_coords = np.copy(coords)
+
+    # get the coordinates of each complex
+    complex_coords = []
+    for complex_idxs in complexes_idxs:
+        complex_coords.append(coords[complex_idxs, :])
+
+    return grouped_coords
 
 def group_pair(coords, unitcell_side_lengths, member_a_idxs, member_b_idxs):
     """For a pair of group of coordinates (e.g. atoms) this moves member_b
     coordinates to the image of the periodic unitcell that minimizes
     the difference between the centers of geometry between the two
     members (e.g. a protein and ligand).
+
+    Parameters
+    ----------
+
+    coords : arraylike
+        The coordinate array of the particles you will be
+        transforming.
+
+    unitcell_side_lengths : arraylike of shape (3)
+        The lengths of the sides of a rectangular unitcell.
+
+    member_a_idxs : arraylike of int of rank 1
+        Collection of the indices that define that member of the pair.
+
+    member_b_idxs : arraylike of int of rank 1
+        Collection of the indices that define that member of the pair.
+
+    Returns
+    -------
+
+    grouped_coords : arraylike
+        Transformed coordinates.
+
 
     """
 
@@ -55,7 +88,7 @@ def group_pair(coords, unitcell_side_lengths, member_a_idxs, member_b_idxs):
     # we simply pair elements from each of those arrays (pairwise) to
     # iterate over them. Essentially reshaping the two arrays
     for dim_idx in pos_idxs:
-        # change the ligand coordinates to recenter them by adding the
+        # change the ligand coordinates to center them by adding the
         # cube side length in that direction
         grouped_coords[member_b_idxs, dim_idx] = (member_b_coords[:, dim_idx] +
                                                 unitcell_side_lengths[dim_idx])
@@ -71,31 +104,26 @@ def group_pair(coords, unitcell_side_lengths, member_a_idxs, member_b_idxs):
 
     return grouped_coords
 
+def center_complex(coords, complex_idxs):
+    """For a system with periodic boundary conditions move all members of
+    a complex to the same image of the unitcell.
 
+    Parameters
+    ----------
 
-def recenter_pair(coords, unitcell_side_lengths, member_a_idxs, member_b_idxs):
-    """
-    This method moves group of ligand and member_b to the given new
-    center. The geometric mean is used to find the center point of
-    ligand and receptor group.
+    coords : arraylike
+        The coordinate array of the particles you will be
+        transforming.
 
-    """
+    complex_idxs : list of arraylikes of int of rank 1
+        A list where each member represents a member of the complex
+        and is a collection of the indices that define that member.
 
-    # group the pair
-    grouped_coords = group_pair(coords, unitcell_side_lengths,
-                                member_a_idxs, member_b_idxs)
+    Returns
+    -------
 
-    # then recenter them as a complex
-    complex_idxs = (member_a_idxs, member_b_idxs)
-    recentered_coords = center_complex(grouped_coords, unitcell_side_lengths, complex_idxs)
-
-    return recentered_coords
-
-def center_complex(coords, unitcell_side_lengths, complex_idxs):
-    """Recenter a periodic unitcell around a complex (a list of lists of
-    atoms idxs for each member of the complex), by first computing the
-    centroids of each member then computing the centroid of the
-    centroids, and using that as the new center of the box.
+    centered_coords : arraylike
+        Transformed coordinates.
 
     """
 
@@ -114,25 +142,5 @@ def center_complex(coords, unitcell_side_lengths, complex_idxs):
 
     return centered_coords
 
-
-def group_complex(coords, unitcell_side_lengths, complexes_idxs):
-    """Given several groups of atom idxs (say molecules) put them in the
-    image which minimizes the distance between the individual
-    centroids to the collective centroid.
-
-    """
-
-    raise NotImplementedError
-
-    unitcell_half_lengths = unitcell_side_lengths * 0.5
-
-    grouped_coords = np.copy(coords)
-
-    # get the coordinates of each complex
-    complex_coords = []
-    for complex_idxs in complexes_idxs:
-        complex_coords.append(coords[complex_idxs, :])
-
-    return grouped_coords
 
 

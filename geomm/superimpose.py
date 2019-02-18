@@ -8,44 +8,58 @@ def superimpose_traj(ref_coords, traj,
                 centered=False, idxs=None, weights=None,
                 rot_mat=False, rmsd=False):
     """Superimpose a whole trajectory onto a set of ref_coords
-    (see superimpose for more info)"""
+    (see superimpose for more info)."""
 
-    return [superimpose(ref_coords, coords, centered=centered, idxs=idxs, weights=weights, rot_mat=rot_mat, rmsd=rmsd) for coords in traj]
+    return [superimpose(ref_coords, coords,
+                        centered=centered, idxs=idxs,
+                        weights=weights, rot_mat=rot_mat,
+                        rmsd=rmsd)
+            for coords in traj]
 
-def superimpose(ref_coords, coords,
-                centered=False, idxs=None, weights=None,
-                rot_mat=False, rmsd=False):
+def superimpose(ref_coords, coords, idxs=None, weights=None):
     """Superimpose a set of coordinates to reference coordinates using the
     Theobald-QCP method.
 
-    Inputs:
+    Assumes coordinates are centered appropriately.
 
-      ref_coords :: the template coordinates that `coords` will be aligned to.
+    Parameters
+    ----------
 
-      coords :: the coordinates which will be aligned to the template
-      coordinates and have the rotation matrix applied to them and
-      returned.
+    ref_coords : arraylike
+        The template coordinates that `coords` will be aligned to.
 
-      centered (optional) :: Default `False`, if False will center
-      the coordinates to be superimposed to the origin to apply the
-      rotation matrix.
+    coords : arraylike
+        The coordinates which will be aligned to the template
+        coordinates and have the rotation matrix applied to them and
+        returned.
 
-      idxs (optional) :: Default `None`. If given will superimpose the
-      coordinates based only on the alignment on this subset of atoms
-      to the reference.
+    idxs : arraylike, optional
+        If given will superimpose the coordinates based only on the
+        alignment on this subset of atoms to the reference.
+       (Default = None)
 
-      rot_mat (optional) :: Default `False`. If True will return the
-      rotation matrix computed from the call to Theobald-QCP.
+    weights : arraylike, optional
+        Give weights to the coordinates for a weighted centroid
+        ('center of mass') used in translations to the origin and to
+        the centroid of the reference structure.
+       (Default = None)
 
-      rmsd (optional) :: Default `False`. If True will return the rmsd
-      computed from the call to Theobald-QCP. NOTE: this may not be
-      exactly the same as the computation of the RMSD by the
-      definition (i.e. the explicit equation implemented here in
-      `geomm.rmsd.calc_rmsd`)
+    Returns
+    -------
 
-      weights (optional) :: give weights to the coordinates for a
-      weighted centroid ('center of mass') used in translations to the
-      origin and to the centroid of the reference structure.
+    superimposed_coords : arraylike of float
+        The transformed coordinates.
+
+    rotation_matrix : arraylike
+        The rotation matrix from Theobald-QCP that minimized the RMSD
+
+    qcp_rmsd : float
+        The RMSD calculated from Theobald-QCP.
+
+    Warnings
+    --------
+
+    Assumes that the coordinates are both centered.
 
     """
 
@@ -55,34 +69,17 @@ def superimpose(ref_coords, coords,
     else:
         ref_centroid = centroid(ref_coords, weights=weights)
 
-    # if the coordinates are not already centered we must center them
-    if not centered:
-        centered_coords = center(coords, idxs=idxs, weights=weights)
-        centered_ref_coords = center(ref_coords, idxs=idxs, weights=weights)
-    else:
-        centered_coords = coords
-        centered_ref_coords = ref_coords
-
     # perform the theobald_qcp method to get the rotation matrix
-    qcp_rmsd, rotation_matrix = theobald_qcp(centered_ref_coords, centered_coords,
-                                             idxs=idxs,
-                                             rot_mat=True, weights=weights)
+    qcp_rmsd, rotation_matrix = theobald_qcp(ref_coords, coords,
+                                             idxs=idxs, weights=weights)
 
     # rotate coords according to the rotation matrix
-    rot_coords = np.dot(centered_coords, rotation_matrix)
+    rot_coords = np.dot(coords, rotation_matrix)
 
     # translate the rotated coordinates to the reference centroid
     sup_coords = rot_coords + ref_centroid
 
-    # return results based on what was asked for
-    if rot_mat and rmsd:
-        return sup_coords, rotation_matrix, qcp_rmsd
-    elif rot_mat:
-        return sup_coords, rotation_matrix
-    elif rmsd:
-        return sup_coords, qcp_rmsd
-    else:
-        return sup_coords
+    return sup_coords, rotation_matrix, qcp_rmsd
 
 # the following method contains portions of the software mdtraj which
 # is distributed under the following license
@@ -132,18 +129,25 @@ def superimpose(ref_coords, coords,
 
 def alt_superimpose(ref_coords, coords):
     """Returns the translation and rotation mapping mobile onto target.
+
     Parameters
     ----------
+
     mobile : ndarray, shape = (n_atoms, 3)
         xyz coordinates of a `single` frame, to be aligned onto target.
+
     target : ndarray, shape = (n_atoms, 3)
         xyz coordinates of a `single` frame
+
     Returns
     -------
+
     translation : ndarray, shape=(3,)
         Difference between the centroids of the two conformations
+
     rotation : ndarray, shape=(3,3)
         Rotation matrix to apply to mobile to carry out the transformation.
+
     """
 
     # ensure_type(mobile, 'float', 2, 'mobile', warn_on_cast=False, shape=(None, 3))

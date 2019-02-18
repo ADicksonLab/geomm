@@ -5,12 +5,16 @@ def centroid(coords, weights=None):
     correspond to masses the 'center of mass (COM)') of a set of
     coordinates.
 
-    Inputs:
+    Parameters
+    ----------
 
-        coords :: the coordinates to find the centroid of
+    coords : arraylike
+        The coordinates to find the centroid of.
 
-        weights (optional) :: give weights to the coordinates for a
-           weighted centroid ('center of mass')
+    weights : arraylike, optional
+        Optional weights for the coordinates to compute a weighted
+        centroid (center of mass).
+       (Default = None)
 
     """
 

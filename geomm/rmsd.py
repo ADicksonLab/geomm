@@ -1,6 +1,22 @@
 import numpy as np
 
 def calc_rmsd(ref_coords, coords, idxs=None):
+    """Calculate the RMSD between the reference and query coordinates.
+
+    Parameters
+    ----------
+
+    ref_coords : arraylike
+        The refence coordinates that will be aligned to.
+
+    coords : arraylike
+        The coordinates that will be rotated to match ref_coords.
+
+    idxs : arraylike of int
+        Indices of the atoms that you want to align. Rotation will be
+        applied to all coordinates.
+
+    """
 
     # make sure the coords are the same size
     assert len(ref_coords.shape) == len(coords.shape), "rank of coords are not the same"

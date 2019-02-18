@@ -19,15 +19,11 @@ def center(coords, center_point):
        The point to center all other coordinates around. Should have
        one element for each dimension of coords
 
-    TODO Deprecate
-    idxs : arraylike of int, optional
-        the idxs of the coordinates to actually
-        compute the centroid on, although the translation will act on
-        all the coordinates.
+    Returns
+    -------
 
-    weights : arralike of float, optional
-        give weights to the coordinates for a
-        weighted centroid ('center of mass')
+    centered_coords : arraylike
+        Transformed coordinates.
 
     """
 
@@ -37,16 +33,10 @@ def center(coords, center_point):
     assert coords.shape[1] == 3, "coordinates are not of 3 dimensions"
     assert len(center_point) == 3, "center point is not of 3 dimensions"
 
-    # if idxs is None:
-    #     centered_coords = coords - centroid(coords, weights=weights)
-    # else:
-    #     centered_coords = coords - centroid(coords[idxs], weights=weights)
-
     return coords - center_point
 
 def center_around(coords, idxs, weights=None):
-
-        """Center coordinates at the origin based on a center point.
+    """Center coordinates at the origin based on a center point.
 
     If idxs are given the center of mass is computed only from those
     coordinates and if weights are given a weighted center of mass is
@@ -66,13 +56,19 @@ def center_around(coords, idxs, weights=None):
         Give weights to the coordinates for a weighted centroid
         ('center of mass').
 
-        """
+    Returns
+    -------
+
+    centered_coords : arraylike
+        Transformed coordinates.
+
+    """
 
     assert len(coords.shape) == 2, \
         "coordinates should be rank 2 array, "\
         "this function operates on individual frames not trajectories."
     assert coords.shape[1] == 3, "coordinates are not of 3 dimensions"
-    assert len(center_point) == 3, "center point is not of 3 dimensions"
+    assert len(idxs) > 0, "Must provide some idxs to compute a center of."
 
     return center(coords, centroid(coords[idxs], weights=weights))
 
@@ -82,6 +78,28 @@ def apply_rectangular_pbcs(coords, unitcell_side_lengths, center_point=(0., 0., 
     lengths of the unitcell and a center point positions of the box in
     the coordinate space. The default for the center point is (0,0,0)
     which is the case for OpenMM MD frames but not other MD systems.
+
+    Parameters
+    ----------
+
+    coords : arraylike
+        The coordinate array of the particles you will be
+        transforming.
+
+    unitcell_side_lengths : arraylike of shape (3)
+        The lengths of the sides of a rectangular unitcell.
+
+    Returns
+    -------
+
+    wrapped_coords : arraylike
+        Transformed coordinates. All fit within the box.
+
+    Warning
+    -------
+
+    This method does not understand molecular topologies and will
+    "break" bonds when moving molecules through boundaries.
 
     """
 

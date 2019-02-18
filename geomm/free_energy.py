@@ -46,6 +46,12 @@ def free_energy(weights, max_energy=None, zero_point_energy=1.0e-12,
         energy values. If None this is not done.
        (Default = 1.0e-12)
 
+    Returns
+    -------
+
+    free_energies : arraylike
+       The free energy for each weight.
+
     """
 
     # assume the weights are normalized

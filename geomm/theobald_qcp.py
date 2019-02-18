@@ -2,31 +2,38 @@ import numpy as np
 
 from geomm.pyqcprot import CalcRMSDRotationalMatrix
 
-def theobald_qcp(ref_coords, coords, idxs=None, rot_mat=True, weights=None):
+def theobald_qcp(ref_coords, coords, idxs=None, weights=None):
     """Wrapper around the pyqcprot implementation of the Theobald-QCP
     method for the calculation of RMSD and the RMSD minimizing rotation
     matrix. This function just gives a more pythonic API to the
     function
 
-    Arguments:
+    Parameters
+    ----------
 
-    ref_coords :: the refence coordinates that will be aligned to
+    ref_coords : arraylike
+        The refence coordinates that will be aligned to.
 
-    coords :: the coordinates that will be rotated to match ref_coords
+    coords : arraylike
+        The coordinates that will be rotated to match ref_coords.
 
-    rot_mat :: if True will return both the rmsd and the rotation matrix
+    idxs : arraylike of int
+        Indices of the atoms that you want to align. Rotation will be
+        applied to all coordinates.
 
-    weights :: if your coordinates are weighted (e.g. mass) this is an array of those weights
+    weights : arraylike, optional
+        If your coordinates are weighted (e.g. mass) this is an
+        array of those weights
+       (Default = None)
 
-    Returns:
+    Returns
+    -------
 
-    if rot_mat is True:
+    rmsd : float
+        The rmsd of the two sets of coordinates.
 
-       rmsd :: (float) the rmsd of the two sets of coordinates
-
-    if rot_mat is False:
-
-       rmsd, rotation_matrix :: the rotation matrix that minimizes the RMSD
+    rotation_matrix : arraylike
+        The rotation matrix that minimizes the RMSD.
 
     """
 
@@ -67,9 +74,5 @@ def theobald_qcp(ref_coords, coords, idxs=None, rot_mat=True, weights=None):
     rmsd = CalcRMSDRotationalMatrix(align_ref_coords, align_coords,
                                     n_coords, rotation_matrix, weights)
 
-    # if the rotation matrix was asked for return it, otherwise don't
-    if rot_mat:
-        # reshape the rotation matrix to be 2D
-        return rmsd, rotation_matrix.reshape( (3, 3) )
-    else:
-        return rmsd
+    # reshape the rotation matrix to be 2D
+    return rmsd, rotation_matrix.reshape( (3, 3) )
