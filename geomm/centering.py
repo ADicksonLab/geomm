@@ -144,3 +144,45 @@ def apply_rectangular_pbcs(coords, unitcell_side_lengths, center_point=(0., 0., 
                                                  unitcell_side_lengths[dim_idx])
 
     return wrapped_coords
+
+
+def center_complex(coords, complex_idxs):
+    """For a system with periodic boundary conditions move all members of
+    a complex to the same image of the unitcell.
+
+    Parameters
+    ----------
+
+    coords : arraylike
+        The coordinate array of the particles you will be
+        transforming.
+
+    complex_idxs : list of arraylikes of int of rank 1
+        A list where each member represents a member of the complex
+        and is a collection of the indices that define that member.
+
+    Returns
+    -------
+
+    centered_coords : arraylike
+        Transformed coordinates.
+
+    """
+
+    # compute the centroids of each member in the complex
+    member_centroids = []
+    for member_idxs in complex_idxs:
+        centroid = coords[member_idxs].mean(axis=0)
+        member_centroids.append(centroid)
+    member_centroids = np.array(member_centroids)
+
+    # compute the centroid of the centroids
+    complex_centroid = member_centroids.mean(axis=0)
+
+    # center the complex
+    centered_coords = center(coords, complex_centroid)
+
+    return centered_coords
+
+
+
