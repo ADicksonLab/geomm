@@ -13,8 +13,8 @@ def calc_rmsd(ref_coords, coords, idxs=None):
         The coordinates that will be rotated to match ref_coords.
 
     idxs : arraylike of int
-        Indices of the atoms that you want to align. Rotation will be
-        applied to all coordinates.
+        Indices of the atoms in the coords to actually compute the
+        RMSD for.
 
     """
 
