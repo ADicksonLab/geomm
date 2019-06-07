@@ -13,7 +13,8 @@ __pycache__
 *.so
 sphinx/api/
 sphinx/_build/
-/geomm/pyqcprot.c
+src/geomm/pyqcprot.c
 dist/
 build/
 pip-wheel-metadata
+src/*.egg-info/*
