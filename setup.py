@@ -18,6 +18,10 @@ abstract_requirements = [
     'scipy',
 ]
 
+proj_urls = {
+    'Source' : 'https://github.com/ADicksonLab/geomm',
+    'Tracker' : 'https://github.com/ADicksonLab/geomm/issues'
+}
 
 setup(
     name='geomm',
@@ -25,16 +29,17 @@ setup(
     author="Samuel D. Lotz",
     author_email="samuel.lotz@salotz.info",
     description="A simple no-nonsense library for computing common geometry on macromolecular systems.",
-    long_description=open('README.org').read(),
+    #long_description=open('README.org').read(),
     license="MIT",
     url="https://github.com/ADicksonLab/geomm",
     classifiers=[
-        "Development Status :: 3 - Beta",
+        "Development Status :: 4 - Beta",
         "Topic :: Utilities",
         "License :: OSI Approved :: MIT License",
         'Programming Language :: Python :: 3'
     ],
-
+    keywords='geometry chemistry macromolecules protein structural-informatics',
+    project_urls=proj_urls,
     # building/dev
     setup_requires=['pytest-runner', 'numpy', 'cython'],
     tests_require=['pytest', 'tox'],

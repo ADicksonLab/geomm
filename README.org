@@ -124,7 +124,7 @@ bumpversion patch # possible: major / minor / patch
 
 
 Make sure to tag in git (I typically use magit in emacs but the
-command is):
+command is). Bumpversion will do this too.
 
 #+BEGIN_SRC bash
 git tag -a vX.Y.Z -m "release message"
@@ -135,7 +135,10 @@ git push gitlab vX.Y.Z
 
 To deploy to PyPI (if you have access)
 #+BEGIN_SRC bash
-
+conda activate geomm-dev
+rm -rf dist/*
+python setup.py sdist
+twine upload dist/*
 #+END_SRC
 
 
