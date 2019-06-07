@@ -21,7 +21,7 @@ abstract_requirements = [
 
 setup(
     name='geomm',
-    version='0.1.6',
+    version='0.1.7',
     author="Samuel D. Lotz",
     author_email="samuel.lotz@salotz.info",
     description="A simple no-nonsense library for computing common geometry on macromolecular systems.",
