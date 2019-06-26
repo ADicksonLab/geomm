@@ -19,24 +19,15 @@ and functions are usually found in that context.
 Get it from PyPI:
 
 #+BEGIN_SRC bash
-  pip install geomm
+pip install geomm
 #+END_SRC
 
-Or you can get the latest:
+Or you can get the latest directly from git as the PyPI one may be a
+little out of date:
 
 #+BEGIN_SRC bash
-
-git clone https://github.com/ADicksonLab/geomm.git
-cd geomm
-
-# you need cython to compile
-pip install cython
-
-# install it
-pip install -e .
-
+pip install git+https://github.com/ADicksonLab/geomm.git
 #+END_SRC
-
 
 ** Community
 
@@ -51,35 +42,153 @@ samuel.lotz@salotz.info
 
 * Developing
 
-** Building Docs
+** Dev Environment
 
-Install these packages:
+Get the source code:
 
 #+BEGIN_SRC bash
-pip install sphinx guzzle_sphinx_theme sphinxcontrib-napoleon nbsphinx
+git clone https://github.com/ADicksonLab/geomm
+cd geomm
 #+END_SRC
 
-Install pandoc for converting org-mode files to rst (optional).
+Install a virtual environment for it:
+
+#+BEGIN_SRC bash
+  geomm_dev_env_refresh () {
+
+      package='geomm'
+      conda deactivate
+      dev_env="${package}-dev"
+      conda env remove -y -n "$dev_env"
+      conda create -y -n "$dev_env" python=3
+      conda activate "$dev_env"
+
+      # install in editable mode, we need to avoid using pep517 which
+      # doesn't allow editable installs
+      pip install -r requirements_dev.txt 
+      pip install --no-use-pep517 -e .
+
+  }
+#+END_SRC
+
+#+BEGIN_SRC bash
+geomm_dev_env_refresh
+#+END_SRC
+
+** Releasing Package
+
+
+*** Test the installation process
+
+
+Functions for doing this:
+
+#+BEGIN_SRC bash
+  geomm_test_build () {
+      package='geomm'
+      build_env="test-${package}-build"
+      conda deactivate
+      conda env remove -y -n "$build_env"
+      conda create -y -n "$build_env" python=3
+      conda activate "$build_env"
+      pip install -r requirements_dev.txt
+      rm -rf dist/*
+      python setup.py build sdist
+      conda deactivate
+      conda env remove -y -n "$build_env"
+
+  }
+
+  geomm_test_install () {
+
+      package='geomm'
+      conda deactivate
+      install_env="test-${package}-install"
+      conda env remove -y -n "$install_env"
+      conda create -y -n "$install_env" python=3
+      conda activate "$install_env"
+      pip install dist/"$package"-*.tar.gz
+      conda deactivate
+      conda env remove -y -n "$install_env"
+
+  }
+#+END_SRC
+
+*** Update versions
+
+
+Before we build the package we need to bump the version in all those
+places it is written down at, which is achieved with the bumpversion
+tool. First commit all changes before you do this.
+
+#+BEGIN_SRC bash
+bumpversion patch # possible: major / minor / patch
+#+END_SRC
+
+
+Make sure to tag in git (I typically use magit in emacs but the
+command is). Bumpversion will do this too.
+
+#+BEGIN_SRC bash
+git tag -a vX.Y.Z -m "release message"
+git push gitlab vX.Y.Z
+#+END_SRC
+
+*** Deploying
+
+To deploy to PyPI (if you have access)
+#+BEGIN_SRC bash
+conda activate geomm-dev
+rm -rf dist/*
+python setup.py sdist
+twine upload dist/*
+#+END_SRC
+
+
+** Building Docs
+
+Install pandoc for converting org-mode files to rst.
 
 You can follow the instructions on the site or just use anaconda:
 
 #+BEGIN_SRC bash
-conda install pandoc
+conda install -y pandoc
 #+END_SRC
 
 Then run the build script. This uses the make file and additionally
 runs api-doc, and converts org-mode source files to rst using pandoc.
 
 #+BEGIN_SRC bash
-cd sphinx
-chmod u+x build.sh
-./build.sh
+build_docs () {
+    cd sphinx
+    chmod u+x build.sh
+    ./build.sh
+    cd -
+}
 #+END_SRC
 
+#+BEGIN_SRC bash
+build_docs
+#+END_SRC
+
+This will build the HTML files in the 'sphinx/_build/html' directory
+and if you point your web browser there you can view them.
+
+** Deploying Docs
 
 To run the current deployments of the docs run the deploy script:
 
 #+BEGIN_SRC bash
-chmod u+x deploy.sh
-./deploy.sh
+deploy_docs () {
+    cd sphinx
+    chmod u+x deploy.sh
+    ./deploy.sh
+    cd -
+}
 #+END_SRC
+
+#+BEGIN_SRC bash
+deploy_docs
+#+END_SRC
+
+Currently this only is pushing to the server in our lab.
