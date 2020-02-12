@@ -1,0 +1,28 @@
+
+* Installation
+
+To install from pip (which may be out of date):
+
+#+BEGIN_SRC bash
+  pip install geomm[all]
+#+END_SRC
+
+There are some optional features you can install as well using the
+"extras" spec in pip. Currently, these are:
+
+- all :: installs all extras
+
+Check the setup.py file under 'extras_requirements' for the full listing.
+
+You can always install from git as well for the latest:
+
+#+BEGIN_SRC bash
+pip install git+https://github.com/ADicksonLab/geomm
+#+END_SRC
+
+
+If installation went alright this command should succeed:
+
+#+BEGIN_SRC bash
+  python -c "import geomm"
+#+END_SRC

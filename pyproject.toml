@@ -1,22 +1,3 @@
 [build-system]
-requires = ['setuptools', 'wheel', 'Cython', 'numpy']
+requires = ['setuptools', 'wheel', 'pytest-runner', 'Cython', 'numpy']
 
-[tool.poetry]
-name = "geomm"
-version = "0.1.7"
-description = "Simple and stupid library for strictly geometric (geom) operations (zero-knowledge of topology) common to computational biology and chemistry macromolecules (mm)."
-authors = ["Samuel Lotz <samuel.lotz@salotz.info>"]
-license = "MIT"
-build = "build.py"
-readme = "README.org"
-include = ["CHANGELOG.org", "build.py", "LICENSE"]
-
-[tool.poetry.dependencies]
-python = "3.6"
-numpy = "^1.15"
-Cython = "^0.28.5"
-scipy = "^1.1"
-
-[tool.poetry.dev-dependencies]
-ipython = "^7.0"
-ipdb = "^0.11.0"

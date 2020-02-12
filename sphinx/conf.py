@@ -14,17 +14,17 @@
 #
 import os
 import sys
-sys.path.insert(0, os.path.abspath('.'))
-
+sys.path.insert(0, os.path.abspath('..'))
 
 # -- Project information -----------------------------------------------------
 
 project = 'geomm'
-copyright = '2019, Samuel D. Lotz'
+copyright = '2020, Samuel D. Lotz'
 author = 'Samuel D. Lotz'
 
 # The short X.Y version
-version = '0.1.7'
+# TODO: fix this by string manipulation
+version = '0.0.0'
 # The full version, including alpha/beta/rc tags
 release = '0.1.7'
 
@@ -48,7 +48,7 @@ extensions = [
     'sphinx.ext.ifconfig',
     'sphinx.ext.viewcode',
     'sphinx.ext.napoleon',
-    'nbsphinx'
+    'nbsphinx',
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -84,14 +84,19 @@ pygments_style = None
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
 #
-#html_theme = 'alabaster'
+# html_theme = "alabaster"
 
-# Theme options are theme-specific and customize the look and feel of a theme
-# further.  For a list of options available for each theme, see the
-# documentation.
-#
-# html_theme_options = {}
+# Extra themes custom configs
 
+# read the docs
+#html_theme = 'sphinx_rtd_theme'
+
+# bootstrap
+# import sphinx_bootstrap_theme
+# html_theme = 'bootstrap'
+# html_theme_path = sphinx_bootstrap_theme.get_html_theme_path()
+
+# guzzle
 import guzzle_sphinx_theme
 
 html_theme_path = guzzle_sphinx_theme.html_theme_path()
@@ -103,9 +108,14 @@ extensions.append("guzzle_sphinx_theme")
 # Guzzle theme options (see theme.conf for more information)
 html_theme_options = {
     # Set the name of the project to appear in the sidebar
-    "project_nav_name": "Wepy",
+    "project_nav_name": "geomm",
 }
 
+# Theme options are theme-specific and customize the look and feel of a theme
+# further.  For a list of options available for each theme, see the
+# documentation.
+#
+# html_theme_options = {}
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
@@ -175,7 +185,7 @@ man_pages = [
 #  dir menu entry, description, category)
 texinfo_documents = [
     (master_doc, 'geomm', 'geomm Documentation',
-     author, 'geomm', 'One line description of project.',
+     author, 'geomm', 'A simple no-nonsense library for computing common geometry on macromolecular systems.',
      'Miscellaneous'),
 ]
 
@@ -200,6 +210,14 @@ epub_exclude_files = ['search.html']
 
 # -- Extension configuration -------------------------------------------------
 
+# autodoc options
+autoclass_content = 'both'
+autodoc_default_options = {'members' : True,
+                           'member-order' :  'bysource',
+                           'undoc-members' : True,
+                           'show-inheritance' : True,
+                           'inherited-members': True}
+
 # -- Options for intersphinx extension ---------------------------------------
 
 # Example configuration for intersphinx: refer to the Python standard library.
@@ -209,3 +227,5 @@ intersphinx_mapping = {'https://docs.python.org/': None}
 
 # If true, `todo` and `todoList` produce output, else they produce nothing.
 todo_include_todos = True
+
+

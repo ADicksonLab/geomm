@@ -1,4 +1,0 @@
-* TODO recentering and image molecules
-* TODO superpose function
-* TODO rmsd function
-* TODO distance through periodic boundary conditions

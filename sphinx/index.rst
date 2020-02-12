@@ -1,15 +1,25 @@
-.. geomm documentation master file, created by
-   sphinx-quickstart on Wed Feb  6 14:22:30 2019.
+.. created by sphinx-quickstart
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to geomm's documentation!
-=================================
+Wumpus: An excellent Python package of fine taste
+====================================================
 
 .. toctree::
-   :maxdepth: 2
-   :caption: Contents:
+   :maxdepth: 1
 
+   source/introduction
+   source/installation
+   source/quick_start
+
+   source/users_guide
+   tutorials/index
+   source/api                    
+   source/troubleshooting
+
+   source/dev_guide
+   source/glossary
+   api/modules   
 
 
 Indices and tables

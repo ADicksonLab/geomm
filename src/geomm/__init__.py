@@ -1,1 +1,8 @@
-__version__ = '0.1.7'
+# -*- coding: utf-8 -*-
+
+"""Top-level package."""
+
+from ._version import __version__
+
+__author__ = "Samuel D. Lotz"
+__email__ = 'samuel.lotz@salotz.info'

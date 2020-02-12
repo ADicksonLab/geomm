@@ -4,24 +4,41 @@
 from __future__ import absolute_import
 from __future__ import print_function
 
-from setuptools import setup, find_packages
-from Cython.Build import cythonize
+import io
+import re
+from glob import glob
+from os.path import basename
+from os.path import dirname
+from os.path import join
+from os.path import splitext
 
-import numpy as np
+from setuptools import setup, find_packages
 
 import itertools as it
 
-# setuptools only specifies abstract requirements. For the concrete
-# requirements i.e. index or repo URL see requirements.txt
-abstract_requirements = [
+# package specific imports
+from Cython.Build import cythonize
+import numpy as np
+
+# the basic needed requirements for a package
+base_requirements = [
     'numpy',
     'scipy',
 ]
 
-proj_urls = {
-    'Source' : 'https://github.com/ADicksonLab/geomm',
-    'Tracker' : 'https://github.com/ADicksonLab/geomm/issues'
-}
+# extras requirements list
+
+# SNIPPET: example extra requirement
+# example_extra_requirements = ['requests']
+# extras = [example_extra_requirements,]
+
+# Add your extra requirements lists here:
+extras = [
+]
+
+# combination of all the extras requirements
+_all_requirements = [[base_requirements]] + extras
+all_requirements = it.chain.from_iterable(_all_requirements)
 
 setup(
     name='geomm',
@@ -33,28 +50,47 @@ setup(
     license="MIT",
     url="https://github.com/ADicksonLab/geomm",
     classifiers=[
-        "Development Status :: 4 - Beta",
         "Topic :: Utilities",
         "License :: OSI Approved :: MIT License",
         'Programming Language :: Python :: 3'
     ],
+
     keywords='geometry chemistry macromolecules protein structural-informatics',
-    project_urls=proj_urls,
     # building/dev
-    setup_requires=['pytest-runner', 'numpy', 'cython'],
+    setup_requires=[
+        'pytest-runner',
+        'numpy',
+        'cython',
+    ],
     tests_require=['pytest', 'tox'],
-    install_requires=abstract_requirements,
+
     include_dirs=[np.get_include()],
     ext_modules = cythonize("src/geomm/pyqcprot.pyx"),
 
+
     # package
-    packages=find_packages('src'),
+    packages=find_packages(where='src'),
 
     package_dir={'' : 'src'},
 
     # if this is true then the package_data won't be included in the
-    # dist, and I prefer this to MANIFEST
-    include_package_data=False,
+    # dist. Use MANIFEST.in for this
+    include_package_data=True,
 
+    # pymodules is for single file standalone modules not part of the
+    # package
+    py_modules=[splitext(basename(path))[0] for path in glob('src/*.py')],
 
+    install_requires=base_requirements,
+
+    # SNIPPET: example of using extra requirements
+    # extras_require={
+    #     'extras' : example_extra_requirements
+    #     'all' : all_requirements,
+    # }
+
+    # include your extra requirement sets here
+    extras_require={
+        'all' : all_requirements,
+    }
 )
