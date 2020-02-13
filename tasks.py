@@ -617,9 +617,9 @@ def publish_test_pypi(cx, version=None):
 @task(pre=[clean_dist, update_tools, build])
 def publish_test(cx):
 
-    from geomm import __version__ as proj_version
+    from geomm import __version__ as version
 
-    publish_test_pypi(cx)
+    publish_test_pypi(cx, version=version)
 
 # PyPI
 

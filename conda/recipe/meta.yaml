@@ -1,9 +1,9 @@
 package:
   name: geomm
-  version: 0.1.7
+  version: 0.2.0
 
 source:
-  fn: geomm-0.1.7.tar.gz
+  fn: geomm-0.2.0.tar.gz
   url: htt/{{ version }}/{{ name }}-{{ version }}.tar.gz
   # TODO: way to specify a hole or 
   sha256:
@@ -11,8 +11,6 @@ source:
 build:
   number: 0
   script: "{{ PYTHON }} -m pip install . -vv"
-  entry_points:
-    - geomm = geomm.cli:cli
 
 requirements:
   build:
