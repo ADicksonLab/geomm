@@ -8,11 +8,11 @@ To install from pip (which may be out of date):
 #+END_SRC
 
 There are some optional features you can install as well using the
-"extras" spec in pip. Currently, these are:
+extras spec in pip. Currently, these are:
 
 - all :: installs all extras
 
-Check the setup.py file under 'extras_requirements' for the full listing.
+Check the setup.py file under ~extras_requirements~ for the full listing.
 
 You can always install from git as well for the latest:
 

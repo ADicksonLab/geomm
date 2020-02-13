@@ -1,3 +1,3 @@
-* Common Troubleshooting
+* Troubleshooting
 
-* FAQ
+** FAQ

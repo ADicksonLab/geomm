@@ -237,9 +237,9 @@ ORG_DOCS_SOURCES = [
     'introduction',
     'news',
     'quick_start',
-    'README',
     'troubleshooting',
     'users_guide',
+    'reference',
 ]
 
 RST_DOCS_SOURCES = [
@@ -273,10 +273,6 @@ def docs_build(cx):
         # name it the same
         target = source
 
-        # NOTE: special case for the README since it will become the index
-        if source == "README":
-            target = 'index'
-
         cx.run("pandoc "
                "-f org "
                "-t rst "
@@ -294,7 +290,7 @@ def docs_build(cx):
             cx.run("pandoc "
                    "-f org "
                    "-t rst "
-                   f"-o sphinx/source/{source}.rst "
+                   f"-o sphinx/source/tutorials/{source}.rst "
                    f"info/tutorials/{source}.org")
 
         # otherwise just move it
@@ -303,7 +299,7 @@ def docs_build(cx):
             # quick check for other kinds of supported files
             assert source.suffix in ['.ipynb', '.rst',]
 
-            cx.run(f"cp info/tutorials/{source} sphinx/source/{source}")
+            cx.run(f"cp info/tutorials/{source} sphinx/source/tutorials/{source}")
 
     # run the build steps for sphinx
     with cx.cd('sphinx'):

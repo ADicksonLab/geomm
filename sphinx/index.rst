@@ -2,7 +2,7 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Wumpus: An excellent Python package of fine taste
+Geomm: Macromolecular computation routines with numpy and scipy
 ====================================================
 
 .. toctree::
@@ -13,14 +13,17 @@ Wumpus: An excellent Python package of fine taste
    source/quick_start
 
    source/users_guide
-   tutorials/index
-   source/api                    
+   source/tutorials/index
+   source/reference
    source/troubleshooting
-
-   source/dev_guide
    source/glossary
-   api/modules   
 
+   source/general_info              
+   source/dev_guide
+   source/changelog
+   source/news
+
+   api/modules              
 
 Indices and tables
 ==================
