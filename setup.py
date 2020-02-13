@@ -24,6 +24,7 @@ import numpy as np
 base_requirements = [
     'numpy',
     'scipy',
+    'pint',
 ]
 
 # extras requirements list

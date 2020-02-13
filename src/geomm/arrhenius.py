@@ -1,7 +1,8 @@
 import numpy as np
 
-import simtk.unit as unit
+import pint
 
+unit = pint.UnitRegistry()
 
 BOLTZMANN_CONSTANT = 1.3806504e-23 * (unit.joule / unit.kelvin)
 PLANCK_CONSTANT = 6.626070e-34 * (unit.joule * unit.second)
