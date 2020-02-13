@@ -4,6 +4,14 @@
 # the directory all the virtual environments will be stored
 _venv
 
+# Sphinx documentation
+sphinx/_build
+sphinx/source
+sphinx/api
+
+# cython artifacts
+src/geomm/pyqcprot.c
+
 
 # Created by https://www.gitignore.io/api/python
 # Edit at https://www.gitignore.io/?templates=python
@@ -68,8 +76,6 @@ coverage.xml
 # Scrapy stuff:
 .scrapy
 
-# Sphinx documentation
-docs/_build/
 
 # PyBuilder
 target/
