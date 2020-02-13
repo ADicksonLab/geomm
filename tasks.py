@@ -584,7 +584,7 @@ def conda_build(cx):
 
     cx.run("conda-build conda-recipe")
 
-@task(pre=[build_sdist, build_bdist,])
+@task(pre=[build_sdist,])
 def build(cx):
     """Build all the python distributions supported."""
     pass
@@ -623,7 +623,7 @@ def publish_test(cx):
 
 # PyPI
 
-PYPI_INDEX_URL = "https://pypi.org//"
+PYPI_INDEX_URL = "https://pypi.org/"
 
 @task(pre=[clean_dist, build])
 def publish_pypi(cx, version=None):
@@ -631,7 +631,6 @@ def publish_pypi(cx, version=None):
     assert version is not None
 
     cx.run(f"twine upload "
-           f"--repository-url {PYPI_INDEX_URL} "
            f"dist/*")
 
 
