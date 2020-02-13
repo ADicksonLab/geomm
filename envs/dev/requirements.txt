@@ -62,6 +62,7 @@ parso==0.6.1              # via jedi
 pdbpp==0.10.2
 pexpect==4.8.0            # via ipython
 pickleshare==0.7.5        # via ipython
+pint==0.10.1
 pip-tools==4.4.1
 pipdeptree==0.13.2
 pkginfo==1.5.0.1          # via twine
