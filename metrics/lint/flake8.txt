@@ -1,0 +1,75 @@
+src/geomm/rmsd.py:3:1: E302 expected 2 blank lines, found 1
+src/geomm/rmsd.py:22:80: E501 line too long (88 > 79 characters)
+src/geomm/rmsd.py:34:5: E303 too many blank lines (2)
+src/geomm/rmsd.py:35:34: E231 missing whitespace after ','
+src/geomm/rmsd.py:38:1: W391 blank line at end of file
+src/geomm/kinetic_energy.py:7:1: E302 expected 2 blank lines, found 1
+src/geomm/kinetic_energy.py:9:80: E501 line too long (81 > 79 characters)
+src/geomm/kinetic_energy.py:11:1: E302 expected 2 blank lines, found 1
+src/geomm/kinetic_energy.py:13:80: E501 line too long (80 > 79 characters)
+src/geomm/centering.py:5:1: E302 expected 2 blank lines, found 1
+src/geomm/centering.py:38:1: E302 expected 2 blank lines, found 1
+src/geomm/centering.py:76:80: E501 line too long (86 > 79 characters)
+src/geomm/centering.py:112:80: E501 line too long (90 > 79 characters)
+src/geomm/centering.py:132:50: E127 continuation line over-indented for visual indent
+src/geomm/centering.py:132:80: E501 line too long (80 > 79 characters)
+src/geomm/centering.py:144:50: E127 continuation line over-indented for visual indent
+src/geomm/centering.py:144:80: E501 line too long (80 > 79 characters)
+src/geomm/centering.py:188:1: W391 blank line at end of file
+src/geomm/distance.py:1:1: F401 'numpy as np' imported but unused
+src/geomm/distance.py:2:1: F401 'scipy.spatial.distance as dist' imported but unused
+src/geomm/distance.py:4:1: E302 expected 2 blank lines, found 1
+src/geomm/centroid.py:3:1: E302 expected 2 blank lines, found 1
+src/geomm/_version.py:2:80: E501 line too long (84 > 79 characters)
+src/geomm/_version.py:20:80: E501 line too long (114 > 79 characters)
+src/geomm/__init__.py:5:1: F401 '._version.__version__' imported but unused
+src/geomm/superimpose.py:4:1: F401 'geomm.centering.center' imported but unused
+src/geomm/superimpose.py:7:1: E302 expected 2 blank lines, found 1
+src/geomm/superimpose.py:118:1: E302 expected 2 blank lines, found 1
+src/geomm/superimpose.py:141:80: E501 line too long (84 > 79 characters)
+src/geomm/superimpose.py:142:80: E501 line too long (95 > 79 characters)
+src/geomm/sasa.py:64:80: E501 line too long (80 > 79 characters)
+src/geomm/sasa.py:65:80: E501 line too long (80 > 79 characters)
+src/geomm/sasa.py:66:80: E501 line too long (80 > 79 characters)
+src/geomm/sasa.py:69:80: E501 line too long (119 > 79 characters)
+src/geomm/sasa.py:70:80: E501 line too long (82 > 79 characters)
+src/geomm/sasa.py:72:80: E501 line too long (80 > 79 characters)
+src/geomm/free_energy.py:3:1: E302 expected 2 blank lines, found 1
+src/geomm/box_vectors.py:5:1: E302 expected 2 blank lines, found 1
+src/geomm/box_vectors.py:17:73: E225 missing whitespace around operator
+src/geomm/box_vectors.py:18:80: E501 line too long (101 > 79 characters)
+src/geomm/box_vectors.py:19:24: E128 continuation line under-indented for visual indent
+src/geomm/box_vectors.py:19:39: E231 missing whitespace after ','
+src/geomm/box_vectors.py:19:46: E231 missing whitespace after ','
+src/geomm/box_vectors.py:19:53: E231 missing whitespace after ','
+src/geomm/box_vectors.py:82:80: E501 line too long (86 > 79 characters)
+src/geomm/box_vectors.py:83:80: E501 line too long (99 > 79 characters)
+src/geomm/box_vectors.py:90:80: E501 line too long (91 > 79 characters)
+src/geomm/box_vectors.py:94:21: E231 missing whitespace after ','
+src/geomm/box_vectors.py:94:24: E231 missing whitespace after ','
+src/geomm/box_vectors.py:102:23: E225 missing whitespace around operator
+src/geomm/box_vectors.py:102:31: E225 missing whitespace around operator
+src/geomm/box_vectors.py:103:23: E225 missing whitespace around operator
+src/geomm/box_vectors.py:103:31: E225 missing whitespace around operator
+src/geomm/box_vectors.py:104:23: E225 missing whitespace around operator
+src/geomm/box_vectors.py:104:31: E225 missing whitespace around operator
+src/geomm/arrhenius.py:12:1: E302 expected 2 blank lines, found 1
+src/geomm/arrhenius.py:14:80: E501 line too long (82 > 79 characters)
+src/geomm/arrhenius.py:19:1: E302 expected 2 blank lines, found 1
+src/geomm/arrhenius.py:23:80: E501 line too long (85 > 79 characters)
+src/geomm/arrhenius.py:29:1: E302 expected 2 blank lines, found 1
+src/geomm/arrhenius.py:33:80: E501 line too long (84 > 79 characters)
+src/geomm/grouping.py:3:1: F401 'geomm.centering.center' imported but unused
+src/geomm/grouping.py:5:1: E302 expected 2 blank lines, found 1
+src/geomm/grouping.py:20:1: E302 expected 2 blank lines, found 1
+src/geomm/grouping.py:94:49: E128 continuation line under-indented for visual indent
+src/geomm/grouping.py:102:80: E501 line too long (81 > 79 characters)
+src/geomm/grouping.py:105:5: E303 too many blank lines (2)
+src/geomm/grouping.py:106:1: W391 blank line at end of file
+src/geomm/theobald_qcp.py:5:1: E302 expected 2 blank lines, found 1
+src/geomm/theobald_qcp.py:78:42: E201 whitespace after '('
+src/geomm/theobald_qcp.py:78:49: E202 whitespace before ')'
+src/geomm/elements/data.py:51:80: E501 line too long (128 > 79 characters)
+src/geomm/elements/data.py:52:80: E501 line too long (146 > 79 characters)
+src/geomm/elements/data.py:61:80: E501 line too long (208 > 79 characters)
+src/geomm/elements/data.py:187:1: W391 blank line at end of file
