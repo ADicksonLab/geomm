@@ -1,5 +1,7 @@
 * geomm
 
+Current [[https://zenodo.org/badge/latestdoi/125404701][Zenodo DOI]].
+
 # badges
 
 #+begin_export html
