@@ -1,7 +1,11 @@
 * geomm
 
 # badges
+
+#+begin_export html
 <a href="https://zenodo.org/badge/latestdoi/125404701"><img src="https://zenodo.org/badge/125404701.svg" alt="DOI"></a>
+#+end_export
+
 # end badges
 
 A simple no-nonsense library for computing common geometry on
