@@ -1,6 +1,5 @@
 * geomm
 
-Current [[https://zenodo.org/badge/latestdoi/125404701][Zenodo DOI]].
 
 # badges
 
@@ -41,3 +40,8 @@ in HTML rendered with Sphinx.
 ** Developing
 
 See the [[file:sphinx/source/dev_guide.org][Developers Guide]] for developing.
+
+
+** Other Info
+
+Current [[https://zenodo.org/badge/latestdoi/125404701][Zenodo DOI]].
