@@ -1,0 +1,31 @@
+{
+    "description": "Simple and stupid library for strictly geometric operations (zero-knowledge of topology) common to computational biology and chemistry.",
+    "license": "MIT",
+    "title": "ADicksonLab/geomm: Testing release infrastructure.",
+    "version": "v0.2.0.dev0",
+    "upload_type": "software",
+    "publication_date": "2020-02-17",
+    "creators": [
+        {
+            "affiliation": "Michigan State University",
+            "name": "Samuel D. Lotz"
+        },
+        {
+            "affiliation": "Michigan State University",
+            "name": "Alex Dickson"
+        }
+    ],
+    "access_right": "open",
+    "related_identifiers": [
+        {
+            "scheme": "url",
+            "identifier": "https://github.com/ADicksonLab/geomm/tree/v0.2.0.dev0",
+            "relation": "isSupplementTo"
+        },
+        {
+            "scheme": "doi",
+            "identifier": "10.5281/zenodo.3670919",
+            "relation": "isVersionOf"
+        }
+    ]
+}

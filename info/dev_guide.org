@@ -246,6 +246,7 @@ The target locations for changing versions are in the following files:
 - [ ] ~setup.py~
 - [ ] ~src/geomm/__init__.py~
 - [ ] ~sphinx/config.py~
+- [ ] ~.zenodo.json~
 - [ ] ~conda/conda-forge/meta.yaml~
 
 # IDEA: would like to have this done automatically with some
@@ -307,6 +308,14 @@ package to PyPI and the VCS hosts with the real publish target:
 #+begin_src bash
 inv publish
 #+end_src
+
+After this you may publish to any of the following: github, gitlab,
+and/or zenodo.org (which provides a persistent DOI and stores the
+project).
+
+For Zenodo and Github just make a release for an existing release tag
+using the github web interface. If Zenodo is linked to your github
+repo it will automatically recognize it and create the DOI for it.
 
 
 ** Initializing this repository

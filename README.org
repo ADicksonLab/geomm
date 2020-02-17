@@ -1,5 +1,9 @@
 * geomm
 
+# badges
+<a href="https://zenodo.org/badge/latestdoi/125404701"><img src="https://zenodo.org/badge/125404701.svg" alt="DOI"></a>
+# end badges
+
 A simple no-nonsense library for computing common geometry on
 macromolecular systems.
 
