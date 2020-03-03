@@ -236,14 +236,11 @@ ORG_DOCS_SOURCES = [
     'installation',
     'introduction',
     'news',
-    'quick_start',
-    'troubleshooting',
-    'users_guide',
-    'reference',
+
 ]
 
 RST_DOCS_SOURCES = [
-    'glossary',
+    'reference',
     'tutorials/index',
 ]
 

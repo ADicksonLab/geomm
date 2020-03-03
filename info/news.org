@@ -1,4 +1,39 @@
 
 * News and Updates
 
+** Version 0.2, documentation, and website [2020-03-03]
+
+Thus far ~geomm~ has really been an internal project used in the
+Dickson lab for sharing tricky pieces of code related to managing
+periodic boundary conditions and superimposing molecules. These use
+cases are deceptively not-simple and handled in a very sloppy manner
+by all the other packages available.
+
+While not a particularly exciting release we were motivated to make
+something official to support some domain specific computations in
+doing simulations for ligand-unbinding simulations using ~wepy~ and
+the upcoming paper describing it.
+
+At this point ~geomm~ is lacking a lot of discrete features, but we
+wanted to publish this and get the idea out there so that others can
+hopefully design better libraries (and potentially collaborate on this
+one). See the /Motivations/ section of the /Introduction/ page for a
+longer statement of these design ideas.
+
+One common question people new to the ~geomm~ and ~wepy~ way of
+dealing with molecular data is how to actually get data for it. This
+comes from a common pattern in the field of always having a reader for
+such and such file formats (usually a PDB file). Our goal is to let
+PDB (or otherwise) be PDB readers and let us focus on the
+computation. As this is pretty foreign to those used to walled gardens
+and not accustomed to open data formats we have provided some
+extensive @@rst::any:`examples<examples/format_conversion>`@@ of converting 
+a PDB file to a variety of other data formats using common Python ecosystem libraries
+like ~pandas~.  These examples are using ~mdtraj~ but could easily
+apply to any other package you are using.
+
+~salotz
+
+
+
 

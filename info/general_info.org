@@ -3,8 +3,18 @@
 
 ** Bugs, issues, and feature requests
 
+Use the issue tracker on [[https://github.com/ADicksonLab/geomm][Github]]
+
 ** Builds, Distributions, and Packages
 
-** Contacting other users
+~geomm~ is very easy to build yourself. See the developers instructions to do so. 
 
-** Contacting the developers
+You can also install from the source package on PyPI.
+
+** Contacting the developers & other users
+
+~geomm~ was started by Samuel Lotz in Alex Dickson's group at Michigan
+State University, and is maintained there. You can email any
+member of the lab from the website: https://www.egr.msu.edu/~alexrd/.
+
+Otherwise just use the issue tracker.

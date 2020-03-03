@@ -10,13 +10,8 @@ Geomm: Macromolecular computation routines with numpy and scipy
 
    source/introduction
    source/installation
-   source/quick_start
 
-   source/users_guide
-   source/tutorials/index
    source/reference
-   source/troubleshooting
-   source/glossary
 
    source/general_info              
    source/dev_guide

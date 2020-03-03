@@ -25,17 +25,11 @@ algorithms.
 
 ** Getting Started
 
-Once you have the package installed
-@@rst::any:`installed <installation>`@@ you can
-check out the @@rst::any:`quickstart <quick_start>`@@ to get a rough
-idea of how it works.
+Once you have the package @@rst::any:`installed <installation>`@@ you
+can go straight to the @@rst::any:`API Overview <reference>`@@ or the
+@@rst::any:`Full API documentation <../api/modules>`@@.
 
-Then you can either read the @@rst::any:`user's guide <users_guide>`@@
-or head on to the @@rst::any:`tutorials <../tutorials>`@@ or execute the
-[[file:../../examples][examples]] in the source code.
-
-For a complete description of the modules and their components check
-out the @@rst::any:`API documentation <../api/modules>`@@.
+There are also a few example to get you started in the ~info/examples~ directory.
 
 
 ** Motivation & Alternatives

@@ -3,7 +3,6 @@
 
 ** Getting Started
 
-- [[file:./quick_start.org][Quick Start]] :: Get up and running as quickly as possible.
 - [[file:./introduction.org][Introduction]] :: Background and motivation on the problem this
   software solves and the approach it takes to solving it.
 - [[file:./installation.org][Installation]] :: Detailed instructions on how to install.
@@ -11,12 +10,7 @@
 ** Software Documentation
 
 - [[file:./tutorials/README.org][Tutorials]] & [[file:./examples/README.org][Examples]] :: *Learning-oriented* examples for newcomers.
-- [[file:./users_guide.org][User's Guide]] :: *Understanding-Oriented* explanation of how to use
-  and learn this software.
-- [[file:./howtos.org][How-Tos]] :: *Goal-Oriented* solutions to specific problems.
 - [[file:./reference.org][Reference]] :: *Information-oriented* 
-- [[file:./troubleshooting.org][Troubleshooting]] :: Frequently Asked Questions (FAQ) and common
-  troubleshooting strategies.
 
 ** Project & Developer Information
 

@@ -7,23 +7,26 @@ Adheres to [[https://github.com/salotz/rfcs/blob/master/rfcs/salotz.002_semantic
 
 See the git commit log history for full details.
 
-** Unreleased
+** Unreleased [0.2]
+
+This is still an alpha version so do not rely on the API as it
+contains many stubs and will probably change. We are releasing it so
+that there is a clear declaration of dependencies on some other
+projects that are being released with support for ~geomm~.
 
 *** Breakages
+
+- Extensive changes to APIs concerning centering and periodic boundary conditions
 
 *** Regressions
 
 *** Growth
 
+- Started proper documentation and website
+- addition of simple calculations for kinetic energy of frames given velocities
+- Arrhenius equation calculation functions (not geometry based I know...)
 
-** [0.1.7] - 2020-02-12
+** [0.1.7] - 2019-06-07
 
-*** Breakages
-
-*** Regressions
-
-*** Growth
-
-
-
-
+Before this time is considered pre-history. ~geomm~ is still in alpha
+and so we do not document the changes in detail at this point.
