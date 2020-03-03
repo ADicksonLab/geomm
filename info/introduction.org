@@ -400,3 +400,6 @@ analysis between different structures.
 Thats it! It really isn't hard once you take a step back and look at
 the wreckage thats been continuously piled on for the last few
 decades. Its just data, ours isn't really that special.
+
+I even wrote an [[file:./examples/convert_pdb.py][example]] that does all of this starting from, an
+admittedly well-behaved, PDB starting at mdtraj.

@@ -1,0 +1,5 @@
+mdtraj
+wepy>=1.0.0
+pandas
+tables
+openpyxl
