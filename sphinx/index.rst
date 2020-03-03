@@ -3,7 +3,7 @@
    contain the root `toctree` directive.
 
 Geomm: Macromolecular computation routines with numpy and scipy
-====================================================
+===============================================================
 
 .. toctree::
    :maxdepth: 1
