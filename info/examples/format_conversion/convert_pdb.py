@@ -88,4 +88,4 @@ with pd.ExcelWriter('outputs/lysozyme_pxylene.top.xlsx', mode='r+') as writer:
 # separately, in binary format
 coords = traj.xyz
 
-np.savez('lysozyme_pxylene_reference.npz', coords)
+np.savez('outputs/lysozyme_pxylene_reference.npz', coords)
