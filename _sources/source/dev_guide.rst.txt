@@ -1,0 +1,319 @@
+Development Guide
+=================
+
+Getting Set Up
+--------------
+
+Obtaining the source code
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+For the source code:
+
+.. code:: bash
+
+   git clone https://github.com/ADicksonLab/geomm
+   cd geomm
+
+Tooling
+~~~~~~~
+
+To make things easier for developers we provide a set automation scripts
+implemented in ``invoke`` (similar to a makefile if you are familiar
+with that).
+
+So you will want to install invoke somehow to use this tooling. So make
+sure you are in a suitable python environment (i.e. not the systems
+python) and install the tools in the ``tools.requirements.txt`` file.
+
+.. code:: bash
+
+   pip install -r tools.requirements.txt
+
+Virtual Environments
+~~~~~~~~~~~~~~~~~~~~
+
+This is for managing environments which are just for the purpose of
+developing this project, and not necessarily just for running it (as a
+user). See *Managing Dependencies* for details on managing dependencies
+of the installable project.
+
+We also require a few shell environmental variables which are exported
+in the ``env.bash`` file. Go ahead and source this before doing anything
+else:
+
+.. code:: bash
+
+   source env.bash
+
+To create an env called ``geomm.dev`` just run the ``env`` target from
+``invoke``:
+
+.. code:: bash
+
+   inv env
+
+Then follow the activation instructions that are printed as different
+projects might use different backends.
+
+If you ever have problems with an environment just rerun this to get a
+clean one. A practice we encourage to do frequently so that developers
+don't diverge in their envs with local modifications. So while you can
+make your env, try to use this one unless you have problems.
+
+We maintain a number of preconfigured environments in the ``envs``
+directory which are used for different purposes. Calling ``inv env -n
+dev`` is the same as ``inv dev`` since it is the default, but any other
+environment can be created by passing the matching name. For instance
+there is an environment that mimics the user's installation environment
+so that we can test experiences upon install, to make sure we haven't
+accidentally depended on something in the dev env. For instance:
+
+.. code:: bash
+
+   inv env -n base
+
+If you want to make another environment it is straightforward to copy
+the examples in the ``envs`` dir.
+
+Maintenance Tasks
+-----------------
+
+Managing Dependencies
+~~~~~~~~~~~~~~~~~~~~~
+
+Reminder that there are two separate goals of managing dependencies and
+where they are managed:
+
+Python Libraries
+   These dependencies are managed in ``setup.py`` and in PyPI or other
+   indices.
+Python Applications/Deployments
+   These are dependencies managed in
+   ``requirements.in~/~requirements.txt`` and used for developer
+   environments and deployment environments.
+
+So for the library aspect we use abstract requirements. These should
+essentially be the same as ``requirements.in``.
+
+For the deployment side of things we use ``requirements.txt``. Don't
+manually edit this. We use ``pip-tools`` to "compile" dependencies for
+this.
+
+To initially pin an environment or when you add requirements run this
+target:
+
+.. code:: bash
+
+   inv deps-pin
+
+To update it (should be accompanied by a reason why):
+
+.. code:: bash
+
+   inv deps-pin-update
+
+Documentation and Website
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+#. Editing and Building Docs
+
+   To compile and build the docs just run:
+
+   .. code:: bash
+
+      inv docs-build
+
+   Which will output them to a temporary build directory
+   ':sub:`build`/html'.
+
+   You can clean this build with:
+
+   .. code:: bash
+
+      inv clean-docs
+
+   To view how the docs would look as a website you can point your
+   browser at the ``_build/html`` folder or run a python http web server
+   with this target:
+
+   .. code:: bash
+
+      inv docs-serve
+
+#. 
+
+#. 
+
+Testing
+~~~~~~~
+
+Code Quality Metrics
+~~~~~~~~~~~~~~~~~~~~
+
+Just run the end target:
+
+.. code:: bash
+
+   inv quality
+
+This will write files to ``metrics``.
+
+Releases
+~~~~~~~~
+
+#. Choosing a version number
+
+   #. Primordial Epoch
+
+      In the pre-covenant releases (think "1.0" release) we just release
+      based on the date. So just make the date string and add any
+      release candidate, dev, or postrelease additions.
+
+   #. Covenental Epoch
+
+      After the primordial epoch we have a more semantic meaning behind
+      version numbers.
+
+      Following PEP 440 epochs these should all be prefixed by '1!' for
+      the second epoch.
+
+      Otherwise versions should be "canonical" strings following the
+      guidelines in PEP 440.
+
+      That means we support roughly:
+
+      -  semver-ish major, minor, and patch parts
+      -  release candidates
+      -  dev
+      -  post release "patches"
+
+      However, we don't prescribe explicit semantics to any of the parts
+      as this is highly variable depending on the needs of a project and
+      the forums by which it is published (e.g. PyPI, Github, etc.).
+
+#. Writing and/or Generating the Changelog and Announcement
+
+#. Changing the version number
+
+   You can check the current version number with this command:
+
+   .. code:: bash
+
+      inv version-which
+
+   Increase the version number we currently do it by hand (although an
+   automatic way would be nice and ``bumpversion`` wasn't working for
+   us). So go in and manually edit them. For reference see PEP 440 for
+   valid ones.
+
+   The target locations for changing versions are in the following
+   files:
+
+   -  [ ] ``setup.py``
+   -  [ ] ``src/geomm/__init__.py``
+   -  [ ] ``sphinx/config.py``
+   -  [ ] ``.zenodo.json``
+   -  [ ] ``conda/conda-forge/meta.yaml``
+
+#. Making the release official
+
+   To make a release do some changes and make sure they are fully tested
+   and functional and commit them in version control. At this point you
+   will also want to do any rebasing or cleaning up the actual commits
+   if this wasn't already done in the feature branch.
+
+   If this is a 'dev' release and you just want to run a version control
+   tag triggered CI pipeline go ahead and change the version numbers and
+   commit. Then tag the 'dev' release.
+
+   If you intend to make a non-dev release you will first want to test
+   it out a little bit with a release-candidate prerelease.
+
+   So do all the following bookeeping steps in a single but separate git
+   commit from the actual changes to the code:
+
+   -  [ ] write the changelog
+   -  [ ] write the announcement (optional)
+   -  [ ] change the version numbers
+   -  [ ] build to test it out ``inv build``
+
+   However, when you change the version number put a 'rc0' at the end of
+   the new intended (semantic) number.
+
+   Once you have built it and nothing is wrong go ahead and publish it
+   to the test indexes (if available):
+
+   .. code:: bash
+
+      inv publish-test
+
+   Then go ahead and commit the changes after that works. The message
+   should follow a fixed form like
+
+   .. code:: fundamental
+
+      1.0.0rc0 release preparation
+
+   Then you can tag the release in the ``git`` commit history:
+
+   .. code:: bash
+
+      inv release
+
+   Publishing the results will vary but you can start with publishing
+   the package to PyPI and the VCS hosts with the real publish target:
+
+   .. code:: bash
+
+      inv publish
+
+   After this you may publish to any of the following: github, gitlab,
+   and/or zenodo.org (which provides a persistent DOI and stores the
+   project).
+
+   For Zenodo and Github just make a release for an existing release tag
+   using the github web interface. If Zenodo is linked to your github
+   repo it will automatically recognize it and create the DOI for it.
+
+Initializing this repository
+----------------------------
+
+These are tasks that should only be done once at the inception of the
+project but are described for posterity and completeness.
+
+Version Control
+~~~~~~~~~~~~~~~
+
+First we need to initialize the version control system (``git``):
+
+.. code:: bash
+
+   inv vcs-init
+
+If you want to go ahead and add the remote repositories for this
+project. We don't manage this explicitly since ``git`` is treated mostly
+as first class for these kinds of tasks and is better left to special
+purpose tools which are well integrated and developed.
+
+Compiling Dependencies
+~~~~~~~~~~~~~~~~~~~~~~
+
+Then add any extra dependencies you want to the development environment
+`requirements.in <../envs/dev/requirements.in>`__ file and then compile
+and pin them:
+
+.. code:: bash
+
+   inv deps-pin
+
+Creating Environments
+~~~~~~~~~~~~~~~~~~~~~
+
+Then just create the virtual environment. For portability we use the
+builin ``venv`` package, but this is customizable.
+
+.. code:: bash
+
+   inv env
+
+Then you can activate it with the instructions printed to the screen.

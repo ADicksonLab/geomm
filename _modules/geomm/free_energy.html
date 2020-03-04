@@ -1,0 +1,185 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+  
+  <!-- Licensed under the Apache 2.0 License -->
+  <link rel="stylesheet" type="text/css" href="../../_static/fonts/open-sans/stylesheet.css" />
+  <!-- Licensed under the SIL Open Font License -->
+  <link rel="stylesheet" type="text/css" href="../../_static/fonts/source-serif-pro/source-serif-pro.css" />
+  <link rel="stylesheet" type="text/css" href="../../_static/css/bootstrap.min.css" />
+  <link rel="stylesheet" type="text/css" href="../../_static/css/bootstrap-theme.min.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+    <title>geomm.free_energy &#8212; geomm 0.2.0.dev0 documentation</title>
+    <link rel="stylesheet" href="../../_static/guzzle.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/language_data.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+  
+   
+
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">geomm 0.2.0.dev0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Module code</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="container-wrapper">
+
+      <div id="mobile-toggle">
+        <a href="#"><span class="glyphicon glyphicon-align-justify" aria-hidden="true"></span></a>
+      </div>
+  <div id="left-column">
+    <div class="sphinxsidebar">
+<div class="sidebar-block">
+  <div class="sidebar-wrapper">
+    <div id="main-search">
+      <form class="form-inline" action="../../search.html" method="GET" role="form">
+        <div class="input-group">
+          <input name="q" type="text" class="form-control" placeholder="Search...">
+        </div>
+        <input type="hidden" name="check_keywords" value="yes" />
+        <input type="hidden" name="area" value="default" />
+      </form>
+    </div>
+  </div>
+</div>
+      
+    </div>
+  </div>
+        <div id="right-column">
+          
+          <div role="navigation" aria-label="breadcrumbs navigation">
+            <ol class="breadcrumb">
+              <li><a href="../../index.html">Docs</a></li>
+              
+                <li><a href="../index.html">Module code</a></li>
+              
+              <li>geomm.free_energy</li>
+            </ol>
+          </div>
+          
+          <div class="document clearer body">
+            
+  <h1>Source code for geomm.free_energy</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<div class="viewcode-block" id="free_energy"><a class="viewcode-back" href="../../api/geomm.free_energy.html#geomm.free_energy.free_energy">[docs]</a><span class="k">def</span> <span class="nf">free_energy</span><span class="p">(</span><span class="n">weights</span><span class="p">,</span> <span class="n">max_energy</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">zero_point_energy</span><span class="o">=</span><span class="mf">1.0e-12</span><span class="p">,</span>
+                <span class="n">supermax_value</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Perform a transformation of probability weights to free energies.</span>
+
+<span class="sd">    The free energy of probabilities is a transformation of -ln(p)</span>
+<span class="sd">    where p is the properly normalized probability.</span>
+
+<span class="sd">    In addition to this simple transformation we set a maximum free</span>
+<span class="sd">    energy (max_energy) and a mask value (supermax_value) for values</span>
+<span class="sd">    greater than the max energy. This is to account for missing</span>
+<span class="sd">    observations or extreme outliers. This can be disabled by setting</span>
+<span class="sd">    max_energy to None.</span>
+
+<span class="sd">    Free energy values are relative to a zero-point energy, which in</span>
+<span class="sd">    the absence of a theoretically determined value can be simply</span>
+<span class="sd">    determined by the minimum value in the dataset. If the</span>
+<span class="sd">    zero_point_energy value is given this simply fixes this minimum</span>
+<span class="sd">    free energy to the zero-point energy so that the rest of the</span>
+<span class="sd">    values have some meaningful value. Typically, we set this to</span>
+<span class="sd">    something to close to but greater than 0. Because a 0 free energy</span>
+<span class="sd">    is equivalent to a probability of 1.0, which would make the</span>
+<span class="sd">    dataset non-normalized.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    weights : arraylike of float</span>
+<span class="sd">        The normalized weights to transform</span>
+
+<span class="sd">    max_energy : float or None</span>
+<span class="sd">        Sets a maximum value for free energies. Free energies larger</span>
+<span class="sd">        than this will be replaced by the &#39;supermax_value&#39;. If None</span>
+<span class="sd">        the masking is not performed.</span>
+<span class="sd">       (Default = None)</span>
+
+<span class="sd">    supermax_value : numpy scalar</span>
+<span class="sd">        The value that replaces free energies that are larger than the</span>
+<span class="sd">        max energy. Typically is a numpy NaN so as to omit the data.</span>
+<span class="sd">       (Default = np.nan)</span>
+
+<span class="sd">    zero_point_energy : float or None</span>
+<span class="sd">        Free energies are relative and the minimum value will be set</span>
+<span class="sd">        to this zero point energy. This is to avoid having 0 free</span>
+<span class="sd">        energy values. If None this is not done.</span>
+<span class="sd">       (Default = 1.0e-12)</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+
+<span class="sd">    free_energies : arraylike</span>
+<span class="sd">       The free energy for each weight.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># assume the weights are normalized</span>
+    <span class="c1"># -log(weights)</span>
+    <span class="n">free_energies</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">negative</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">weights</span><span class="p">))</span>
+
+    <span class="k">if</span> <span class="n">zero_point_energy</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="c1"># set the min as the 0 energy</span>
+        <span class="n">free_energies</span> <span class="o">=</span> <span class="n">free_energies</span> <span class="o">-</span> <span class="n">free_energies</span><span class="o">.</span><span class="n">min</span><span class="p">()</span>
+
+        <span class="c1"># then increase everything by the zero-point energy so there are</span>
+        <span class="c1"># no zero energy states</span>
+        <span class="n">free_energies</span> <span class="o">+=</span> <span class="n">zero_point_energy</span>
+
+    <span class="c1"># energies greater than the max are set to the supermax_value</span>
+    <span class="k">if</span> <span class="n">max_energy</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">free_energies</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">free_energies</span> <span class="o">&gt;</span> <span class="n">max_energy</span><span class="p">)]</span> <span class="o">=</span> <span class="n">supermax_value</span>
+
+    <span class="k">return</span> <span class="n">free_energies</span></div>
+</pre></div>
+
+          </div>
+            
+        </div>
+        <div class="clearfix"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">geomm 0.2.0.dev0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li> 
+      </ul>
+    </div>
+<script type="text/javascript">
+  $("#mobile-toggle a").click(function () {
+    $("#left-column").toggle();
+  });
+</script>
+<script type="text/javascript" src="../../_static/js/bootstrap.js"></script>
+  <div class="footer">
+    &copy; Copyright 2020, Samuel D. Lotz. Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
+  </div>
+  </body>
+</html>

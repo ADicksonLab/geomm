@@ -1,0 +1,271 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+  
+  <!-- Licensed under the Apache 2.0 License -->
+  <link rel="stylesheet" type="text/css" href="../../_static/fonts/open-sans/stylesheet.css" />
+  <!-- Licensed under the SIL Open Font License -->
+  <link rel="stylesheet" type="text/css" href="../../_static/fonts/source-serif-pro/source-serif-pro.css" />
+  <link rel="stylesheet" type="text/css" href="../../_static/css/bootstrap.min.css" />
+  <link rel="stylesheet" type="text/css" href="../../_static/css/bootstrap-theme.min.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+    <title>geomm.superimpose &#8212; geomm 0.2.0.dev0 documentation</title>
+    <link rel="stylesheet" href="../../_static/guzzle.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/language_data.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+  
+   
+
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">geomm 0.2.0.dev0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Module code</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="container-wrapper">
+
+      <div id="mobile-toggle">
+        <a href="#"><span class="glyphicon glyphicon-align-justify" aria-hidden="true"></span></a>
+      </div>
+  <div id="left-column">
+    <div class="sphinxsidebar">
+<div class="sidebar-block">
+  <div class="sidebar-wrapper">
+    <div id="main-search">
+      <form class="form-inline" action="../../search.html" method="GET" role="form">
+        <div class="input-group">
+          <input name="q" type="text" class="form-control" placeholder="Search...">
+        </div>
+        <input type="hidden" name="check_keywords" value="yes" />
+        <input type="hidden" name="area" value="default" />
+      </form>
+    </div>
+  </div>
+</div>
+      
+    </div>
+  </div>
+        <div id="right-column">
+          
+          <div role="navigation" aria-label="breadcrumbs navigation">
+            <ol class="breadcrumb">
+              <li><a href="../../index.html">Docs</a></li>
+              
+                <li><a href="../index.html">Module code</a></li>
+              
+              <li>geomm.superimpose</li>
+            </ol>
+          </div>
+          
+          <div class="document clearer body">
+            
+  <h1>Source code for geomm.superimpose</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="kn">from</span> <span class="nn">geomm.theobald_qcp</span> <span class="kn">import</span> <span class="n">theobald_qcp</span>
+<span class="kn">from</span> <span class="nn">geomm.centering</span> <span class="kn">import</span> <span class="n">center</span>
+<span class="kn">from</span> <span class="nn">geomm.centroid</span> <span class="kn">import</span> <span class="n">centroid</span>
+
+<div class="viewcode-block" id="superimpose"><a class="viewcode-back" href="../../api/geomm.superimpose.html#geomm.superimpose.superimpose">[docs]</a><span class="k">def</span> <span class="nf">superimpose</span><span class="p">(</span><span class="n">ref_coords</span><span class="p">,</span> <span class="n">coords</span><span class="p">,</span> <span class="n">idxs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Superimpose a set of coordinates to reference coordinates using the</span>
+<span class="sd">    Theobald-QCP method.</span>
+
+<span class="sd">    Assumes coordinates are centered appropriately.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    ref_coords : arraylike</span>
+<span class="sd">        The template coordinates that `coords` will be aligned to.</span>
+
+<span class="sd">    coords : arraylike</span>
+<span class="sd">        The coordinates which will be aligned to the template</span>
+<span class="sd">        coordinates and have the rotation matrix applied to them and</span>
+<span class="sd">        returned.</span>
+
+<span class="sd">    idxs : arraylike, optional</span>
+<span class="sd">        If given will superimpose the coordinates based only on the</span>
+<span class="sd">        alignment on this subset of atoms to the reference.</span>
+<span class="sd">       (Default = None)</span>
+
+<span class="sd">    weights : arraylike, optional</span>
+<span class="sd">        Give weights to the coordinates for a weighted centroid</span>
+<span class="sd">        (&#39;center of mass&#39;) used in translations to the origin and to</span>
+<span class="sd">        the centroid of the reference structure.</span>
+<span class="sd">       (Default = None)</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+
+<span class="sd">    superimposed_coords : arraylike of float</span>
+<span class="sd">        The transformed coordinates.</span>
+
+<span class="sd">    rotation_matrix : arraylike</span>
+<span class="sd">        The rotation matrix from Theobald-QCP that minimized the RMSD</span>
+
+<span class="sd">    qcp_rmsd : float</span>
+<span class="sd">        The RMSD calculated from Theobald-QCP.</span>
+
+<span class="sd">    Warnings</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    Assumes that the coordinates are both centered.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># find the centroid of the reference coordinates</span>
+    <span class="k">if</span> <span class="n">idxs</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">ref_centroid</span> <span class="o">=</span> <span class="n">centroid</span><span class="p">(</span><span class="n">ref_coords</span><span class="p">[</span><span class="n">idxs</span><span class="p">],</span> <span class="n">weights</span><span class="o">=</span><span class="n">weights</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">ref_centroid</span> <span class="o">=</span> <span class="n">centroid</span><span class="p">(</span><span class="n">ref_coords</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="n">weights</span><span class="p">)</span>
+
+    <span class="c1"># perform the theobald_qcp method to get the rotation matrix</span>
+    <span class="n">qcp_rmsd</span><span class="p">,</span> <span class="n">rotation_matrix</span> <span class="o">=</span> <span class="n">theobald_qcp</span><span class="p">(</span><span class="n">ref_coords</span><span class="p">,</span> <span class="n">coords</span><span class="p">,</span>
+                                             <span class="n">idxs</span><span class="o">=</span><span class="n">idxs</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="n">weights</span><span class="p">)</span>
+
+    <span class="c1"># rotate coords according to the rotation matrix</span>
+    <span class="n">rot_coords</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">coords</span><span class="p">,</span> <span class="n">rotation_matrix</span><span class="p">)</span>
+
+    <span class="c1"># translate the rotated coordinates to the reference centroid</span>
+    <span class="n">sup_coords</span> <span class="o">=</span> <span class="n">rot_coords</span> <span class="o">+</span> <span class="n">ref_centroid</span>
+
+    <span class="k">return</span> <span class="n">sup_coords</span><span class="p">,</span> <span class="n">rotation_matrix</span><span class="p">,</span> <span class="n">qcp_rmsd</span></div>
+
+<span class="c1"># the following method contains portions of the software mdtraj which</span>
+<span class="c1"># is distributed under the following license</span>
+<span class="c1">##############################################################################</span>
+<span class="c1"># MDTraj: A Python Library for Loading, Saving, and Manipulating</span>
+<span class="c1">#         Molecular Dynamics Trajectories.</span>
+<span class="c1"># Copyright 2012-2014 Stanford University and the Authors</span>
+<span class="c1">#</span>
+<span class="c1"># Authors: Peter Eastman, Robert McGibbon</span>
+<span class="c1"># Contributors: Kyle A. Beauchamp, Matthew Harrigan, Carlos Xavier Hernandez</span>
+<span class="c1">#</span>
+<span class="c1"># MDTraj is free software: you can redistribute it and/or modify</span>
+<span class="c1"># it under the terms of the GNU Lesser General Public License as</span>
+<span class="c1"># published by the Free Software Foundation, either version 2.1</span>
+<span class="c1"># of the License, or (at your option) any later version.</span>
+<span class="c1">#</span>
+<span class="c1"># This library is distributed in the hope that it will be useful,</span>
+<span class="c1"># but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+<span class="c1"># MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
+<span class="c1"># GNU Lesser General Public License for more details.</span>
+<span class="c1">#</span>
+<span class="c1"># You should have received a copy of the GNU Lesser General Public</span>
+<span class="c1"># License along with MDTraj. If not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
+<span class="c1">#</span>
+<span class="c1"># Portions of this code originate from the OpenMM molecular simulation</span>
+<span class="c1"># toolkit, copyright (c) 2012 Stanford University and Peter Eastman. Those</span>
+<span class="c1"># portions are distributed under the following terms:</span>
+<span class="c1">#</span>
+<span class="c1"># Permission is hereby granted, free of charge, to any person obtaining a</span>
+<span class="c1"># copy of this software and associated documentation files (the &quot;Software&quot;),</span>
+<span class="c1"># to deal in the Software without restriction, including without limitation</span>
+<span class="c1"># the rights to use, copy, modify, merge, publish, distribute, sublicense,</span>
+<span class="c1"># and/or sell copies of the Software, and to permit persons to whom the</span>
+<span class="c1"># Software is furnished to do so, subject to the following conditions:</span>
+<span class="c1">#</span>
+<span class="c1"># The above copyright notice and this permission notice shall be included in</span>
+<span class="c1"># all copies or substantial portions of the Software.</span>
+<span class="c1">#</span>
+<span class="c1"># THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR</span>
+<span class="c1"># IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,</span>
+<span class="c1"># FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL</span>
+<span class="c1"># THE AUTHORS, CONTRIBUTORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,</span>
+<span class="c1"># DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR</span>
+<span class="c1"># OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE</span>
+<span class="c1"># USE OR OTHER DEALINGS IN THE SOFTWARE.</span>
+<span class="c1">##############################################################################</span>
+
+<div class="viewcode-block" id="alt_superimpose"><a class="viewcode-back" href="../../api/geomm.superimpose.html#geomm.superimpose.alt_superimpose">[docs]</a><span class="k">def</span> <span class="nf">alt_superimpose</span><span class="p">(</span><span class="n">ref_coords</span><span class="p">,</span> <span class="n">coords</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Returns the translation and rotation mapping mobile onto target.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    mobile : ndarray, shape = (n_atoms, 3)</span>
+<span class="sd">        xyz coordinates of a `single` frame, to be aligned onto target.</span>
+
+<span class="sd">    target : ndarray, shape = (n_atoms, 3)</span>
+<span class="sd">        xyz coordinates of a `single` frame</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+
+<span class="sd">    translation : ndarray, shape=(3,)</span>
+<span class="sd">        Difference between the centroids of the two conformations</span>
+
+<span class="sd">    rotation : ndarray, shape=(3,3)</span>
+<span class="sd">        Rotation matrix to apply to mobile to carry out the transformation.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># ensure_type(mobile, &#39;float&#39;, 2, &#39;mobile&#39;, warn_on_cast=False, shape=(None, 3))</span>
+    <span class="c1"># ensure_type(target, &#39;float&#39;, 2, &#39;target&#39;, warn_on_cast=False, shape=(target.shape[0], 3))</span>
+
+    <span class="n">mu1</span> <span class="o">=</span> <span class="n">ref_coords</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">mu2</span> <span class="o">=</span> <span class="n">coords</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+    <span class="n">ref_coords</span> <span class="o">=</span> <span class="n">ref_coords</span> <span class="o">-</span> <span class="n">mu1</span>
+    <span class="n">coords</span> <span class="o">=</span> <span class="n">coords</span> <span class="o">-</span> <span class="n">mu2</span>
+
+    <span class="n">correlation_matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">ref_coords</span><span class="p">),</span> <span class="n">coords</span><span class="p">)</span>
+    <span class="n">V</span><span class="p">,</span> <span class="n">S</span><span class="p">,</span> <span class="n">W_tr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">svd</span><span class="p">(</span><span class="n">correlation_matrix</span><span class="p">)</span>
+    <span class="n">is_reflection</span> <span class="o">=</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">det</span><span class="p">(</span><span class="n">V</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">det</span><span class="p">(</span><span class="n">W_tr</span><span class="p">))</span> <span class="o">&lt;</span> <span class="mf">0.0</span>
+    <span class="k">if</span> <span class="n">is_reflection</span><span class="p">:</span>
+        <span class="n">V</span><span class="p">[:,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="n">V</span><span class="p">[:,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">rotation</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">V</span><span class="p">,</span> <span class="n">W_tr</span><span class="p">)</span>
+
+    <span class="n">translation</span> <span class="o">=</span> <span class="n">mu2</span> <span class="o">-</span> <span class="n">mu1</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">rotation</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">translation</span><span class="p">,</span> <span class="n">rotation</span></div>
+</pre></div>
+
+          </div>
+            
+        </div>
+        <div class="clearfix"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">geomm 0.2.0.dev0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li> 
+      </ul>
+    </div>
+<script type="text/javascript">
+  $("#mobile-toggle a").click(function () {
+    $("#left-column").toggle();
+  });
+</script>
+<script type="text/javascript" src="../../_static/js/bootstrap.js"></script>
+  <div class="footer">
+    &copy; Copyright 2020, Samuel D. Lotz. Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
+  </div>
+  </body>
+</html>

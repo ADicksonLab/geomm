@@ -1,0 +1,401 @@
+Introduction
+============
+
+The ``geomm`` library provides a collection of purely functional
+computational routines that are especially suited for data related to
+large and complex macromolecules such as proteins.
+
+``geomm`` is **topology agnostic** and instead different sets of atom
+indices are used for all computations. The outsourcing of this complex
+domain knowledge allows for extreme simplicity and specific focus on
+calculating geometric properties with no ambiguity. This also makes
+``geomm`` only dependent upon standard data structures like the
+``numpy.ndarray``.
+
+Features
+--------
+
+The feature set is minimal at this point:
+
+-  superimpose structures
+-  wrangle those periodic boundary conditions
+-  Cython implementation of Theobald-QCP for fast RMSD calculations
+
+See the *Motivation & Alternatives* below for why the ``geomm`` approach
+to software libraries is needed, and we encourage you to add your own
+algorithms.
+
+Getting Started
+---------------
+
+Once you have the package :any:`installed <installation>` you can go
+straight to the :any:`API Overview <reference>` or the
+:any:`Full API documentation <../api/modules>`.
+
+There are also a few example to get you started in the ``info/examples``
+directory.
+
+Motivation & Alternatives
+-------------------------
+
+There are many (excellent) packages that provide similar facilities as
+``geomm`` like:
+
+-  `mdtraj <http://mdtraj.org>`__
+-  `MDAnalysis <https://mdanalysis.org>`__
+-  `ProDy <http://prody.csb.pitt.edu>`__
+-  many others.
+
+The question then arises "Why another one"?
+
+While these are all excellent packages providing useful functionality
+there is a large mismatch between the in-memory representations they
+use. This means that integrating them with either with each other or
+with your own data means you will need a variety of conversion methods
+to go between the different libraries.
+
+This may not be an issue for a small amount of data, but as structures
+get larger and the number of data points from simulations becomes larger
+then this conversion overhead can become very large.
+
+This is made even worse by the fact that most of the conversions move
+through extremely underspecified, slow, and lossy formats like the
+Protein Data Bank (PDB) format.
+
+   To be clear, we are concerned with computational studies of molecular
+   models consisting of atoms, bonds, and higher order structures therof
+   and not on more "realistic" models involving electron densities like
+   you would have from X-Ray crystallography. The PDB format was
+   designed for the latter scenario where "topologies" are really just
+   an afterthought and actually something that is inferred from the 3D
+   geometries of unconnected atoms. It is tempting to view the PDB
+   format as simply a CSV-like table format for storing information for
+   tables of atoms. Unfortunately, it is not this and is highly unsuited
+   for this task. Furthermore, using a format like PDB which requires a
+   custom parser (of which there are many) and writer (of which there
+   are more of) which is unlikely to be either: correct, consistent, and
+   performant. This is partially due to the fact that inherently the
+   format itself is not designed to be quickly parsed at all. Thus,
+   beyond the complexity of mismatches in parsers using PDB as an
+   interchange format is a bad idea. There are new formats like
+   `MMTF <http://mmtf.rcsb.org/>`__ which are huge step forward in
+   remediated deficiencies of the PDB format, however, in the end this
+   format is intended to solve the needs of the crystallography
+   community *and not* for all computational macromolecular researchers
+   at large.
+
+Thus, when using these different packages you must learn the details
+about each representation of the molecules. This is unfortunate because
+semantically are all essentially equivalent and only differ in details
+of syntax and aesthetics.
+
+Furthermore, if you would like to run a series of computations in a
+pipeline over a single set of data using N different packages you will
+end up having to convert (and likely copy) your data multiple times to
+run the subroutines you need.
+
+A better solution to using a different in-memory objects for each
+library with attached methods for each object is to use simple pure
+functions.
+
+For example, most packages perform computations by first constructing an
+object and then running a method inputting some hyperparameters. We will
+pick on ``mdtraj`` since I am most familiar with it but all are equally
+guilty.
+
+First we must load from one of the supported formats, usually this is
+done from the disk as shown in the example but it is possible to load
+once into memory to avoid slow reads and writes to disks:
+
+.. code:: python
+
+   import mdtraj as mdj
+
+   # see examples for the structure files
+   traj = mdj.load('lysozyme_pxylene.pdb')
+
+Once it is loaded into the ``traj`` object then we can perform
+calculations on it with the packages functions, here we calculate the
+solvent accessible surface area (SASA) using the Shrake-Rupley
+algorithm:
+
+.. code:: python
+
+   sasas = mdj.shrake_rupley(traj)
+
+Note that because we have an ``mdtraj.Trajectory`` object as an argument
+there is functionally no difference in this being a method of the
+object:
+
+.. code:: python
+
+   # not actually valid
+   sasas = traj.shrake_rupley()
+
+Now if we want to find the hydrogen bonds from MDAnalysis we have to
+convert again since we cannot use the same representation:
+
+.. code:: python
+
+   from MDAnalysis import Universe
+   from MDAnalysis.analysis.hbonds import HydrogenBondAnalysis
+
+
+   uni = Universe('lysozyme_pxylene.pdb')
+
+   result = HydrogenBondAnalysis(
+       uni,
+       'protein',
+       'resname LIG',
+       distance=3.0,
+       angle=120.0
+   ).run()
+
+Notice that both of them take exactly the same information but have
+totally different concepts that they are even talking about:
+"trajectory" vs. "universe".
+
+Contrast this with the (not yet implemented) ``geomm`` version of
+shrake-rupley:
+
+.. code:: python
+
+   from geomm.sasa import shrake_rupley
+
+   sasas = shrake_rupley(
+       coords,
+       radii,
+       probe_radius=0.14,
+       n_sphere_points=960
+   )
+
+In this example we just pass in a set of coordinates assumed to be
+atoms. For each atom there is an associated radii that you have obtained
+by some means. Instead of hiding the magic of looking up the atomic
+radii of your atoms we simply make it explicit so that you as the user
+have complete control over it. In the ``mdtraj`` version you must alter
+the source files to change the behavior.
+
+Now consider the ``geomm`` (not yet implemented) version of the hbonds
+algorithm:
+
+.. code:: python
+
+   from geomm.bonds import hbonds
+
+   matches, distances, angles = hbonds(
+       coords,
+       selection_a, # the protein if you wish, or anything else
+       selection_b, # the ligand perhaps
+       # the hyperparameters
+       distance=3.0,
+       angle=120.0,
+   )
+
+No conversions necessary, and you are free to choose whatever sets of
+atoms you want to compare. We will adress the drawbacks of the selection
+language used in the ``MDAnalysis`` example below.
+
+In both cases there is really only 3 different pieces of data that are
+common to all functions for macromolecules:
+
+#. the 3D atomic coordinates
+#. the periodic boundary conditions
+#. the topology (bonds, residues, and types)
+
+The 3D atomic coordinates and the periodic boundary conditions are
+essentially a very well known data structure, the humble array.
+
+The only questions that need to be answered is whether the 3D atomic
+coordinates are a single structure (N x 3; N is number of atoms) or a
+"trajectory" (M x N x 3; M is the number of frames in the trajectory).
+However, these kinds of compositions idealy should be taken care of
+special purpose container types (a specialty of computer science). This
+is relevant for simulations that don't follow a linear trajectory model
+but rather a branching tree that is used in importance sampling type
+simulations such as weighted ensemble (WE) (see
+`wepy <https://adicksonlab.github.io/wepy>`__). But also implementors
+should be free to customize container types for performance optimization
+as well for different platforms, allowing extensions for out-of-memory
+access via HDF5 or other streaming data generators. In short the simple
+"frame" concept is really the only one that needs any community
+consensus anyways and is (amazingly) pretty much already standardized
+(i.e. an N x 3 numpy array in the python ecosystem).
+
+As for (non-exotic) periodic boundary conditions there really is only
+one lossless format with is a a simple 3 x 3 matrix representing the x,
+y, and z unit vectors respectively. Any other representation (such as
+box lengths and angles) is easily computable from this and is fully
+general (linear algebra FTW).
+
+With that out of the way 2/3 of the format standardization is already
+taken care of. This actually covers a large number of useful routines
+that you might want to perform. Currently this is all you need to use
+``geomm``!!
+
+Actually, ``geomm`` will always remain *sans* "topology". Why? Because,
+there is always a version of every computation on molecular structures
+that can be expressed in terms of **selections** of the atoms in a given
+frame. We saw this in the H-Bonds examples above where we simply
+supplied the list of atoms for each countepart in place of 'protein' and
+'resname LIG' used in ``MDAnalysis``. As another example, take the
+``geomm`` ``superimpose`` function:
+
+.. code:: python
+
+   def superimpose(ref_coords, coords, idxs=None):
+
+Here we only require two 3xN numpy arrays for the reference template,
+and the coordinates for which you want to transform (rotate).
+
+Optionally, you can specify the ``idxs`` (read "indices") for which you
+actually want to minimize RMSD for the rotation matrix of the entire set
+of coordinates. Imagine you have a simulation of a receptor protein and
+a mobile ligand floating in and around your protein. If you want to see
+the differences in the position and orientation of the ligand you really
+just want to superimpose the protein structures. To ``geomm`` the
+``coords`` are just positions, it has no notion of what a "protein" is.
+You supply this notion in terms of the semantics of the operation you
+are trying to do, not in the domain language of protein structure.
+Imagine ``geomm`` "guessed" what the protein structure was for you and
+there was no way around this? This would be bad. What if you realized
+that there is a floppy loop on the protein that makes your alignments
+crooked with respect to the binding site. You would have no way of
+working around this. What if you just want to use the heavy atoms to
+align with.
+
+Many other packages provide domain specific languages (DSLs) to help
+address this problem. However, there are many problems with these I will
+focus on three.
+
+First of all is incompatibility. I know of at least 3 different
+languages for this purpose: VMD, MDtraj, and MDAnalysis. I am sure there
+are more. All of them are similar, none are the same semantically.
+
+Second, is the lack of expressiveness and the assumption of complete
+domain knowledge. All of these DSLs essentially rely on a small database
+that maps keywords like "protein" to a lookup table of matching
+keywords. For instance 'protein' typically looks at the names of each
+residue and decides whether it considers that a protein residue or not.
+This works out maybe around 80% of the time, because most residues do
+have fairly standard abbreviations. However, many residues have valid
+alternative forms such as protonation states (not to mention other
+post-translational modifications like disulfide bridges etc.) that may
+sometimes be named differently. For instance histidine has many such
+forms: HIS, HSD, HSA, etc. From experience I can tell you that no one
+lookup table is going to be universal and capture all names produced by
+all softwares. And worse they are probably different between each
+implementation.
+
+Furthermore, these DSLs don't cover domain knowledge really outside of
+the protein centric world. What about lipid head groups and tails?
+Sugars? Disulfide bonds? Ions and solutes? Small molecule functional
+groups? They don't even cover the richness of protein secondary,
+tertiary, and quaternary structure. There is no such query language that
+can cover all of these domains. I would argue that these restricted
+languages actually has an effect on the kinds of questions that
+researchers are willing to ask given the limited exressiveness.
+
+Thirdly, is the unfounded implicit assumption on a particular domain
+model for macromolecules. To not beat around the bush this means the
+prevalent model that *all* molecules follow the chain, residue, atom
+model (with bonds as an afterthought). This is likely due to the use of
+the PDB format which has this structure. Despite the concept of a
+"reside" coming from the initial discovery of the heterogeneous
+polymeric properties of proteins it lives on and even now small
+molecules, lipids, sugars, waters, ions, and just about every other
+distinct chemical species now having to bear "residue" designations.
+This is entirely absurd in practice outside of the context of proteins.
+Much more practically should there be concepts of "molecule types" and
+some of those molecule types being polymers which can then be expressed
+as sequences of residues.
+
+That is the residue is really only a convenient method for indexing
+sub-selections of larger structures and as a compression mechanism so
+that proteins can be expressed as a simple sequence of abbreviations.
+This abbreviation makes a lot of sense in some situations (to say a
+geneticist, who is essentially computing residues from DNA sequences)
+but not really at all to someone interested in the fine-detail of
+molecules that only atoms and bond graphs can give. For our purposes a
+"reside" really only is a designation for a set of atoms (i.e. indices
+of atoms in the coordinates table).
+
+So in the end the purpose of all these DSLs really is to just allow for
+quick selections of subsets of atoms. They do this in a way which is
+very easy to get wrong unexpected results and that is restricted only to
+the semantics of their small and poorly designed language. In the right
+context with proper standardization of domain models, atom names/types,
+and residue names/types this might work. However, today the absence of
+such standards results only in chaos, we highly recommend against using
+these languages, unless necessary or where reproducibility and
+correctness don't matter (for exploratoray analysis perhaps).
+
+A much better approach is to understand the meaning of names in your own
+data (and to change them if necessary) and use well established
+mechanisms for querying data in deterministic ways. That is the use of
+algorithms (for tree and graph traversal like algorithms) and query
+languages, similar to SQL.
+
+To this end packages like ``mdtraj`` do provide methods for generating
+standard tables which are either chain, residue, atoms, or bond oriented
+with columns relating to entity subsets, positions, and other
+characteristics like types and charges.
+
+This is all to say that ``geomm`` doesn't want to say anything about
+this process and it is up to you to use whatever algorithmic and domain
+specific models you need to generate sets of atom indices.
+
+Do I have a solution? No. Many of the failed solutions above are trying
+to fix inherently difficult problems about data modelling. Its my
+opinion that you should just understand your domain problem very well
+and do it yourself. Alternatively, researchers need to actually agree
+upon specifications for both ontologies (e.g. what is a residue and what
+does it actually apply to) as well as vocabularies (e.g. what are the
+canonical names and abbreviations for atoms and residues).
+
+I do have some suggestions for some useful structures that do not
+attempt to solve consensus problems above but do provide a collection of
+serialization formats to avoid the pain and suffering associated with
+PDBs.
+
+First, tables. The table is a massively under-utilized tool in this
+field.
+
+You only need a few to remain at feature parity with all of the
+ecosystem:
+
+-  molecule/chain table
+-  residue table
+-  atom table
+-  bond table
+
+The Python ``pandas`` library has excellent support for reading and
+writing to a variety of interchange formats as well as the ability to
+query in it's own way plus standard ones like SQL.
+
+This collection of files (which you could zip into an archive file)
+would be the "topology". For any other level of resolution (say for
+protein domains), just add another table. This could easily be adapted
+to a standard single-file SQL database like ``SQlite``, ``HDF5``, or
+even pages of an ``excel`` spreadsheet (shudder).
+
+Another workable alternative is the JSON format used internally in the
+``mdtraj`` ``HDF5`` format and in ``wepy``. ``wepy`` provides tools for
+reading and writing this format into ``mdtraj.Topology`` objects, but
+JSON parsers are fast and ubiquitous and the resulting dicts-and-lists
+datastructure is very easy to manually manipulate.
+
+As for actual numerical data we just defer to the ``numpy`` ecosystem.
+They know what they are doing in terms of arrays of numbers.
+
+The only other thing I can really think of is perhaps a simple FASTA
+format for residue sequences. This could be useful for comparative
+analysis between different structures.
+
+Thats it! It really isn't hard once you take a step back and look at the
+wreckage thats been continuously piled on for the last few decades. Its
+just data, ours isn't really that special.
+
+I even wrote an example (``info/examples/format_conversion``) that does
+all of this starting from, an admittedly well-behaved, PDB starting at
+mdtraj.

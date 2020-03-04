@@ -1,0 +1,190 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+  
+  <!-- Licensed under the Apache 2.0 License -->
+  <link rel="stylesheet" type="text/css" href="../_static/fonts/open-sans/stylesheet.css" />
+  <!-- Licensed under the SIL Open Font License -->
+  <link rel="stylesheet" type="text/css" href="../_static/fonts/source-serif-pro/source-serif-pro.css" />
+  <link rel="stylesheet" type="text/css" href="../_static/css/bootstrap.min.css" />
+  <link rel="stylesheet" type="text/css" href="../_static/css/bootstrap-theme.min.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+    <title>geomm.sasa module &#8212; geomm 0.2.0.dev0 documentation</title>
+    <link rel="stylesheet" href="../_static/guzzle.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="geomm.superimpose module" href="geomm.superimpose.html" />
+    <link rel="prev" title="geomm.rmsd module" href="geomm.rmsd.html" />
+  
+   
+
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="geomm.superimpose.html" title="geomm.superimpose module"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="geomm.rmsd.html" title="geomm.rmsd module"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">geomm 0.2.0.dev0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="modules.html" >geomm</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="geomm.html" accesskey="U">geomm package</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="container-wrapper">
+
+      <div id="mobile-toggle">
+        <a href="#"><span class="glyphicon glyphicon-align-justify" aria-hidden="true"></span></a>
+      </div>
+  <div id="left-column">
+    <div class="sphinxsidebar">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="geomm.rmsd.html"
+                        title="previous chapter">geomm.rmsd module</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="geomm.superimpose.html"
+                        title="next chapter">geomm.superimpose module</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/api/geomm.sasa.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div class="sidebar-block">
+  <div class="sidebar-wrapper">
+    <div id="main-search">
+      <form class="form-inline" action="../search.html" method="GET" role="form">
+        <div class="input-group">
+          <input name="q" type="text" class="form-control" placeholder="Search...">
+        </div>
+        <input type="hidden" name="check_keywords" value="yes" />
+        <input type="hidden" name="area" value="default" />
+      </form>
+    </div>
+  </div>
+</div>
+      
+    </div>
+  </div>
+        <div id="right-column">
+          
+          <div role="navigation" aria-label="breadcrumbs navigation">
+            <ol class="breadcrumb">
+              <li><a href="../index.html">Docs</a></li>
+              
+                <li><a href="modules.html">geomm</a></li>
+              
+                <li><a href="geomm.html">geomm package</a></li>
+              
+              <li>geomm.sasa module</li>
+            </ol>
+          </div>
+          
+          <div class="document clearer body">
+            
+  <div class="section" id="module-geomm.sasa">
+<span id="geomm-sasa-module"></span><h1>geomm.sasa module<a class="headerlink" href="#module-geomm.sasa" title="Permalink to this headline">¶</a></h1>
+<dl class="function">
+<dt id="geomm.sasa.shrake_rupley">
+<code class="sig-prename descclassname">geomm.sasa.</code><code class="sig-name descname">shrake_rupley</code><span class="sig-paren">(</span><em class="sig-param">coords</em>, <em class="sig-param">radii</em>, <em class="sig-param">probe_radius=0.14</em>, <em class="sig-param">n_sphere_points=960</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geomm/sasa.html#shrake_rupley"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#geomm.sasa.shrake_rupley" title="Permalink to this definition">¶</a></dt>
+<dd><p class="rubric">Notes</p>
+<p>This code implements the Shrake and Rupley algorithm, with the Golden
+Section Spiral algorithm to generate the sphere points. The basic idea
+is to great a mesh of points representing the surface of each atom
+(at a distance of the van der waals radius plus the probe
+radius from the nuclei), and then count the number of such mesh points
+that are on the molecular surface – i.e. not within the radius of another
+atom. Assuming that the points are evenly distributed, the number of points
+is directly proportional to the accessible surface area (its just 4*pi*r^2
+time the fraction of the points that are accessible).
+There are a number of different ways to generate the points on the sphere –
+possibly the best way would be to do a little “molecular dyanmics” : put the
+points on the sphere, and then run MD where all the points repel one another
+and wait for them to get to an energy minimum. But that sounds expensive.
+This code uses the golden section spiral algorithm
+(picture at <a class="reference external" href="http://xsisupport.com/2012/02/25/evenly-distributing-points-on-a-sphere-with-the-golden-sectionspiral/">http://xsisupport.com/2012/02/25/evenly-distributing-points-on-a-sphere-with-the-golden-sectionspiral/</a>)
+where you make this spiral that traces out the unit sphere and then put points
+down equidistant along the spiral. It’s cheap, but not perfect.
+The gromacs utility g_sas uses a slightly different algorithm for generating
+points on the sphere, which is based on an icosahedral tesselation.
+roughly, the icosahedral tesselation works something like this
+<a class="reference external" href="http://www.ziyan.info/2008/11/sphere-tessellation-using-icosahedron.html">http://www.ziyan.info/2008/11/sphere-tessellation-using-icosahedron.html</a></p>
+<p class="rubric">References</p>
+<dl class="footnote brackets">
+<dt class="label" id="id1"><span class="brackets">1</span></dt>
+<dd><p>Shrake, A; Rupley, JA. (1973) J Mol Biol 79 (2): 351–71.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+
+
+          </div>
+            
+  <div class="footer-relations">
+    
+      <div class="pull-left">
+        <a class="btn btn-default" href="geomm.rmsd.html" title="previous chapter (use the left arrow)">geomm.rmsd module</a>
+      </div>
+    
+      <div class="pull-right">
+        <a class="btn btn-default" href="geomm.superimpose.html" title="next chapter (use the right arrow)">geomm.superimpose module</a>
+      </div>
+    </div>
+    <div class="clearer"></div>
+  
+        </div>
+        <div class="clearfix"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="geomm.superimpose.html" title="geomm.superimpose module"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="geomm.rmsd.html" title="geomm.rmsd module"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">geomm 0.2.0.dev0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="modules.html" >geomm</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="geomm.html" >geomm package</a> &#187;</li> 
+      </ul>
+    </div>
+<script type="text/javascript">
+  $("#mobile-toggle a").click(function () {
+    $("#left-column").toggle();
+  });
+</script>
+<script type="text/javascript" src="../_static/js/bootstrap.js"></script>
+  <div class="footer">
+    &copy; Copyright 2020, Samuel D. Lotz. Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
+  </div>
+  </body>
+</html>

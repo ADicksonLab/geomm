@@ -1,0 +1,218 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+  
+  <!-- Licensed under the Apache 2.0 License -->
+  <link rel="stylesheet" type="text/css" href="../../_static/fonts/open-sans/stylesheet.css" />
+  <!-- Licensed under the SIL Open Font License -->
+  <link rel="stylesheet" type="text/css" href="../../_static/fonts/source-serif-pro/source-serif-pro.css" />
+  <link rel="stylesheet" type="text/css" href="../../_static/css/bootstrap.min.css" />
+  <link rel="stylesheet" type="text/css" href="../../_static/css/bootstrap-theme.min.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+    <title>geomm.grouping &#8212; geomm 0.2.0.dev0 documentation</title>
+    <link rel="stylesheet" href="../../_static/guzzle.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/language_data.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+  
+   
+
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">geomm 0.2.0.dev0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Module code</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="container-wrapper">
+
+      <div id="mobile-toggle">
+        <a href="#"><span class="glyphicon glyphicon-align-justify" aria-hidden="true"></span></a>
+      </div>
+  <div id="left-column">
+    <div class="sphinxsidebar">
+<div class="sidebar-block">
+  <div class="sidebar-wrapper">
+    <div id="main-search">
+      <form class="form-inline" action="../../search.html" method="GET" role="form">
+        <div class="input-group">
+          <input name="q" type="text" class="form-control" placeholder="Search...">
+        </div>
+        <input type="hidden" name="check_keywords" value="yes" />
+        <input type="hidden" name="area" value="default" />
+      </form>
+    </div>
+  </div>
+</div>
+      
+    </div>
+  </div>
+        <div id="right-column">
+          
+          <div role="navigation" aria-label="breadcrumbs navigation">
+            <ol class="breadcrumb">
+              <li><a href="../../index.html">Docs</a></li>
+              
+                <li><a href="../index.html">Module code</a></li>
+              
+              <li>geomm.grouping</li>
+            </ol>
+          </div>
+          
+          <div class="document clearer body">
+            
+  <h1>Source code for geomm.grouping</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="kn">from</span> <span class="nn">geomm.centering</span> <span class="kn">import</span> <span class="n">center</span>
+
+<div class="viewcode-block" id="group_complex"><a class="viewcode-back" href="../../api/geomm.grouping.html#geomm.grouping.group_complex">[docs]</a><span class="k">def</span> <span class="nf">group_complex</span><span class="p">(</span><span class="n">coords</span><span class="p">,</span> <span class="n">complexes_idxs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;TODO</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">raise</span> <span class="ne">NotImplementedError</span>
+
+    <span class="n">grouped_coords</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">coords</span><span class="p">)</span>
+
+    <span class="c1"># get the coordinates of each complex</span>
+    <span class="n">complex_coords</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">complex_idxs</span> <span class="ow">in</span> <span class="n">complexes_idxs</span><span class="p">:</span>
+        <span class="n">complex_coords</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">coords</span><span class="p">[</span><span class="n">complex_idxs</span><span class="p">,</span> <span class="p">:])</span>
+
+    <span class="k">return</span> <span class="n">grouped_coords</span></div>
+
+<div class="viewcode-block" id="group_pair"><a class="viewcode-back" href="../../api/geomm.grouping.html#geomm.grouping.group_pair">[docs]</a><span class="k">def</span> <span class="nf">group_pair</span><span class="p">(</span><span class="n">coords</span><span class="p">,</span> <span class="n">unitcell_side_lengths</span><span class="p">,</span> <span class="n">member_a_idxs</span><span class="p">,</span> <span class="n">member_b_idxs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;For a pair of group of coordinates (e.g. atoms) this moves member_b</span>
+<span class="sd">    coordinates to the image of the periodic unitcell that minimizes</span>
+<span class="sd">    the difference between the centers of geometry between the two</span>
+<span class="sd">    members (e.g. a protein and ligand).</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    coords : arraylike</span>
+<span class="sd">        The coordinate array of the particles you will be</span>
+<span class="sd">        transforming.</span>
+
+<span class="sd">    unitcell_side_lengths : arraylike of shape (3)</span>
+<span class="sd">        The lengths of the sides of a rectangular unitcell.</span>
+
+<span class="sd">    member_a_idxs : arraylike of int of rank 1</span>
+<span class="sd">        Collection of the indices that define that member of the pair.</span>
+
+<span class="sd">    member_b_idxs : arraylike of int of rank 1</span>
+<span class="sd">        Collection of the indices that define that member of the pair.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+
+<span class="sd">    grouped_coords : arraylike</span>
+<span class="sd">        Transformed coordinates.</span>
+
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># take the difference between the average coords of each</span>
+    <span class="c1"># molecule.</span>
+    <span class="n">unitcell_half_lengths</span> <span class="o">=</span> <span class="n">unitcell_side_lengths</span> <span class="o">*</span> <span class="mf">0.5</span>
+
+    <span class="c1"># initialize a new array for the coordinates</span>
+    <span class="n">grouped_coords</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">coords</span><span class="p">)</span>
+
+    <span class="c1"># get the coordinates for the ligand and member_b separately</span>
+    <span class="n">member_a_coords</span> <span class="o">=</span> <span class="n">coords</span><span class="p">[</span><span class="n">member_a_idxs</span><span class="p">,</span> <span class="p">:]</span>
+    <span class="n">member_b_coords</span> <span class="o">=</span> <span class="n">coords</span><span class="p">[</span><span class="n">member_b_idxs</span><span class="p">,</span> <span class="p">:]</span>
+
+    <span class="c1"># calculate the centroids for each member</span>
+    <span class="n">member_a_centroid</span> <span class="o">=</span> <span class="n">member_a_coords</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">member_b_centroid</span> <span class="o">=</span> <span class="n">member_b_coords</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+    <span class="c1"># calculate the difference between them from the given coordinates</span>
+    <span class="n">centroid_dist</span> <span class="o">=</span> <span class="n">member_a_centroid</span> <span class="o">-</span> <span class="n">member_b_centroid</span>
+
+    <span class="c1"># now we need to move one relative to the other by unitcell</span>
+    <span class="c1"># lengths in order to find one that makes the difference between</span>
+    <span class="c1"># the centroids smallest</span>
+
+    <span class="c1"># When the centroid_dist are larger than the unitcell half length in</span>
+    <span class="c1"># both the positive and negative direction</span>
+
+    <span class="c1"># The positive direction</span>
+
+    <span class="c1"># this gives us a tuple of two arrays. THe first array is the</span>
+    <span class="c1"># indices of the frames that satisfied the boolean expression. The</span>
+    <span class="c1"># second array is the index of the dimension that satisfied the</span>
+    <span class="c1"># boolean expression, i.e. 0,1,2 for x,y,z. For example if we have</span>
+    <span class="c1"># a frame where member_b is outside the box on two dimensions we</span>
+    <span class="c1"># could have (array([0,0]), array([0,2])) for frame 1 on both x</span>
+    <span class="c1"># and z dimensions. and only (array([0]), array([0])) for outside</span>
+    <span class="c1"># on the first frame x dimension.</span>
+    <span class="n">pos_idxs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">centroid_dist</span> <span class="o">&gt;</span> <span class="n">unitcell_half_lengths</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="c1"># we simply pair elements from each of those arrays (pairwise) to</span>
+    <span class="c1"># iterate over them. Essentially reshaping the two arrays</span>
+    <span class="k">for</span> <span class="n">dim_idx</span> <span class="ow">in</span> <span class="n">pos_idxs</span><span class="p">:</span>
+        <span class="c1"># change the ligand coordinates to center them by adding the</span>
+        <span class="c1"># cube side length in that direction</span>
+        <span class="n">grouped_coords</span><span class="p">[</span><span class="n">member_b_idxs</span><span class="p">,</span> <span class="n">dim_idx</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">member_b_coords</span><span class="p">[:,</span> <span class="n">dim_idx</span><span class="p">]</span> <span class="o">+</span>
+                                                <span class="n">unitcell_side_lengths</span><span class="p">[</span><span class="n">dim_idx</span><span class="p">])</span>
+
+    <span class="c1"># the negative direction is the same as the positive direction</span>
+    <span class="c1"># except for the boolean expression in the where command and we</span>
+    <span class="c1"># subtract the cube side length instead of adding it</span>
+    <span class="n">neg_idxs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">centroid_dist</span> <span class="o">&lt;</span> <span class="o">-</span><span class="n">unitcell_half_lengths</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">dim_idx</span> <span class="ow">in</span> <span class="n">neg_idxs</span><span class="p">:</span>
+        <span class="n">grouped_coords</span><span class="p">[</span><span class="n">member_b_idxs</span><span class="p">,</span> <span class="n">dim_idx</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">member_b_coords</span><span class="p">[:,</span> <span class="n">dim_idx</span><span class="p">]</span> <span class="o">-</span>
+                                                  <span class="n">unitcell_side_lengths</span><span class="p">[</span><span class="n">dim_idx</span><span class="p">])</span>
+
+
+    <span class="k">return</span> <span class="n">grouped_coords</span></div>
+
+</pre></div>
+
+          </div>
+            
+        </div>
+        <div class="clearfix"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">geomm 0.2.0.dev0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li> 
+      </ul>
+    </div>
+<script type="text/javascript">
+  $("#mobile-toggle a").click(function () {
+    $("#left-column").toggle();
+  });
+</script>
+<script type="text/javascript" src="../../_static/js/bootstrap.js"></script>
+  <div class="footer">
+    &copy; Copyright 2020, Samuel D. Lotz. Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
+  </div>
+  </body>
+</html>

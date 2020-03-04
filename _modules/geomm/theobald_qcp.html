@@ -1,0 +1,190 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+  
+  <!-- Licensed under the Apache 2.0 License -->
+  <link rel="stylesheet" type="text/css" href="../../_static/fonts/open-sans/stylesheet.css" />
+  <!-- Licensed under the SIL Open Font License -->
+  <link rel="stylesheet" type="text/css" href="../../_static/fonts/source-serif-pro/source-serif-pro.css" />
+  <link rel="stylesheet" type="text/css" href="../../_static/css/bootstrap.min.css" />
+  <link rel="stylesheet" type="text/css" href="../../_static/css/bootstrap-theme.min.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+    <title>geomm.theobald_qcp &#8212; geomm 0.2.0.dev0 documentation</title>
+    <link rel="stylesheet" href="../../_static/guzzle.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/language_data.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+  
+   
+
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">geomm 0.2.0.dev0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Module code</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="container-wrapper">
+
+      <div id="mobile-toggle">
+        <a href="#"><span class="glyphicon glyphicon-align-justify" aria-hidden="true"></span></a>
+      </div>
+  <div id="left-column">
+    <div class="sphinxsidebar">
+<div class="sidebar-block">
+  <div class="sidebar-wrapper">
+    <div id="main-search">
+      <form class="form-inline" action="../../search.html" method="GET" role="form">
+        <div class="input-group">
+          <input name="q" type="text" class="form-control" placeholder="Search...">
+        </div>
+        <input type="hidden" name="check_keywords" value="yes" />
+        <input type="hidden" name="area" value="default" />
+      </form>
+    </div>
+  </div>
+</div>
+      
+    </div>
+  </div>
+        <div id="right-column">
+          
+          <div role="navigation" aria-label="breadcrumbs navigation">
+            <ol class="breadcrumb">
+              <li><a href="../../index.html">Docs</a></li>
+              
+                <li><a href="../index.html">Module code</a></li>
+              
+              <li>geomm.theobald_qcp</li>
+            </ol>
+          </div>
+          
+          <div class="document clearer body">
+            
+  <h1>Source code for geomm.theobald_qcp</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="kn">from</span> <span class="nn">geomm.pyqcprot</span> <span class="kn">import</span> <span class="n">CalcRMSDRotationalMatrix</span>
+
+<div class="viewcode-block" id="theobald_qcp"><a class="viewcode-back" href="../../api/geomm.theobald_qcp.html#geomm.theobald_qcp.theobald_qcp">[docs]</a><span class="k">def</span> <span class="nf">theobald_qcp</span><span class="p">(</span><span class="n">ref_coords</span><span class="p">,</span> <span class="n">coords</span><span class="p">,</span> <span class="n">idxs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Wrapper around the pyqcprot implementation of the Theobald-QCP</span>
+<span class="sd">    method for the calculation of RMSD and the RMSD minimizing rotation</span>
+<span class="sd">    matrix. This function just gives a more pythonic API to the</span>
+<span class="sd">    function</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    ref_coords : arraylike</span>
+<span class="sd">        The refence coordinates that will be aligned to.</span>
+
+<span class="sd">    coords : arraylike</span>
+<span class="sd">        The coordinates that will be rotated to match ref_coords.</span>
+
+<span class="sd">    idxs : arraylike of int</span>
+<span class="sd">        Indices of the atoms that you want to align. Rotation will be</span>
+<span class="sd">        applied to all coordinates.</span>
+
+<span class="sd">    weights : arraylike, optional</span>
+<span class="sd">        If your coordinates are weighted (e.g. mass) this is an</span>
+<span class="sd">        array of those weights</span>
+<span class="sd">       (Default = None)</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+
+<span class="sd">    rmsd : float</span>
+<span class="sd">        The rmsd of the two sets of coordinates.</span>
+
+<span class="sd">    rotation_matrix : arraylike</span>
+<span class="sd">        The rotation matrix that minimizes the RMSD.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># make sure the coords are the same size</span>
+    <span class="k">assert</span> <span class="n">ref_coords</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">coords</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> \
+        <span class="s2">&quot;Number of coordinates are not the same&quot;</span>
+
+    <span class="c1"># make sure the number of dimensions is 3</span>
+    <span class="k">assert</span> <span class="p">(</span><span class="n">ref_coords</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="mi">3</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">coords</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="mi">3</span><span class="p">),</span> \
+        <span class="s2">&quot;Number of dimensions are not the same&quot;</span>
+
+    <span class="c1"># copy the coordinates to make sure we are not modifying them in</span>
+    <span class="c1"># place</span>
+    <span class="n">ref_coords_copy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">ref_coords</span><span class="o">.</span><span class="n">copy</span><span class="p">(),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
+    <span class="n">coords_copy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">coords</span><span class="o">.</span><span class="n">copy</span><span class="p">(),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
+
+    <span class="c1"># if idxs were given we use just those for aligning</span>
+    <span class="k">if</span> <span class="n">idxs</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">align_ref_coords</span> <span class="o">=</span> <span class="n">ref_coords_copy</span><span class="p">[</span><span class="n">idxs</span><span class="p">]</span>
+        <span class="n">align_coords</span> <span class="o">=</span> <span class="n">coords_copy</span><span class="p">[</span><span class="n">idxs</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">align_ref_coords</span> <span class="o">=</span> <span class="n">ref_coords_copy</span>
+        <span class="n">align_coords</span> <span class="o">=</span> <span class="n">coords_copy</span>
+
+    <span class="c1"># the number of coordinates (atoms)</span>
+    <span class="n">n_coords</span> <span class="o">=</span> <span class="n">align_ref_coords</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="c1"># make sure the weights if given are the right size</span>
+    <span class="k">if</span> <span class="n">weights</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">assert</span> <span class="n">weights</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">n_coords</span><span class="p">,</span> \
+            <span class="s2">&quot;Number of weights given does not match the number of coordinates&quot;</span>
+
+    <span class="c1"># make an empty rotation matrix to fill from the cython function,</span>
+    <span class="c1"># this is always an array of length 9</span>
+    <span class="n">rotation_matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">9</span><span class="p">,),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
+
+    <span class="c1"># calculate the rmsd, and the rotation matrix which is modified in-place</span>
+    <span class="n">rmsd</span> <span class="o">=</span> <span class="n">CalcRMSDRotationalMatrix</span><span class="p">(</span><span class="n">align_ref_coords</span><span class="p">,</span> <span class="n">align_coords</span><span class="p">,</span>
+                                    <span class="n">n_coords</span><span class="p">,</span> <span class="n">rotation_matrix</span><span class="p">,</span> <span class="n">weights</span><span class="p">)</span>
+
+    <span class="c1"># reshape the rotation matrix to be 2D</span>
+    <span class="k">return</span> <span class="n">rmsd</span><span class="p">,</span> <span class="n">rotation_matrix</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span> <span class="p">)</span></div>
+</pre></div>
+
+          </div>
+            
+        </div>
+        <div class="clearfix"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">geomm 0.2.0.dev0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li> 
+      </ul>
+    </div>
+<script type="text/javascript">
+  $("#mobile-toggle a").click(function () {
+    $("#left-column").toggle();
+  });
+</script>
+<script type="text/javascript" src="../../_static/js/bootstrap.js"></script>
+  <div class="footer">
+    &copy; Copyright 2020, Samuel D. Lotz. Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
+  </div>
+  </body>
+</html>

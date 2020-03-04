@@ -1,0 +1,221 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+  
+  <!-- Licensed under the Apache 2.0 License -->
+  <link rel="stylesheet" type="text/css" href="../_static/fonts/open-sans/stylesheet.css" />
+  <!-- Licensed under the SIL Open Font License -->
+  <link rel="stylesheet" type="text/css" href="../_static/fonts/source-serif-pro/source-serif-pro.css" />
+  <link rel="stylesheet" type="text/css" href="../_static/css/bootstrap.min.css" />
+  <link rel="stylesheet" type="text/css" href="../_static/css/bootstrap-theme.min.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+    <title>geomm.superimpose module &#8212; geomm 0.2.0.dev0 documentation</title>
+    <link rel="stylesheet" href="../_static/guzzle.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="geomm.theobald_qcp module" href="geomm.theobald_qcp.html" />
+    <link rel="prev" title="geomm.sasa module" href="geomm.sasa.html" />
+  
+   
+
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="geomm.theobald_qcp.html" title="geomm.theobald_qcp module"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="geomm.sasa.html" title="geomm.sasa module"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">geomm 0.2.0.dev0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="modules.html" >geomm</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="geomm.html" accesskey="U">geomm package</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="container-wrapper">
+
+      <div id="mobile-toggle">
+        <a href="#"><span class="glyphicon glyphicon-align-justify" aria-hidden="true"></span></a>
+      </div>
+  <div id="left-column">
+    <div class="sphinxsidebar">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="geomm.sasa.html"
+                        title="previous chapter">geomm.sasa module</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="geomm.theobald_qcp.html"
+                        title="next chapter">geomm.theobald_qcp module</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/api/geomm.superimpose.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div class="sidebar-block">
+  <div class="sidebar-wrapper">
+    <div id="main-search">
+      <form class="form-inline" action="../search.html" method="GET" role="form">
+        <div class="input-group">
+          <input name="q" type="text" class="form-control" placeholder="Search...">
+        </div>
+        <input type="hidden" name="check_keywords" value="yes" />
+        <input type="hidden" name="area" value="default" />
+      </form>
+    </div>
+  </div>
+</div>
+      
+    </div>
+  </div>
+        <div id="right-column">
+          
+          <div role="navigation" aria-label="breadcrumbs navigation">
+            <ol class="breadcrumb">
+              <li><a href="../index.html">Docs</a></li>
+              
+                <li><a href="modules.html">geomm</a></li>
+              
+                <li><a href="geomm.html">geomm package</a></li>
+              
+              <li>geomm.superimpose module</li>
+            </ol>
+          </div>
+          
+          <div class="document clearer body">
+            
+  <div class="section" id="module-geomm.superimpose">
+<span id="geomm-superimpose-module"></span><h1>geomm.superimpose module<a class="headerlink" href="#module-geomm.superimpose" title="Permalink to this headline">¶</a></h1>
+<dl class="function">
+<dt id="geomm.superimpose.superimpose">
+<code class="sig-prename descclassname">geomm.superimpose.</code><code class="sig-name descname">superimpose</code><span class="sig-paren">(</span><em class="sig-param">ref_coords</em>, <em class="sig-param">coords</em>, <em class="sig-param">idxs=None</em>, <em class="sig-param">weights=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geomm/superimpose.html#superimpose"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#geomm.superimpose.superimpose" title="Permalink to this definition">¶</a></dt>
+<dd><p>Superimpose a set of coordinates to reference coordinates using the
+Theobald-QCP method.</p>
+<p>Assumes coordinates are centered appropriately.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ref_coords</strong> (<em>arraylike</em>) – The template coordinates that <cite>coords</cite> will be aligned to.</p></li>
+<li><p><strong>coords</strong> (<em>arraylike</em>) – The coordinates which will be aligned to the template
+coordinates and have the rotation matrix applied to them and
+returned.</p></li>
+<li><p><strong>idxs</strong> (<em>arraylike</em><em>, </em><em>optional</em>) – <dl class="simple">
+<dt>If given will superimpose the coordinates based only on the</dt><dd><p>alignment on this subset of atoms to the reference.</p>
+</dd>
+</dl>
+<p>(Default = None)</p>
+</p></li>
+<li><p><strong>weights</strong> (<em>arraylike</em><em>, </em><em>optional</em>) – <dl class="simple">
+<dt>Give weights to the coordinates for a weighted centroid</dt><dd><p>(‘center of mass’) used in translations to the origin and to
+the centroid of the reference structure.</p>
+</dd>
+</dl>
+<p>(Default = None)</p>
+</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>superimposed_coords</strong> (<em>arraylike of float</em>) – The transformed coordinates.</p></li>
+<li><p><strong>rotation_matrix</strong> (<em>arraylike</em>) – The rotation matrix from Theobald-QCP that minimized the RMSD</p></li>
+<li><p><strong>qcp_rmsd</strong> (<em>float</em>) – The RMSD calculated from Theobald-QCP.</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Assumes that the coordinates are both centered.</p>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="geomm.superimpose.alt_superimpose">
+<code class="sig-prename descclassname">geomm.superimpose.</code><code class="sig-name descname">alt_superimpose</code><span class="sig-paren">(</span><em class="sig-param">ref_coords</em>, <em class="sig-param">coords</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geomm/superimpose.html#alt_superimpose"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#geomm.superimpose.alt_superimpose" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the translation and rotation mapping mobile onto target.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mobile</strong> (<em>ndarray</em><em>, </em><em>shape =</em><em> (</em><em>n_atoms</em><em>, </em><em>3</em><em>)</em>) – xyz coordinates of a <cite>single</cite> frame, to be aligned onto target.</p></li>
+<li><p><strong>target</strong> (<em>ndarray</em><em>, </em><em>shape =</em><em> (</em><em>n_atoms</em><em>, </em><em>3</em><em>)</em>) – xyz coordinates of a <cite>single</cite> frame</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>translation</strong> (<em>ndarray, shape=(3,)</em>) – Difference between the centroids of the two conformations</p></li>
+<li><p><strong>rotation</strong> (<em>ndarray, shape=(3,3)</em>) – Rotation matrix to apply to mobile to carry out the transformation.</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+
+
+          </div>
+            
+  <div class="footer-relations">
+    
+      <div class="pull-left">
+        <a class="btn btn-default" href="geomm.sasa.html" title="previous chapter (use the left arrow)">geomm.sasa module</a>
+      </div>
+    
+      <div class="pull-right">
+        <a class="btn btn-default" href="geomm.theobald_qcp.html" title="next chapter (use the right arrow)">geomm.theobald_qcp module</a>
+      </div>
+    </div>
+    <div class="clearer"></div>
+  
+        </div>
+        <div class="clearfix"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="geomm.theobald_qcp.html" title="geomm.theobald_qcp module"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="geomm.sasa.html" title="geomm.sasa module"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">geomm 0.2.0.dev0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="modules.html" >geomm</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="geomm.html" >geomm package</a> &#187;</li> 
+      </ul>
+    </div>
+<script type="text/javascript">
+  $("#mobile-toggle a").click(function () {
+    $("#left-column").toggle();
+  });
+</script>
+<script type="text/javascript" src="../_static/js/bootstrap.js"></script>
+  <div class="footer">
+    &copy; Copyright 2020, Samuel D. Lotz. Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
+  </div>
+  </body>
+</html>

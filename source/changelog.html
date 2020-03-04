@@ -1,0 +1,205 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+  
+  <!-- Licensed under the Apache 2.0 License -->
+  <link rel="stylesheet" type="text/css" href="../_static/fonts/open-sans/stylesheet.css" />
+  <!-- Licensed under the SIL Open Font License -->
+  <link rel="stylesheet" type="text/css" href="../_static/fonts/source-serif-pro/source-serif-pro.css" />
+  <link rel="stylesheet" type="text/css" href="../_static/css/bootstrap.min.css" />
+  <link rel="stylesheet" type="text/css" href="../_static/css/bootstrap-theme.min.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+    <title>Changelog &#8212; geomm 0.2.0.dev0 documentation</title>
+    <link rel="stylesheet" href="../_static/guzzle.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="News and Updates" href="news.html" />
+    <link rel="prev" title="Development Guide" href="dev_guide.html" />
+  
+   
+
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="news.html" title="News and Updates"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="dev_guide.html" title="Development Guide"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">geomm 0.2.0.dev0 documentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="container-wrapper">
+
+      <div id="mobile-toggle">
+        <a href="#"><span class="glyphicon glyphicon-align-justify" aria-hidden="true"></span></a>
+      </div>
+  <div id="left-column">
+    <div class="sphinxsidebar">
+<div class="sidebar-block">
+  <div class="sidebar-wrapper">
+    <h2>Contents</h2>
+    <div class="sidebar-localtoc">
+      <ul>
+<li><a class="reference internal" href="#">Changelog</a><ul>
+<li><a class="reference internal" href="#unreleased-0-2">Unreleased [0.2]</a><ul>
+<li><a class="reference internal" href="#breakages">Breakages</a></li>
+<li><a class="reference internal" href="#regressions">Regressions</a></li>
+<li><a class="reference internal" href="#growth">Growth</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#section-1">[0.1.7] - 2019-06-07</a></li>
+</ul>
+</li>
+</ul>
+
+    </div>
+  </div>
+</div>
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="dev_guide.html"
+                        title="previous chapter">Development Guide</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="news.html"
+                        title="next chapter">News and Updates</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/source/changelog.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div class="sidebar-block">
+  <div class="sidebar-wrapper">
+    <div id="main-search">
+      <form class="form-inline" action="../search.html" method="GET" role="form">
+        <div class="input-group">
+          <input name="q" type="text" class="form-control" placeholder="Search...">
+        </div>
+        <input type="hidden" name="check_keywords" value="yes" />
+        <input type="hidden" name="area" value="default" />
+      </form>
+    </div>
+  </div>
+</div>
+      
+    </div>
+  </div>
+        <div id="right-column">
+          
+          <div role="navigation" aria-label="breadcrumbs navigation">
+            <ol class="breadcrumb">
+              <li><a href="../index.html">Docs</a></li>
+              
+              <li>Changelog</li>
+            </ol>
+          </div>
+          
+          <div class="document clearer body">
+            
+  <div class="section" id="changelog">
+<h1>Changelog<a class="headerlink" href="#changelog" title="Permalink to this headline">¶</a></h1>
+<p>Adapted from <a class="reference external" href="https://keepachangelog.com">keepachangelog.com</a> for
+org-mode.</p>
+<p>Adheres to <a class="reference external" href="https://github.com/salotz/rfcs/blob/master/rfcs/salotz.002_semantic-changelog.org">RFC:
+salotz.002semantic-changelog</a>.</p>
+<p>See the git commit log history for full details.</p>
+<div class="section" id="unreleased-0-2">
+<h2>Unreleased [0.2]<a class="headerlink" href="#unreleased-0-2" title="Permalink to this headline">¶</a></h2>
+<p>This is still an alpha version so do not rely on the API as it contains
+many stubs and will probably change. We are releasing it so that there
+is a clear declaration of dependencies on some other projects that are
+being released with support for <code class="docutils literal notranslate"><span class="pre">geomm</span></code>.</p>
+<div class="section" id="breakages">
+<h3>Breakages<a class="headerlink" href="#breakages" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Extensive changes to APIs concerning centering and periodic boundary
+conditions</p></li>
+</ul>
+</div>
+<div class="section" id="regressions">
+<h3>Regressions<a class="headerlink" href="#regressions" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="growth">
+<h3>Growth<a class="headerlink" href="#growth" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Started proper documentation and website</p></li>
+<li><p>addition of simple calculations for kinetic energy of frames given
+velocities</p></li>
+<li><p>Arrhenius equation calculation functions (not geometry based I know…)</p></li>
+</ul>
+</div>
+</div>
+<div class="section" id="section-1">
+<span id="id1"></span><h2>[0.1.7] - 2019-06-07<a class="headerlink" href="#section-1" title="Permalink to this headline">¶</a></h2>
+<p>Before this time is considered pre-history. <code class="docutils literal notranslate"><span class="pre">geomm</span></code> is still in alpha
+and so we do not document the changes in detail at this point.</p>
+</div>
+</div>
+
+
+          </div>
+            
+  <div class="footer-relations">
+    
+      <div class="pull-left">
+        <a class="btn btn-default" href="dev_guide.html" title="previous chapter (use the left arrow)">Development Guide</a>
+      </div>
+    
+      <div class="pull-right">
+        <a class="btn btn-default" href="news.html" title="next chapter (use the right arrow)">News and Updates</a>
+      </div>
+    </div>
+    <div class="clearer"></div>
+  
+        </div>
+        <div class="clearfix"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="news.html" title="News and Updates"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="dev_guide.html" title="Development Guide"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">geomm 0.2.0.dev0 documentation</a> &#187;</li> 
+      </ul>
+    </div>
+<script type="text/javascript">
+  $("#mobile-toggle a").click(function () {
+    $("#left-column").toggle();
+  });
+</script>
+<script type="text/javascript" src="../_static/js/bootstrap.js"></script>
+  <div class="footer">
+    &copy; Copyright 2020, Samuel D. Lotz. Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
+  </div>
+  </body>
+</html>

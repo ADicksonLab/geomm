@@ -1,0 +1,440 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+  
+  <!-- Licensed under the Apache 2.0 License -->
+  <link rel="stylesheet" type="text/css" href="../_static/fonts/open-sans/stylesheet.css" />
+  <!-- Licensed under the SIL Open Font License -->
+  <link rel="stylesheet" type="text/css" href="../_static/fonts/source-serif-pro/source-serif-pro.css" />
+  <link rel="stylesheet" type="text/css" href="../_static/css/bootstrap.min.css" />
+  <link rel="stylesheet" type="text/css" href="../_static/css/bootstrap-theme.min.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+    <title>Development Guide &#8212; geomm 0.2.0.dev0 documentation</title>
+    <link rel="stylesheet" href="../_static/guzzle.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Changelog" href="changelog.html" />
+    <link rel="prev" title="General Information" href="general_info.html" />
+  
+   
+
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="changelog.html" title="Changelog"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="general_info.html" title="General Information"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">geomm 0.2.0.dev0 documentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="container-wrapper">
+
+      <div id="mobile-toggle">
+        <a href="#"><span class="glyphicon glyphicon-align-justify" aria-hidden="true"></span></a>
+      </div>
+  <div id="left-column">
+    <div class="sphinxsidebar">
+<div class="sidebar-block">
+  <div class="sidebar-wrapper">
+    <h2>Contents</h2>
+    <div class="sidebar-localtoc">
+      <ul>
+<li><a class="reference internal" href="#">Development Guide</a><ul>
+<li><a class="reference internal" href="#getting-set-up">Getting Set Up</a><ul>
+<li><a class="reference internal" href="#obtaining-the-source-code">Obtaining the source code</a></li>
+<li><a class="reference internal" href="#tooling">Tooling</a></li>
+<li><a class="reference internal" href="#virtual-environments">Virtual Environments</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#maintenance-tasks">Maintenance Tasks</a><ul>
+<li><a class="reference internal" href="#managing-dependencies">Managing Dependencies</a></li>
+<li><a class="reference internal" href="#documentation-and-website">Documentation and Website</a></li>
+<li><a class="reference internal" href="#testing">Testing</a></li>
+<li><a class="reference internal" href="#code-quality-metrics">Code Quality Metrics</a></li>
+<li><a class="reference internal" href="#releases">Releases</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#initializing-this-repository">Initializing this repository</a><ul>
+<li><a class="reference internal" href="#version-control">Version Control</a></li>
+<li><a class="reference internal" href="#compiling-dependencies">Compiling Dependencies</a></li>
+<li><a class="reference internal" href="#creating-environments">Creating Environments</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+    </div>
+  </div>
+</div>
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="general_info.html"
+                        title="previous chapter">General Information</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="changelog.html"
+                        title="next chapter">Changelog</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/source/dev_guide.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div class="sidebar-block">
+  <div class="sidebar-wrapper">
+    <div id="main-search">
+      <form class="form-inline" action="../search.html" method="GET" role="form">
+        <div class="input-group">
+          <input name="q" type="text" class="form-control" placeholder="Search...">
+        </div>
+        <input type="hidden" name="check_keywords" value="yes" />
+        <input type="hidden" name="area" value="default" />
+      </form>
+    </div>
+  </div>
+</div>
+      
+    </div>
+  </div>
+        <div id="right-column">
+          
+          <div role="navigation" aria-label="breadcrumbs navigation">
+            <ol class="breadcrumb">
+              <li><a href="../index.html">Docs</a></li>
+              
+              <li>Development Guide</li>
+            </ol>
+          </div>
+          
+          <div class="document clearer body">
+            
+  <div class="section" id="development-guide">
+<h1>Development Guide<a class="headerlink" href="#development-guide" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="getting-set-up">
+<h2>Getting Set Up<a class="headerlink" href="#getting-set-up" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="obtaining-the-source-code">
+<h3>Obtaining the source code<a class="headerlink" href="#obtaining-the-source-code" title="Permalink to this headline">¶</a></h3>
+<p>For the source code:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git clone https://github.com/ADicksonLab/geomm
+<span class="nb">cd</span> geomm
+</pre></div>
+</div>
+</div>
+<div class="section" id="tooling">
+<h3>Tooling<a class="headerlink" href="#tooling" title="Permalink to this headline">¶</a></h3>
+<p>To make things easier for developers we provide a set automation scripts
+implemented in <code class="docutils literal notranslate"><span class="pre">invoke</span></code> (similar to a makefile if you are familiar
+with that).</p>
+<p>So you will want to install invoke somehow to use this tooling. So make
+sure you are in a suitable python environment (i.e. not the systems
+python) and install the tools in the <code class="docutils literal notranslate"><span class="pre">tools.requirements.txt</span></code> file.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip install -r tools.requirements.txt
+</pre></div>
+</div>
+</div>
+<div class="section" id="virtual-environments">
+<h3>Virtual Environments<a class="headerlink" href="#virtual-environments" title="Permalink to this headline">¶</a></h3>
+<p>This is for managing environments which are just for the purpose of
+developing this project, and not necessarily just for running it (as a
+user). See <em>Managing Dependencies</em> for details on managing dependencies
+of the installable project.</p>
+<p>We also require a few shell environmental variables which are exported
+in the <code class="docutils literal notranslate"><span class="pre">env.bash</span></code> file. Go ahead and source this before doing anything
+else:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">source</span> env.bash
+</pre></div>
+</div>
+<p>To create an env called <code class="docutils literal notranslate"><span class="pre">geomm.dev</span></code> just run the <code class="docutils literal notranslate"><span class="pre">env</span></code> target from
+<code class="docutils literal notranslate"><span class="pre">invoke</span></code>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>inv env
+</pre></div>
+</div>
+<p>Then follow the activation instructions that are printed as different
+projects might use different backends.</p>
+<p>If you ever have problems with an environment just rerun this to get a
+clean one. A practice we encourage to do frequently so that developers
+don’t diverge in their envs with local modifications. So while you can
+make your env, try to use this one unless you have problems.</p>
+<p>We maintain a number of preconfigured environments in the <code class="docutils literal notranslate"><span class="pre">envs</span></code>
+directory which are used for different purposes. Calling <code class="docutils literal notranslate"><span class="pre">inv</span> <span class="pre">env</span> <span class="pre">-n</span>
+<span class="pre">dev</span></code> is the same as <code class="docutils literal notranslate"><span class="pre">inv</span> <span class="pre">dev</span></code> since it is the default, but any other
+environment can be created by passing the matching name. For instance
+there is an environment that mimics the user’s installation environment
+so that we can test experiences upon install, to make sure we haven’t
+accidentally depended on something in the dev env. For instance:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>inv env -n base
+</pre></div>
+</div>
+<p>If you want to make another environment it is straightforward to copy
+the examples in the <code class="docutils literal notranslate"><span class="pre">envs</span></code> dir.</p>
+</div>
+</div>
+<div class="section" id="maintenance-tasks">
+<h2>Maintenance Tasks<a class="headerlink" href="#maintenance-tasks" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="managing-dependencies">
+<h3>Managing Dependencies<a class="headerlink" href="#managing-dependencies" title="Permalink to this headline">¶</a></h3>
+<p>Reminder that there are two separate goals of managing dependencies and
+where they are managed:</p>
+<dl class="simple">
+<dt>Python Libraries</dt><dd><p>These dependencies are managed in <code class="docutils literal notranslate"><span class="pre">setup.py</span></code> and in PyPI or other
+indices.</p>
+</dd>
+<dt>Python Applications/Deployments</dt><dd><p>These are dependencies managed in
+<code class="docutils literal notranslate"><span class="pre">requirements.in~/~requirements.txt</span></code> and used for developer
+environments and deployment environments.</p>
+</dd>
+</dl>
+<p>So for the library aspect we use abstract requirements. These should
+essentially be the same as <code class="docutils literal notranslate"><span class="pre">requirements.in</span></code>.</p>
+<p>For the deployment side of things we use <code class="docutils literal notranslate"><span class="pre">requirements.txt</span></code>. Don’t
+manually edit this. We use <code class="docutils literal notranslate"><span class="pre">pip-tools</span></code> to “compile” dependencies for
+this.</p>
+<p>To initially pin an environment or when you add requirements run this
+target:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>inv deps-pin
+</pre></div>
+</div>
+<p>To update it (should be accompanied by a reason why):</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>inv deps-pin-update
+</pre></div>
+</div>
+</div>
+<div class="section" id="documentation-and-website">
+<h3>Documentation and Website<a class="headerlink" href="#documentation-and-website" title="Permalink to this headline">¶</a></h3>
+<ol class="arabic">
+<li><p>Editing and Building Docs</p>
+<p>To compile and build the docs just run:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>inv docs-build
+</pre></div>
+</div>
+<p>Which will output them to a temporary build directory
+‘<sub>build</sub>/html’.</p>
+<p>You can clean this build with:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>inv clean-docs
+</pre></div>
+</div>
+<p>To view how the docs would look as a website you can point your
+browser at the <code class="docutils literal notranslate"><span class="pre">_build/html</span></code> folder or run a python http web server
+with this target:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>inv docs-serve
+</pre></div>
+</div>
+</li>
+<li></li>
+<li></li>
+</ol>
+</div>
+<div class="section" id="testing">
+<h3>Testing<a class="headerlink" href="#testing" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="code-quality-metrics">
+<h3>Code Quality Metrics<a class="headerlink" href="#code-quality-metrics" title="Permalink to this headline">¶</a></h3>
+<p>Just run the end target:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>inv quality
+</pre></div>
+</div>
+<p>This will write files to <code class="docutils literal notranslate"><span class="pre">metrics</span></code>.</p>
+</div>
+<div class="section" id="releases">
+<h3>Releases<a class="headerlink" href="#releases" title="Permalink to this headline">¶</a></h3>
+<ol class="arabic">
+<li><p>Choosing a version number</p>
+<ol class="arabic">
+<li><p>Primordial Epoch</p>
+<p>In the pre-covenant releases (think “1.0” release) we just release
+based on the date. So just make the date string and add any
+release candidate, dev, or postrelease additions.</p>
+</li>
+<li><p>Covenental Epoch</p>
+<p>After the primordial epoch we have a more semantic meaning behind
+version numbers.</p>
+<p>Following PEP 440 epochs these should all be prefixed by ‘1!’ for
+the second epoch.</p>
+<p>Otherwise versions should be “canonical” strings following the
+guidelines in PEP 440.</p>
+<p>That means we support roughly:</p>
+<ul class="simple">
+<li><p>semver-ish major, minor, and patch parts</p></li>
+<li><p>release candidates</p></li>
+<li><p>dev</p></li>
+<li><p>post release “patches”</p></li>
+</ul>
+<p>However, we don’t prescribe explicit semantics to any of the parts
+as this is highly variable depending on the needs of a project and
+the forums by which it is published (e.g. PyPI, Github, etc.).</p>
+</li>
+</ol>
+</li>
+<li><p>Writing and/or Generating the Changelog and Announcement</p></li>
+<li><p>Changing the version number</p>
+<p>You can check the current version number with this command:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>inv version-which
+</pre></div>
+</div>
+<p>Increase the version number we currently do it by hand (although an
+automatic way would be nice and <code class="docutils literal notranslate"><span class="pre">bumpversion</span></code> wasn’t working for
+us). So go in and manually edit them. For reference see PEP 440 for
+valid ones.</p>
+<p>The target locations for changing versions are in the following
+files:</p>
+<ul class="simple">
+<li><p>[ ] <code class="docutils literal notranslate"><span class="pre">setup.py</span></code></p></li>
+<li><p>[ ] <code class="docutils literal notranslate"><span class="pre">src/geomm/__init__.py</span></code></p></li>
+<li><p>[ ] <code class="docutils literal notranslate"><span class="pre">sphinx/config.py</span></code></p></li>
+<li><p>[ ] <code class="docutils literal notranslate"><span class="pre">.zenodo.json</span></code></p></li>
+<li><p>[ ] <code class="docutils literal notranslate"><span class="pre">conda/conda-forge/meta.yaml</span></code></p></li>
+</ul>
+</li>
+<li><p>Making the release official</p>
+<p>To make a release do some changes and make sure they are fully tested
+and functional and commit them in version control. At this point you
+will also want to do any rebasing or cleaning up the actual commits
+if this wasn’t already done in the feature branch.</p>
+<p>If this is a ‘dev’ release and you just want to run a version control
+tag triggered CI pipeline go ahead and change the version numbers and
+commit. Then tag the ‘dev’ release.</p>
+<p>If you intend to make a non-dev release you will first want to test
+it out a little bit with a release-candidate prerelease.</p>
+<p>So do all the following bookeeping steps in a single but separate git
+commit from the actual changes to the code:</p>
+<ul class="simple">
+<li><p>[ ] write the changelog</p></li>
+<li><p>[ ] write the announcement (optional)</p></li>
+<li><p>[ ] change the version numbers</p></li>
+<li><p>[ ] build to test it out <code class="docutils literal notranslate"><span class="pre">inv</span> <span class="pre">build</span></code></p></li>
+</ul>
+<p>However, when you change the version number put a ‘rc0’ at the end of
+the new intended (semantic) number.</p>
+<p>Once you have built it and nothing is wrong go ahead and publish it
+to the test indexes (if available):</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>inv publish-test
+</pre></div>
+</div>
+<p>Then go ahead and commit the changes after that works. The message
+should follow a fixed form like</p>
+<div class="highlight-fundamental notranslate"><div class="highlight"><pre><span></span>1.0.0rc0 release preparation
+</pre></div>
+</div>
+<p>Then you can tag the release in the <code class="docutils literal notranslate"><span class="pre">git</span></code> commit history:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>inv release
+</pre></div>
+</div>
+<p>Publishing the results will vary but you can start with publishing
+the package to PyPI and the VCS hosts with the real publish target:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>inv publish
+</pre></div>
+</div>
+<p>After this you may publish to any of the following: github, gitlab,
+and/or zenodo.org (which provides a persistent DOI and stores the
+project).</p>
+<p>For Zenodo and Github just make a release for an existing release tag
+using the github web interface. If Zenodo is linked to your github
+repo it will automatically recognize it and create the DOI for it.</p>
+</li>
+</ol>
+</div>
+</div>
+<div class="section" id="initializing-this-repository">
+<h2>Initializing this repository<a class="headerlink" href="#initializing-this-repository" title="Permalink to this headline">¶</a></h2>
+<p>These are tasks that should only be done once at the inception of the
+project but are described for posterity and completeness.</p>
+<div class="section" id="version-control">
+<h3>Version Control<a class="headerlink" href="#version-control" title="Permalink to this headline">¶</a></h3>
+<p>First we need to initialize the version control system (<code class="docutils literal notranslate"><span class="pre">git</span></code>):</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>inv vcs-init
+</pre></div>
+</div>
+<p>If you want to go ahead and add the remote repositories for this
+project. We don’t manage this explicitly since <code class="docutils literal notranslate"><span class="pre">git</span></code> is treated mostly
+as first class for these kinds of tasks and is better left to special
+purpose tools which are well integrated and developed.</p>
+</div>
+<div class="section" id="compiling-dependencies">
+<h3>Compiling Dependencies<a class="headerlink" href="#compiling-dependencies" title="Permalink to this headline">¶</a></h3>
+<p>Then add any extra dependencies you want to the development environment
+<a class="reference external" href="../envs/dev/requirements.in">requirements.in</a> file and then compile
+and pin them:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>inv deps-pin
+</pre></div>
+</div>
+</div>
+<div class="section" id="creating-environments">
+<h3>Creating Environments<a class="headerlink" href="#creating-environments" title="Permalink to this headline">¶</a></h3>
+<p>Then just create the virtual environment. For portability we use the
+builin <code class="docutils literal notranslate"><span class="pre">venv</span></code> package, but this is customizable.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>inv env
+</pre></div>
+</div>
+<p>Then you can activate it with the instructions printed to the screen.</p>
+</div>
+</div>
+</div>
+
+
+          </div>
+            
+  <div class="footer-relations">
+    
+      <div class="pull-left">
+        <a class="btn btn-default" href="general_info.html" title="previous chapter (use the left arrow)">General Information</a>
+      </div>
+    
+      <div class="pull-right">
+        <a class="btn btn-default" href="changelog.html" title="next chapter (use the right arrow)">Changelog</a>
+      </div>
+    </div>
+    <div class="clearer"></div>
+  
+        </div>
+        <div class="clearfix"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="changelog.html" title="Changelog"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="general_info.html" title="General Information"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">geomm 0.2.0.dev0 documentation</a> &#187;</li> 
+      </ul>
+    </div>
+<script type="text/javascript">
+  $("#mobile-toggle a").click(function () {
+    $("#left-column").toggle();
+  });
+</script>
+<script type="text/javascript" src="../_static/js/bootstrap.js"></script>
+  <div class="footer">
+    &copy; Copyright 2020, Samuel D. Lotz. Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
+  </div>
+  </body>
+</html>
