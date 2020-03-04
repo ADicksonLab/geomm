@@ -91,14 +91,15 @@ def venv_env(cx, name='dev'):
 @task
 def env(cx, name='dev'):
 
-    env_name = f"geomm.{name}"
-
     # choose your method:
+    if ENV_METHOD == 'conda':
+        conda_env(cx, name=name)
 
-    # SNIPPET
-    # conda_env(cx, name=name)
+    elif ENV_METHOD == 'venv':
+        venv_env(cx, name=name)
 
-    venv_env(cx, name=name)
+    else:
+        print(f"method {ENV_METHOD} not recognized")
 
 ### Repo
 
