@@ -7,6 +7,11 @@
 # TODO: make this more general
 # TODO: move to python code
 
+# delete and create every time
+git branch -D gh-pages
+git branch gh-pages master
+
+
 # make sure we have the remote and have fetched the branch
 git remote add github git@github.com:ADicksonLab/wepy.git || echo "github remote already present"
 git checkout --track github/gh-pages
