@@ -19,20 +19,17 @@ git checkout gh-pages || { echo "aborting deploy"; exit 1; }
 # merge the new changes from master
 git merge -s recursive -Xtheirs master -m "Automated Merge From Master"
 
-# then remove the modules so we can actually build the docs without gh
-# pages complaining
-rm ../.gitmodules
-rm -rf ../wepy-tests
+# copy over the build products without adding all the other build
+# product junk in the repo
 
-git add ../.gitmodules
-git add ../wepy-tests
+# so add the html build
+git add ./_build/html/* --force
 
-# copy over the build products
-cp -rf ./_build/html/* ../
-rm -rf ./_build/html/*
+# then clean out everything including the ignored files
+git clean -x
 
-# add the files in the docs folder
-git add ../* --force
+# then move the html files in git
+git mv ./_build/html/* ../
 
 # commit
 git commit -m "Automated commit from deploy.sh"
