@@ -17,7 +17,7 @@ git checkout gh-pages || { echo "aborting deploy"; exit 1; }
 # git pull
 
 # merge the new changes from master
-git merge master
+git merge -s recursive -Xtheirs master
 
 # then remove the modules so we can actually build the docs without gh
 # pages complaining
