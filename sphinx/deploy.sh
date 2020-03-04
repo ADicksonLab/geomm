@@ -29,7 +29,7 @@ git add ./_build/html/* --force
 git clean -x -f
 
 # then move the html files in git
-git mv ./_build/html/** ../
+git mv -f ./_build/html/* ../
 
 # commit
 git commit -m "Automated commit from deploy.sh"
