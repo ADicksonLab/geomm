@@ -27,14 +27,16 @@ git merge -s recursive -Xtheirs master -m "Automated Merge From Master"
 # copy over the build products without adding all the other build
 # product junk in the repo
 
+cd ..
+
 # so add the html build
-git add ./_build/html/* --force
+git add sphinx/_build/html/* --force
 
 # then clean out everything including the ignored files
-git clean -x -f
+git clean -x -f -e sphinx/_build/html
 
 # then move the html files in git
-git mv -f ./_build/html/* ../
+git mv -f sphinx/_build/html/* ./
 
 # commit
 git commit -m "Automated commit from deploy.sh"
