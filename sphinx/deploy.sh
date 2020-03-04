@@ -26,10 +26,10 @@ git merge -s recursive -Xtheirs master -m "Automated Merge From Master"
 git add ./_build/html/* --force
 
 # then clean out everything including the ignored files
-git clean -x
+git clean -x -f
 
 # then move the html files in git
-git mv ./_build/html/* ../
+git mv ./_build/html/** ../
 
 # commit
 git commit -m "Automated commit from deploy.sh"
