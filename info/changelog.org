@@ -7,7 +7,7 @@ Adheres to [[https://github.com/salotz/rfcs/blob/master/rfcs/salotz.002_semantic
 
 See the git commit log history for full details.
 
-** Unreleased [0.2]
+** [0.2] - 2020-08-07
 
 This is still an alpha version so do not rely on the API as it
 contains many stubs and will probably change. We are releasing it so
@@ -25,6 +25,8 @@ projects that are being released with support for ~geomm~.
 - Started proper documentation and website
 - addition of simple calculations for kinetic energy of frames given velocities
 - Arrhenius equation calculation functions (not geometry based I know...)
+
+
 
 ** [0.1.7] - 2019-06-07
 
