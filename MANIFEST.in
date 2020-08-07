@@ -1,23 +1,25 @@
 graft src
-graft examples
-graft docs
+graft info
 graft envs
+
+prune info/examples/*/_env
+prune info/examples/*/_output
+prune info/examples/*/_tangle_source
+
+prune info/tutorials/*/_env
+prune info/tutorials/*/_output
+prune info/tutorials/*/_tangle_source
 
 include AUTHORS.org
 include CHANGELOG.org
 include LICENSE
 include README.org
 
-include requirements.in
-include requirements.txt
-
 include pyproject.toml
 
-recursive-include sphinx build.sh *.rst conf.py Makefile make.bat *.jpg *.png *.gif
+include requirements.in
+include versioneer.py
 
-global-exclude *.py[co] __pycache__ *.so
-
+global-exclude *.py[co] __pycache__ *.so *~
 
 include src/geomm/pyqcprot.pyx
-include versioneer.py
-include src/geomm/_version.py

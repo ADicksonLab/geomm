@@ -6,9 +6,9 @@ from .sysconfig import *
 
 ## Customize these for all features
 
-PROJECT_SLUG = "wepy"
+PROJECT_SLUG = "geomm"
 
-VERSION = '1.0.1'
+VERSION = '0.2.0.dev0'
 
 
 ENV_METHOD = 'conda'
