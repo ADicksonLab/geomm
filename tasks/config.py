@@ -8,7 +8,7 @@ from .sysconfig import *
 
 PROJECT_SLUG = "geomm"
 
-VERSION = '0.2.0rc1'
+VERSION = '0.2.0'
 
 
 ENV_METHOD = 'conda'
