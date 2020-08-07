@@ -49,8 +49,3 @@ pytest-profiling
 # build dependencies
 cython
 numpy
-
-# project dependencies
-scipy
-numpy
-pint
