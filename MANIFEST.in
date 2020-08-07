@@ -19,3 +19,5 @@ global-exclude *.py[co] __pycache__ *.so
 
 
 include src/geomm/pyqcprot.pyx
+include versioneer.py
+include src/geomm/_version.py
