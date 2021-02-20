@@ -2,6 +2,7 @@
 ## Project specific
 
 # the directory all the virtual environments will be stored
+_conda_envs
 _venv
 
 # Sphinx documentation
