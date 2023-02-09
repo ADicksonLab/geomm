@@ -27,6 +27,7 @@ base_requirements = [
     'numpy',
     'scipy',
     'pint',
+    'scikit-learn'
 ]
 
 # extras requirements list
