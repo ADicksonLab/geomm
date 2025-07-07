@@ -84,7 +84,7 @@ def parse_list_format(list_str):
 
 def read_pyversion_file(py_version_path: Path):
 
-    with open(py_version_path, 'r') as rf:
+    with open(py_version_path) as rf:
         py_version = rf.read().strip()
 
     return py_version

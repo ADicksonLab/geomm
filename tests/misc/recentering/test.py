@@ -5,7 +5,7 @@ from geomm.recentering import group_pair, apply_rectangular_pbcs, recenter_pair
 
 # helper functions for getting ligand and protein idxs
 def ligand_idxs(mdtraj_topology, ligand_resid):
-    return mdtraj_topology.select('resname "{}"'.format(ligand_resid))
+    return mdtraj_topology.select(f'resname "{ligand_resid}"')
 
 def protein_idxs(mdtraj_topology):
     return np.array([atom.index for atom in mdtraj_topology.atoms if atom.residue.is_protein])

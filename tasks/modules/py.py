@@ -614,8 +614,8 @@ def benchmark_compare(cx):
                     --csv=\"{csv}\" \
                     > {output}
 """.format(storage=BENCHMARK_STORAGE_URI,
-           csv="{}/Linux-CPython-3.6-64bit/comparison.csv".format(BENCHMARK_STORAGE_URL),
-           output="{}/Linux-CPython-3.6-64bit/report.pytest.txt".format(BENCHMARK_STORAGE_URL),
+           csv=f"{BENCHMARK_STORAGE_URL}/Linux-CPython-3.6-64bit/comparison.csv",
+           output=f"{BENCHMARK_STORAGE_URL}/Linux-CPython-3.6-64bit/report.pytest.txt",
 )
 
     cx.run(run_command)

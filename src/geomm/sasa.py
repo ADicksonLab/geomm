@@ -1,5 +1,3 @@
-
-
 # the following method contains portions of the software mdtraj which
 # is distributed under the following license
 ##############################################################################
