@@ -1,6 +1,6 @@
 import numpy as np
 import scipy.spatial.distance as dist
-from sklearn.neighbors import KDTree
+from scipy.spatial import KDTree
 
 def distance():
     return None
@@ -25,4 +25,4 @@ def minimum_distance(coordsA, coordsB):
         "Minimum distance expecting arrays of shape (N, 3)"
 
     tree = KDTree(coordsA)
-    return(tree.query(coordsB, dualtree=False, k=1)[0].min())
+    return(tree.query(coordsB)[0].min())

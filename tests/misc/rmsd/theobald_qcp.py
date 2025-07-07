@@ -51,16 +51,16 @@ frag_b = frag_b - comB
 idxs = np.array([0,1,2,3])
 rmsd, rot_mat = theobald_qcp(frag_a, frag_b, idxs=idxs)
 
-print("theobald alignment RMSD: {}".format(rmsd))
+print(f"theobald alignment RMSD: {rmsd}")
 
 # apply the rotation matrix and calculate the rmsd of only the
 # alignemnt coordinates to check
 frag_b_rot = np.dot(frag_b, rot_mat)
 rot_rmsd = calc_rmsd(frag_b_rot, frag_a, idxs=idxs)
-print("Rotation alignment RMSD: {}".format(rot_rmsd))
+print(f"Rotation alignment RMSD: {rot_rmsd}")
 
 # calculate the RMSD of the whole set of coordinates for the given
 # alignment
 frag_b_rot = np.dot(frag_b, rot_mat)
 rot_rmsd = calc_rmsd(frag_b_rot, frag_a)
-print("Total rotation alignment RMSD: {}".format(rot_rmsd))
+print(f"Total rotation alignment RMSD: {rot_rmsd}")

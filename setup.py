@@ -1,8 +1,5 @@
 #!/usr/bin/env python
-# -*- encoding: utf-8 -*-
 
-from __future__ import absolute_import
-from __future__ import print_function
 
 import io
 import re
@@ -16,8 +13,6 @@ from setuptools import setup, find_packages
 
 import itertools as it
 
-import versioneer
-
 # package specific imports
 from Cython.Build import cythonize
 import numpy as np
@@ -26,8 +21,7 @@ import numpy as np
 base_requirements = [
     'numpy',
     'scipy',
-    'pint',
-    'scikit-learn'
+    'pint'
 ]
 
 # extras requirements list
@@ -46,7 +40,6 @@ all_requirements = it.chain.from_iterable(_all_requirements)
 
 setup(
     name='geomm',
-    version=versioneer.get_version(),
     author="Samuel D. Lotz",
     author_email="samuel.lotz@salotz.info",
     description="A simple no-nonsense library for computing common geometry on macromolecular systems.",
@@ -67,8 +60,6 @@ setup(
         'cython',
     ],
     tests_require=['pytest', 'tox'],
-
-    cmdclass=versioneer.get_cmdclass(),
 
     include_dirs=[np.get_include()],
     ext_modules = cythonize("src/geomm/pyqcprot.pyx"),
