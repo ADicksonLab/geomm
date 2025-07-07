@@ -40,6 +40,7 @@ all_requirements = it.chain.from_iterable(_all_requirements)
 
 setup(
     name='geomm',
+    version='0.3',
     author="Samuel D. Lotz",
     author_email="samuel.lotz@salotz.info",
     description="A simple no-nonsense library for computing common geometry on macromolecular systems.",
