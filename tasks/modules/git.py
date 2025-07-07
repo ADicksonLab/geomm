@@ -15,7 +15,7 @@ def lfs_track(cx):
     """Update all the files that need tracking via git-lfs."""
 
     for lfs_target in GIT_LFS_TARGETS:
-        cx.run("git lfs track {}".format(lfs_target))
+        cx.run(f"git lfs track {lfs_target}")
 
 
 @task

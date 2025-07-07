@@ -104,3 +104,19 @@ def group_pair(coords, unitcell_side_lengths, member_a_idxs, member_b_idxs):
 
     return grouped_coords
 
+def shorten_vec(x, unitcell_side_lengths):
+    """
+    For a given vector x between two points in a periodic box, return the
+    shortest version of that vector.
+    """
+    pos_idxs = np.where(x > 0.5*unitcell_side_lengths)[0]
+
+    for dim_idx in pos_idxs:
+        x[dim_idx] += unitcell_side_lengths[dim_idx]
+
+    neg_idxs = np.where(x < -0.5*unitcell_side_lengths)[0]
+
+    for dim_idx in neg_idxs:
+        x[dim_idx] -= unitcell_side_lengths[dim_idx]
+
+    return x
